@@ -1,5 +1,6 @@
 const InputValidator = require('./utils/InputValidator')
-const UserController = require('./src/scontrollers/UserController')
+const UserController = require('./controllers/UserController')
+
 module.exports = (app) => {
   app.post('/admin/register',
     InputValidator.register,

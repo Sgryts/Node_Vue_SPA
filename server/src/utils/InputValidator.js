@@ -1,18 +1,20 @@
 const Joi = require('joi')
 
 const validation = {
-  email: Joi.string().email().required(),
-  password: Joi.string().required().regex(new RegExp('^[a-zA-z0-9]{8,32}$')),
-  subject: Joi.string().max(255).required(),
-  email_body: Joi.string().min(10).max(1000).required()
+  email: Joi.string().email().trim().required(),
+  password: Joi.string().regex(new RegExp('^[a-zA-z0-9]{2,32}$')).required()
+  // subject: Joi.string().max(255).required(),
+  // email_body: Joi.string().min(10).max(1000).required()
 }
 
 module.exports = {
   register (req, res, next) {
     // register + ass reset
     const { error } = Joi.validate(req.body, validation)
+    // console.log(req.body)
+    // console.log(error)
     if (error) {
-      switch (error.detail[0].context.key) {
+      switch (error.details[0].context.key) {
         case 'email':
           res.status(400).send({
             error: 'Invalid email'
@@ -35,7 +37,7 @@ module.exports = {
   email (req, res, next) {
     const { error } = Joi.validate(req.body, validation)
     if (error) {
-      switch (error.detail[0].context.key) {
+      switch (error.details[0].context.key) {
         case 'email':
           res.status(400).send({
             error: 'Invalid email'

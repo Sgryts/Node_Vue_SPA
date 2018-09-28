@@ -29,7 +29,19 @@ module.exports = {
   },
   async login (req, res) {
     try {
-      const user = await User.find(req.body)
+      const { email, password } = req.body
+      const user = await User.findOne({ email: email })
+
+      if (!user) {
+        return res.status(400).send({
+          error: 'The login information is not correct 1'
+        })
+      }
+      if (user.password !== password) {
+        return res.status(403).send({
+          error: 'The login information was incorrect2'
+        })
+      }
       sendToken(user, res)
     } catch (err) {
       res.status(400).send({
