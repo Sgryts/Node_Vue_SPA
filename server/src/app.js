@@ -13,11 +13,7 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
+require('./routes')(app)
+
 app.listen(process.env.PORT || config.port)
 mongoose.connect(config.db.dialect + config.db.host + config.db.database, { useNewUrlParser: true })
-
-app.get('/', (req, res) => {
-  res.send({
-    message: 'YO!'
-  })
-})

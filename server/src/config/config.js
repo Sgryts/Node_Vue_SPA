@@ -9,7 +9,7 @@ module.exports = {
     database: process.env.DB_NAME || 'photography'
   },
   authentication: {
-    jwt_encryption: process.env.JWT_SECRET || 'secret',
+    jwt_encryption: process.env.JWT_SECRET || 'secret_token',
     jwt_expiration: process.env.JWT_EXPIRATION || '10000'
   },
   salt: process.env.SALT || 'secret_salt'
