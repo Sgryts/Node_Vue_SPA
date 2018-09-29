@@ -13,13 +13,13 @@ module.exports = (app) => {
   // genres
   app.get('/admin/genres',
     GenreController.all)
-  app.get('/admin/genre/:id',
+  app.get('/admin/genres/:id',
     GenreController.show)
-  app.post('/admin/genre',
+  app.post('/admin/genres',
     GenreController.add)
-  app.put('/admin/genre/:id',
+  app.put('/admin/genres/:id',
     GenreController.update)
-  app.delete('/admin/genre/:id',
+  app.delete('/admin/genres/:id',
     GenreController.destroy)
   // photos
   // app.get('/admin/photos',

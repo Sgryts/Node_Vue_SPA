@@ -1,17 +1,28 @@
 const Joi = require('joi')
 
-const validation = {
+const registerValidation = {
   email: Joi.string().email().trim().required(),
-  password: Joi.string().regex(new RegExp('^[a-zA-z0-9]{2,32}$')).required(),
+  password: Joi.string().regex(new RegExp('^[a-zA-z0-9]{2,32}$')).required()
+}
+
+const emailValidation = {
+  email: Joi.string().email().trim().required(),
   subject: Joi.string().max(255).required(),
-  message: Joi.string().min(10).max(1000).required(),
-  name: Joi.string().email().trim().regex(new RegExp('^[a-zA-z]$')).required()
+  message: Joi.string().min(10).max(1000).required()
+}
+
+const genresValidation = {
+  name: Joi.string().trim().required()
+}
+
+const photoValidation = {
+  name: Joi.string().trim().required()
 }
 
 module.exports = {
   register (req, res, next) {
     // register + ass reset
-    const { error } = Joi.validate(req.body, validation)
+    const { error } = Joi.validate(req.body, registerValidation)
     // console.log(req.body)
     // console.log(error)
     if (error) {
@@ -27,6 +38,7 @@ module.exports = {
           })
           break
         default:
+          console.log(error)
           res.status(400).send({
             error: 'Invalid registration information'
           })
@@ -36,7 +48,7 @@ module.exports = {
     }
   },
   email (req, res, next) {
-    const { error } = Joi.validate(req.body, validation)
+    const { error } = Joi.validate(req.body, emailValidation)
     if (error) {
       switch (error.details[0].context.key) {
         case 'email':
@@ -64,17 +76,17 @@ module.exports = {
     }
   },
   genres (req, res, next) {
-    const { error } = Joi.validate(req.body, validation)
+    const { error } = Joi.validate(req.body, genresValidation)
     if (error) {
       switch (error.details[0].context.key) {
         case 'name':
           res.status(400).send({
-            error: 'Letters only allowed'
+            error: 'Invalid genre name'
           })
           break
         default:
           res.status(400).send({
-            error: 'Please resubmit the genre again'
+            error: 'Please resubmit a genre again'
           })
       }
     } else {
@@ -82,17 +94,17 @@ module.exports = {
     }
   },
   photos (req, res, next) {
-    const { error } = Joi.validate(req.body, validation)
+    const { error } = Joi.validate(req.body, photoValidation)
     if (error) {
       switch (error.details[0].context.key) {
         case 'name':
           res.status(400).send({
-            error: 'Letters only allowed'
+            error: 'Invalid photo name'
           })
           break
         default:
           res.status(400).send({
-            error: 'Please resubmit the genre again'
+            error: 'Please resubmit a photo again'
           })
       }
     } else {

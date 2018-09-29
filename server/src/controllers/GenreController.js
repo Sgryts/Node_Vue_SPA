@@ -35,7 +35,7 @@ module.exports = {
       })
     } catch (err) {
       res.status(500).send({
-        error: 'Something went wrong...' + err
+        error: 'This genre already exists'
       })
     }
   },

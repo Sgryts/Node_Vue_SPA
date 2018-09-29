@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view>
-    </router-view>
+    <admin>
+      <router-view>
+      </router-view>
+    </admin>
   </div>
 </template>
 
 <script>
-import Genres from './components/admin/Genres'
+import Admin from './components/Admin'
+// import Client from './components/Client'
 
 export default {
   name: 'App',
-  components: {Genres}
+  components: {Admin}
 }
 </script>
 

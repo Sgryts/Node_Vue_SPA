@@ -5,11 +5,17 @@ var Schema = mongoose.Schema
 // const SALT = require('../config/config').salt
 
 const userSchema = new Schema({
-  email: { type: String,
-    required: true,
-    unique: true },
-  password: { type: String,
-    required: true }
+  email:
+      {
+        type: String,
+        required: true,
+        unique: true
+      },
+  password:
+      {
+        type: String,
+        required: true
+      }
 })
 
 //

@@ -34,12 +34,34 @@ module.exports = {
 
       if (!user) {
         return res.status(403).send({
-          error: 'The login information is not correct 1'
+          error: 'The login information was incorrect 1'
         })
       }
       if (user.password !== password) {
         return res.status(403).send({
-          error: 'The login information was incorrect2'
+          error: 'The login information was incorrect 2'
+        })
+      }
+      sendToken(user, res)
+    } catch (err) {
+      res.status(500).send({
+        error: 'An error has occurred, please log in again'
+      })
+    }
+  },
+  async logout (req, res) {
+    try {
+      const { email, password } = req.body
+      const user = await User.findOne({ email: email })
+
+      if (!user) {
+        return res.status(403).send({
+          error: 'The login information was incorrect 1'
+        })
+      }
+      if (user.password !== password) {
+        return res.status(403).send({
+          error: 'The login information was incorrect 2'
         })
       }
       sendToken(user, res)

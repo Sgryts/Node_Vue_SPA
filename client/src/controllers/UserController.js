@@ -6,5 +6,8 @@ export default {
   },
   login (data) {
     return api.post('admin/login', data)
+  },
+  logout (data) {
+    return api.post('admin/logout')
   }
 }
