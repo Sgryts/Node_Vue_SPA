@@ -19,4 +19,7 @@ require('./routes')(app)
 app.listen(process.env.PORT || config.port)
 
 mongoose.Promise = Promise
-mongoose.connect(config.db.dialect + config.db.host + config.db.database, { useNewUrlParser: true })
+mongoose
+  .connect(config.db.dialect + config.db.host + config.db.database,
+    { useNewUrlParser: true }
+  )

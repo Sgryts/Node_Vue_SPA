@@ -12,6 +12,15 @@ const userSchema = new Schema({
     required: true }
 })
 
+//
+// bcrypt.hash(password, saltRounds, function(err, hash) {
+//     // Store hash in your password DB.
+// });
+//
+// bcrypt.compare(password, hash, function(err, res) {
+//     // res == true
+// });
+
 // userSchema.methods.encryptPassword = password => {
 //   return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT), null)
 // }

@@ -4,7 +4,7 @@ const User = require('../models/User')
 
 function sendToken (user, res) {
   const JSON = user.toJSON()
-  res.send({
+  res.status(200).send({
     user: JSON,
     token: jwtSignIn(JSON)
   })
@@ -33,7 +33,7 @@ module.exports = {
       const user = await User.findOne({ email: email })
 
       if (!user) {
-        return res.status(400).send({
+        return res.status(403).send({
           error: 'The login information is not correct 1'
         })
       }
@@ -44,8 +44,8 @@ module.exports = {
       }
       sendToken(user, res)
     } catch (err) {
-      res.status(400).send({
-        error: 'This account is already in use'
+      res.status(500).send({
+        error: 'An error has occurred, please log in again'
       })
     }
   }
