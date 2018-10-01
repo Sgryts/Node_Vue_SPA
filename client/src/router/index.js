@@ -4,13 +4,14 @@ import HelloWorld from '@/components/HelloWorld'
 
 import Register from '@/components/admin/Register'
 import Login from '@/components/admin/Login'
-import Genres from '@/components/admin/Genres'
+import Admin from '@/components/Admin'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
+      // client
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
@@ -26,9 +27,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/admin/genres',
-      name: 'genres',
-      component: Genres
+      path: '/admin',
+      name: 'admin',
+      component: Admin
     }
   ]
 })

@@ -7,11 +7,11 @@ export default {
   show (id) {
     return api().get(`admin/genres/${id}`)
   },
-  add (data) {
-    return api().post(`admin/genres`, data)
+  add (name) {
+    return api().post(`admin/genres`, name)
   },
-  update (id) {
-    return api().put(`admin/genres/${id}`)
+  update (id, name) {
+    return api().put(`admin/genres/${id}`, name)
   },
   destroy (id) {
     return api().delete(`admin/genres/${id}`)

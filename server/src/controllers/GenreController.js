@@ -4,8 +4,7 @@ module.exports = {
   async all (req, res) {
     try {
       const genres = await Genre.find({})
-      console.log('ZGENRES')
-      res.send({
+      res.status(200).send({
         data: genres
       })
     } catch (err) {
@@ -16,9 +15,9 @@ module.exports = {
   },
   async show (req, res) {
     try {
-      const { id } = req.body
-      const genre = await Genre.findOne({ id: id })
-      res.send({
+      const id = req.params.id
+      const genre = await Genre.findOne({ _id: id })
+      res.status(200).send({
         data: genre
       })
     } catch (err) {
@@ -30,7 +29,7 @@ module.exports = {
   async add (req, res) {
     try {
       const genre = await Genre.create(req.body)
-      res.send({
+      res.status(201).send({
         data: genre
       })
     } catch (err) {
@@ -41,9 +40,13 @@ module.exports = {
   },
   async update (req, res) {
     try {
-      const { id } = req.body
-      const genre = await Genre.findOneAndUpdate({ id: id })
-      res.send({
+      const id = req.params.id
+      const data = req.body
+      console.log('ID', req.params.id)
+      console.log('DATA', data)
+      console.log('BODY=>', req)
+      const genre = await Genre.findOneAndUpdate({ _id: id }, data)
+      res.status(201).send({
         data: genre
       })
     } catch (err) {
@@ -54,9 +57,9 @@ module.exports = {
   },
   async destroy (req, res) {
     try {
-      const { id } = req.body
-      const genres = await Genre.findOneAndRemove({ id: id })
-      res.send({
+      const id = req.params.id
+      const genres = await Genre.findOneAndRemove({ _id: id })
+      res.status(204).send({
         data: genres
       })
     } catch (err) {

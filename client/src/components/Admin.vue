@@ -95,7 +95,8 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
-          <p>SOME HERE</p>
+          <!--GENRES-->
+          <genres></genres>
         </v-layout>
       </v-container>
     </v-content>
@@ -103,8 +104,10 @@
 </template>
 
 <script>
+import Genres from './admin/Genres'
 export default {
   name: 'Admin',
+  components: {Genres},
   data () {
     return {
       dialog: false,
