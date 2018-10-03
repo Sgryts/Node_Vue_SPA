@@ -1,6 +1,7 @@
 const config = require('../config/config')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
+const bcrypt = require('bcrypt')
 
 function sendToken (user, res) {
   const JSON = user.toJSON()
@@ -13,6 +14,23 @@ function sendToken (user, res) {
 function jwtSignIn (user) {
   return jwt.sign(user, config.authentication.jwt_encryption, {
     expiresIn: config.authentication.jwt_expiration
+  })
+}
+
+function comparePasswords (logpass, userpass, user, res) {
+  bcrypt.compare(logpass, userpass, function (err, istrue) {
+    if (err) {
+      return res.status(500).send({
+        error: 'An error has occurred, please log in again 1'
+      })
+    }
+    if (istrue) {
+      sendToken(user, res)
+    } else {
+      return res.status(403).send({
+        error: 'The login information was incorrect 2'
+      })
+    }
   })
 }
 
@@ -37,12 +55,7 @@ module.exports = {
           error: 'The login information was incorrect 1'
         })
       }
-      if (user.password !== password) {
-        return res.status(403).send({
-          error: 'The login information was incorrect 2'
-        })
-      }
-      sendToken(user, res)
+      comparePasswords(password, user.password, user, res)
     } catch (err) {
       res.status(500).send({
         error: 'An error has occurred, please log in again'
@@ -67,8 +80,14 @@ module.exports = {
       sendToken(user, res)
     } catch (err) {
       res.status(500).send({
-        error: 'An error has occurred, please log in again'
+        error: 'An error has occurred, please log in again 2'
       })
     }
+  },
+  sendEmail () {
+
+  },
+  updateUser () {
+
   }
 }

@@ -12,5 +12,8 @@ module.exports = {
     jwt_encryption: process.env.JWT_SECRET || 'secret_token',
     jwt_expiration: process.env.JWT_EXPIRATION || '10000'
   },
-  salt: process.env.SALT || 'secret_salt'
+  salt: {
+    encryption: process.env.SALT || 'secret_salt',
+    rounds: process.env.SALT_ROUNDS || 10
+  }
 }

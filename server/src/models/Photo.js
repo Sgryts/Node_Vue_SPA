@@ -8,16 +8,19 @@ var photoSchema = new Schema({
           required: true
         },
   genre_id:
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'genres'
-
-        },
+        [
+          {
+            type: Schema.Types.ObjectId,
+            ref: 'genres'
+          }
+        ],
   user_id:
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'users'
-        },
+        [
+          {
+            type: Schema.Types.ObjectId,
+            ref: 'users'
+          }
+        ],
   created:
         {
           type: Date,

@@ -8,6 +8,7 @@
         vertical
       ></v-divider>
       <v-spacer></v-spacer>
+
       <v-dialog v-model="dialog" max-width="500px">
         <v-btn slot="activator" color="primary" dark class="mb-2">New Genre</v-btn>
         <v-card>
@@ -32,6 +33,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
     </v-toolbar>
     <v-data-table
       :headers="headers"
@@ -118,7 +120,7 @@ export default {
       console.log('ALL')
       try {
         const response = await GenreController.all()
-        this.genres = response.data.data
+        this.genres = await response.data.data
         console.log('data', response.data.data)
       } catch (error) {
         this.error = error.response.data.error
@@ -149,27 +151,23 @@ export default {
         console.log('err', this.error)
       }
     },
-    async update (id, name) {
-      console.log('UPDATE', id, name)
+    async update (id, data) {
+      console.log('UPDATE', id, data)
       try {
-        const response = await GenreController.update({
-          id: id,
-          name: name
+        const response = await GenreController.update(id, {
+          name: data
         })
         // this.genres = response.data.data
         console.log('genre', response.data.data)
       } catch (error) {
-        this.error = error.response.data.error
+        this.error = error
         console.log('err', this.error)
       }
     },
-    async destroy (value) {
-      console.log('ADD')
+    async destroy (id) {
+      console.log('DELETE')
       try {
-        const response = await GenreController.add({
-          name: value
-        })
-        // this.genres = response.data.data
+        const response = await GenreController.destroy(id)
         console.log('genre', response.data.data)
       } catch (error) {
         this.error = error.response.data.error
@@ -190,6 +188,8 @@ export default {
     deleteItem (item) {
       const index = this.genres.indexOf(item)
       confirm('Are you sure you want to delete this genre?') && this.genres.splice(index, 1)
+      console.log('ID', item._id)
+      this.destroy(item._id)
     },
 
     close () {
@@ -222,7 +222,7 @@ export default {
   //
 
   mounted () {
-    this.show()
+    // this.show()
     // this.add()
   }
 }

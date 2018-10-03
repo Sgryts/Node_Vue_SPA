@@ -15,7 +15,7 @@ module.exports = {
   },
   async show (req, res) {
     try {
-      const id = req.params.id
+      const id = await req.params.id
       const genre = await Genre.findOne({ _id: id })
       res.status(200).send({
         data: genre
@@ -40,14 +40,11 @@ module.exports = {
   },
   async update (req, res) {
     try {
-      const id = req.params.id
-      const data = req.body
-      console.log('ID', req.params.id)
-      console.log('DATA', data)
-      console.log('BODY=>', req)
-      const genre = await Genre.findOneAndUpdate({ _id: id }, data)
+      const id = await req.params.id
+      await Genre.findOneAndUpdate({ _id: id }, req.body)
+      const updatedGenre = await Genre.findOne({ _id: id })
       res.status(201).send({
-        data: genre
+        data: updatedGenre
       })
     } catch (err) {
       res.status(500).send({
@@ -57,10 +54,10 @@ module.exports = {
   },
   async destroy (req, res) {
     try {
-      const id = req.params.id
-      const genres = await Genre.findOneAndRemove({ _id: id })
+      const id = await req.params.id
+      await Genre.findOneAndRemove({ _id: id })
       res.status(204).send({
-        data: genres
+        data: ''
       })
     } catch (err) {
       res.status(500).send({

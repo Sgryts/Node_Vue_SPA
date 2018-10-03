@@ -1,7 +1,35 @@
-TODO: MODELS (Tables configuring, Password hashing, JWT)
+GENERAL=>
+404/403/500 pages
+notifications(success, fail, errors, etc..)
+
+ADMIN=>
+
+TODO: Add validators to routes
+TODO: Display foreign keys for pictures
+TODO: Validate tokens in all admins routes
+
+=VUE=
+create list of data on load, connect via v-model to the each componnent
+TODO: Organize VUE components ( Admin panel is the main one, it includes header/footer + left side navigation
+header: LOGIN/LOGOUT, navigation includes drop downs for ALL/Pictures/Genres/User info
+Pictures - table with photos (edit inline)
+Genres - table with photos ( edit inline)
+User - display profile, update name/pass.
+TODO: Set up VUEX to control the state
+TODO: Build different slot for the each genre, navigate on click(using a router elements)
 
 
-TODO: Controllers(Set up services)
+CLIENT=>
+
+some pic for the main chunk
+- about section
+- photo will mirror Admins REST for photos displaying (by genres)
+- email section
+some data in footer (contact info, insta, etc...)
 
 
-TODO: API
+
+REGISTRATION + LOGIN forms
++ reset password
+
+
