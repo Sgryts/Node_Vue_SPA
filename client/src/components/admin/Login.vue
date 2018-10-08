@@ -1,5 +1,6 @@
 <template>
   <v-layout row>
+    <admin-header></admin-header>
     <v-flex xs6 offset-xs3>
       <div class="white elevation-2">
         <v-toolbar flat dense class="grey" dark>
@@ -41,10 +42,13 @@
 </template>
 
 <script>
+import AdminHeader from './Header'
+
 import UserController from '../../controllers/UserController'
 
 export default {
   name: 'Login',
+  components: {AdminHeader},
   data () {
     return {
       email: null,

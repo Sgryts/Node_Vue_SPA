@@ -3,7 +3,7 @@
     <v-toolbar-title class="mr-4">
       <span
         class="home"
-        @click="navigateTo({name: 'root'})">
+       :to="({name: 'admin'})">
         SG Pixels
       </span>
     </v-toolbar-title>
@@ -12,38 +12,38 @@
       <v-btn
         flat
         dark
-        @click="navigateTo({name: 'songs'})">
-        Browse
+        :to="({name: 'admin'})">
+        Admin
       </v-btn>
     </v-toolbar-items>
 
     <v-spacer></v-spacer>
 
-    <!--<v-toolbar-items>-->
-      <!--<v-btn-->
-        <!--v-if="!$store.state.isUserLoggedIn"-->
-        <!--flat-->
-        <!--dark-->
-        <!--@click="navigateTo({name: 'login'})">-->
-        <!--Login-->
-      <!--</v-btn>-->
+    <v-toolbar-items>
+      <v-btn
+        v-if="!$store.state.loggedIn"
+        flat
+        dark
+        :to="({name: 'login'})">
+        Login
+      </v-btn>
 
-      <!--<v-btn-->
-        <!--v-if="!$store.state.isUserLoggedIn"-->
-        <!--flat-->
-        <!--dark-->
-        <!--@click="navigateTo({name: 'register'})">-->
-        <!--Sign Up-->
-      <!--</v-btn>-->
+      <v-btn
+        v-if="!$store.state.loggedIn"
+        flat
+        dark
+        :to="({name: 'register'})">
+        Sign Up
+      </v-btn>
 
-      <!--<v-btn-->
-        <!--v-if="$store.state.isUserLoggedIn"-->
-        <!--flat-->
-        <!--dark-->
-        <!--@click="logout">-->
-        <!--Logout-->
-      <!--</v-btn>-->
-    <!--</v-toolbar-items>-->
+      <v-btn
+        v-if="$store.state.loggedIn"
+        flat
+        dark
+        @click="logout">
+        Logout
+      </v-btn>
+    </v-toolbar-items>
   </v-toolbar>
 </template>
 

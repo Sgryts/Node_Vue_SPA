@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <admin-header/>
+      <!--<admin-header/>-->
       <main>
         <v-container fluid>
           <router-view>
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import AdminHeader from './components/admin/Header'
+// import AdminHeader from './components/admin/Header'
 // import Client from './components/Client'
 
 export default {
-  name: 'App',
-  components: {'admin-header': AdminHeader}
+  name: 'App'
+  // components: {'admin-header': AdminHeader}
 }
 </script>
 
