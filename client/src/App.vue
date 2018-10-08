@@ -1,19 +1,28 @@
 <template>
   <div id="app">
-    <admin>
-      <router-view>
-      </router-view>
-    </admin>
+    <v-app>
+      <admin-header/>
+      <main>
+        <v-container fluid>
+          <router-view>
+          </router-view>
+        </v-container>
+      </main>
+    </v-app>
+    <!--<admin>-->
+      <!--<router-view>-->
+      <!--</router-view>-->
+    <!--</admin>-->
   </div>
 </template>
 
 <script>
-import Admin from './components/Admin'
+import AdminHeader from './components/admin/Header'
 // import Client from './components/Client'
 
 export default {
   name: 'App',
-  components: {Admin}
+  components: {'admin-header': AdminHeader}
 }
 </script>
 

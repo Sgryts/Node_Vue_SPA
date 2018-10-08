@@ -66,11 +66,6 @@
     </v-data-table>
   </div>
 </template>
-<!--<template>-->
-<!--<div v-if="genres">-->
-<!--<p v-for="(genre) in genres" :key="genre._id">{{ genre._id }} &#45;&#45; {{ genre.name }}</p>-->
-<!--</div>-->
-<!--</template>-->
 
 <script>
 import GenreController from '../../controllers/GenreController'
@@ -80,7 +75,6 @@ export default {
   data () {
     return {
       genres: [],
-      name: '',
       error: null,
 
       tempItem: null,

@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+    <admin-header></admin-header>
     <v-navigation-drawer
       :clipped="$vuetify.breakpoint.lgAndUp"
       v-model="drawer"
@@ -96,6 +97,15 @@
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
           <!--GENRES-->
+          <photos></photos>
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-content>
+
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+          <!--GENRES-->
           <genres></genres>
         </v-layout>
       </v-container>
@@ -104,10 +114,13 @@
 </template>
 
 <script>
+import Photos from './admin/Photos'
 import Genres from './admin/Genres'
+import AdminHeader from '@/components/admin/Header'
+
 export default {
   name: 'Admin',
-  components: {Genres},
+  components: {AdminHeader, Photos, Genres},
   data () {
     return {
       dialog: false,

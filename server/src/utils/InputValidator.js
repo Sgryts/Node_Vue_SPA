@@ -2,9 +2,9 @@ const Joi = require('joi')
 
 const registerValidation = {
   email: Joi.string().email().trim().required(),
-  password: Joi.string().regex(new RegExp('^[a-zA-z0-9]{2,32}$')).required()
+  password: Joi.string().regex(new RegExp('^[a-zA-z0-9]{2,32}$')).required(),
+  confirmPassword: Joi.any().valid(Joi.ref('password')).required()
 }
-
 const emailValidation = {
   email: Joi.string().email().trim().required(),
   subject: Joi.string().max(255).required(),
@@ -20,11 +20,10 @@ const photoValidation = {
 }
 
 module.exports = {
+
   register (req, res, next) {
-    // register + ass reset
+    // register + email reset
     const { error } = Joi.validate(req.body, registerValidation)
-    // console.log(req.body)
-    // console.log(error)
     if (error) {
       switch (error.details[0].context.key) {
         case 'email':
@@ -37,6 +36,11 @@ module.exports = {
             error: 'Password must be only letters or numbers and 8-32 characters length'
           })
           break
+        case 'confirmPassword':
+          res.status(400).send({
+            error: 'Passwords has to match'
+          })
+          break
         default:
           console.log(error)
           res.status(400).send({
@@ -47,6 +51,7 @@ module.exports = {
       next()
     }
   },
+
   email (req, res, next) {
     const { error } = Joi.validate(req.body, emailValidation)
     if (error) {
@@ -93,6 +98,7 @@ module.exports = {
       next()
     }
   },
+
   photos (req, res, next) {
     const { error } = Joi.validate(req.body, photoValidation)
     if (error) {

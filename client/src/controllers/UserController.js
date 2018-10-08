@@ -1,13 +1,16 @@
 import api from '@/api/api'
 
 export default {
+  all () {
+    return api().get(`/admin/genres`)
+  },
   register (data) {
-    return api.post('admin/register', data)
+    return api().post(`/admin/register`, data)
   },
   login (data) {
-    return api.post('admin/login', data)
+    return api().post('/admin/login', data)
   },
-  logout (data) {
-    return api.post('admin/logout')
+  logout () {
+    return api().post('/admin/logout')
   }
 }
