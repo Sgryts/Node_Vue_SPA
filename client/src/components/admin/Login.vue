@@ -67,8 +67,9 @@ export default {
         console.log('RES', response.data)
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        console.log(this.loggedIn)
         // this.$router.push({
-        //   name: 'register'
+        //   name: 'admin'
         // })
       } catch (error) {
         this.error = error.response.data.error

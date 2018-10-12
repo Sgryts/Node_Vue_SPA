@@ -14,6 +14,7 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
+require('./services/passport')
 require('./routes')(app)
 
 app.listen(process.env.PORT || config.port)

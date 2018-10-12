@@ -16,7 +16,8 @@ const genresValidation = {
 }
 
 const photoValidation = {
-  name: Joi.string().trim().required()
+  name: Joi.string().trim().required(),
+  file: Joi.any().required()
 }
 
 module.exports = {
@@ -106,6 +107,11 @@ module.exports = {
         case 'name':
           res.status(400).send({
             error: 'Invalid photo name'
+          })
+          break
+        case 'file':
+          res.status(400).send({
+            error: 'Photo is required'
           })
           break
         default:

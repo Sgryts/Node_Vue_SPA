@@ -1,4 +1,4 @@
-const InputValidator = require('./utils/InputValidator')
+const InputValidator = require('./services/InputValidationService')
 const UserController = require('./controllers/UserController')
 const GenreController = require('./controllers/GenreController')
 const PhotoController = require('./controllers/PhotoController')
@@ -11,6 +11,10 @@ module.exports = (app) => {
     UserController.register)
   app.post('/admin/login',
     UserController.login)
+  // admin
+  app.get('/admin'
+  // load home page with all analitics
+  )
   // genres
   app.get('/admin/genres',
     GenreController.all)
@@ -45,3 +49,4 @@ module.exports = (app) => {
 }
 
 // TODO: Change to index,create,store,show,edit,update,destroy
+// TODO: Analitics - photos, views per photo, visitors, etc ..

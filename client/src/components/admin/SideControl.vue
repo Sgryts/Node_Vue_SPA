@@ -9,7 +9,8 @@
       <v-list class="pa-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
+            <!--<img src="https://randomuser.me/api/portraits/men/85.jpg">-->
+            <img src="../../assets/img/default.jpg">
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -33,7 +34,7 @@
 
       <v-list-tile>
         <v-list-tile-action>
-          <v-icon>dashboard</v-icon>
+          <v-icon>home</v-icon>
         </v-list-tile-action>
 
         <v-list-tile-content>
@@ -43,7 +44,7 @@
 
       <v-list-tile>
         <v-list-tile-action>
-          <v-icon>dashboard</v-icon>
+          <v-icon>camera</v-icon>
         </v-list-tile-action>
 
         <v-list-tile-content>
@@ -53,7 +54,7 @@
 
       <v-list-tile>
         <v-list-tile-action>
-          <v-icon>dashboard</v-icon>
+          <v-icon>color_lens</v-icon>
         </v-list-tile-action>
 
         <v-list-tile-content>
@@ -63,7 +64,7 @@
 
       <v-list-tile>
         <v-list-tile-action>
-          <v-icon>dashboard</v-icon>
+          <v-icon>fingerprint</v-icon>
         </v-list-tile-action>
 
         <v-list-tile-content>

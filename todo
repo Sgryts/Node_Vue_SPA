@@ -7,6 +7,7 @@ ADMIN=>
 TODO: Add validators to routes
 TODO: Display foreign keys for pictures
 TODO: Validate tokens in all admins routes
+TODO: Pass IDs to routes properly, then pass to controllers using synced params
 
 =VUE=
 create list of data on load, connect via v-model to the each componnent
@@ -15,6 +16,7 @@ header: LOGIN/LOGOUT, navigation includes drop downs for ALL/Pictures/Genres/Use
 Pictures - table with photos (edit inline)
 Genres - table with photos ( edit inline)
 User - display profile, update name/pass.
+Passing ID's to params, synced with VUEX
 TODO: Set up VUEX to control the state
 TODO: Build different slot for the each genre, navigate on click(using a router elements)
 
