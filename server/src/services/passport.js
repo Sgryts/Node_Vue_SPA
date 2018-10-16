@@ -12,7 +12,7 @@ passport.use(
   }),
   async function (jwtPayload, done) {
     try {
-      const user = await User.findOne({_id: jwtPayload.id})
+      const user = await User.findOne({ _id: jwtPayload.id })
       if (!user) {
         return done(new Error(), false)
       }

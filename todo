@@ -19,6 +19,7 @@ User - display profile, update name/pass.
 Passing ID's to params, synced with VUEX
 TODO: Set up VUEX to control the state
 TODO: Build different slot for the each genre, navigate on click(using a router elements)
+on keydown esc close the window
 
 
 CLIENT=>
