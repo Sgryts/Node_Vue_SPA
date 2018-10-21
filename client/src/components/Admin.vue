@@ -7,8 +7,9 @@
         </side-control>
       </v-flex>
       <v-flex xs-9>
+          <router-view></router-view>
         <!--<photos></photos>-->
-        <genres></genres>
+        <!--<genres></genres>-->
       </v-flex>
     </v-layout>
     <admin-footer></admin-footer>

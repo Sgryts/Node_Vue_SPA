@@ -4,7 +4,10 @@ import HelloWorld from '@/components/HelloWorld'
 
 import Register from '@/components/admin/Register'
 import Login from '@/components/admin/Login'
+
 import Admin from '@/components/Admin'
+
+import Genres from '@/components/admin/Genres'
 
 Vue.use(Router)
 
@@ -29,7 +32,12 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin',
-      component: Admin
+      component: Admin,
+      children: [{
+        path: 'genres',
+        name: 'genres',
+        component: Genres
+      }]
     }
   ]
 })

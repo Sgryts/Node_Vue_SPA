@@ -10,7 +10,12 @@
       <v-spacer></v-spacer>
 
       <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">New Genre</v-btn>
+        <v-btn slot="activator"
+               color="primary"
+               dark class="mb-2"
+        >
+          New Genre
+        </v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -90,12 +95,12 @@ export default {
         },
         {text: 'Actions', value: 'name', sortable: false}
       ],
-      editedIndex: -1
+      edited: false
     }
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New Genre' : 'Edit Genre'
+      return this.edited ? 'Edit Genre' : 'New Genre'
     }
   },
 
@@ -172,11 +177,9 @@ export default {
     editItem (item) {
       this.tempItem = Object.assign({}, item)
       this.tempName = this.tempItem.name
-
       //
-      this.editedIndex = this.genres.indexOf(item)
+      this.edited = true
       this.dialog = true
-      console.log('ind', this.editedIndex)
     },
 
     deleteItem (item) {
@@ -188,14 +191,21 @@ export default {
 
     close () {
       this.dialog = false
+      this.edited = false
     },
+    // 1.if current item  => edited, if null => save new item
+    // 2. Or build new buttons : add and update
+    // 3. on ADD vue will rerender array
+    // 4. rerender items after each update with vue.set (check by VUE INDEX)
+    // 5. array find() element, update and display after update
 
     save () {
-      if (this.editedIndex > -1) {
+      if (this.edited) {
         // update
         console.log('edit')
         console.log('EDITED->', this.tempItem._id, this.tempName)
         this.update(this.tempItem._id, this.tempName)
+        this.edited = false
       } else {
         // new
         if (this.tempName) {
