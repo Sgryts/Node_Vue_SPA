@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-var Schema = mongoose.Schema
+const Schema = mongoose.Schema
 
-var bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 const SALT = require('../config/config').salt.rounds
 
 const userSchema = new Schema({
@@ -19,7 +19,7 @@ const userSchema = new Schema({
 })
 
 userSchema.pre('save', function (next) {
-  var user = this
+  let user = this
 
   if (!user.isModified('password')) return next()
 

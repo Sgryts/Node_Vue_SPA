@@ -1,26 +1,16 @@
 const mongoose = require('mongoose')
-var Schema = mongoose.Schema
+const Schema = mongoose.Schema
+// const genresSchema = require('Genre')
+// const userSchema = require('User')
 
-var photoSchema = new Schema({
+const photoSchema = new Schema({
   name:
         {
           type: String,
           required: true
         },
-  genre_id:
-        [
-          {
-            type: Schema.Types.ObjectId,
-            ref: 'genres'
-          }
-        ],
-  user_id:
-        [
-          {
-            type: Schema.Types.ObjectId,
-            ref: 'users'
-          }
-        ],
+  // genres: [genresSchema],
+  // user: [userSchema],
   created:
         {
           type: Date,

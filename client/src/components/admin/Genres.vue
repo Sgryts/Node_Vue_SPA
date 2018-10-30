@@ -40,6 +40,7 @@
       </v-dialog>
 
     </v-toolbar>
+
     <v-data-table
       :headers="headers"
       :items="genres"
@@ -48,24 +49,23 @@
     >
       <template
         slot="items"
-        slot-scope="genres"
+        slot-scope="props"
       >
-        <td v-for="(genre) in genres"
-             :key="genre._id">
-            {{ genre.name }}
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(genre)"
-            >
-              edit
-            </v-icon>
-            <v-icon
-              small
-              @click="deleteItem(genre)"
-            >
-              delete
-            </v-icon>
+        <td>{{ props.item.name }}</td>
+        <td class="justify-center layout px-0">
+          <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(props.item)"
+          >
+            edit
+          </v-icon>
+          <v-icon
+                  small
+                  @click="deleteItem(props.item)"
+          >
+            delete
+          </v-icon>
         </td>
       </template>
     </v-data-table>
@@ -90,10 +90,14 @@ export default {
         {
           text: 'Genre Name',
           align: 'left',
-          sortable: false,
+          sortable: true,
           value: 'name'
         },
-        {text: 'Actions', value: 'name', sortable: false}
+        {
+          text: 'Actions',
+          value: 'name',
+          sortable: false
+        }
       ],
       edited: false
     }
