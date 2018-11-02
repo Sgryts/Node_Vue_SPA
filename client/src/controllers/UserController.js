@@ -1,7 +1,7 @@
 import api from '@/api/api'
 
 export default {
-  all () {
+  index () {
     return api().get(`/admin/genres`)
   },
   register (data) {

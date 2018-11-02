@@ -13,37 +13,37 @@ module.exports = (app) => {
     UserController.login)
   // admin
   app.get('/admin'
-  // load home page with all analitics
+  // load home page with all analytics
   )
   // genres
   app.get('/admin/genres',
-    GenreController.all)
+    GenreController.index)
   app.get('/admin/genres/:id',
     GenreController.show)
   app.post('/admin/genres',
     // TODO: Validation
-    GenreController.add)
+    GenreController.post)
   // TODO: Validation
   app.put('/admin/genres/:id',
-    GenreController.update)
+    GenreController.put)
   app.delete('/admin/genres/:id',
     GenreController.destroy)
   // photos
   app.get('/admin/photos',
-    PhotoController.all)
+    PhotoController.index)
   app.get('/admin/photos/:id',
     PhotoController.show)
   // TODO: Validation
   app.post('/admin/photos',
-    PhotoController.add)
+    PhotoController.post)
   // TODO: Validation
   app.put('/admin/photos/:id',
-    PhotoController.update)
+    PhotoController.put)
   app.delete('/admin/photos/:id',
     PhotoController.destroy)
   // CLIENT -- show By Genres
   app.get('/photos',
-    PhotoController.all)
+    PhotoController.index)
   app.get('/photos/:id',
     PhotoController.show)
 }

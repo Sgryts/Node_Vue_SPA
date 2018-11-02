@@ -8,6 +8,7 @@ import Login from '@/components/admin/Login'
 import Admin from '@/components/Admin'
 
 import Genres from '@/components/admin/Genres'
+import Photos from '@/components/admin/Photos'
 
 Vue.use(Router)
 
@@ -33,11 +34,18 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: Admin,
-      children: [{
-        path: 'genres',
-        name: 'genres',
-        component: Genres
-      }]
+      children: [
+        {
+          path: 'genres',
+          name: 'genres',
+          component: Genres
+        },
+        {
+          path: 'photos',
+          name: 'photos',
+          component: Photos
+        }
+      ]
     }
   ]
 })

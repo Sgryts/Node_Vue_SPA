@@ -49,6 +49,7 @@
 
         <v-list-tile-content>
           <v-list-tile-title>Photos</v-list-tile-title>
+          <v-btn :to="({name: 'photos'})">Photos</v-btn>
         </v-list-tile-content>
       </v-list-tile>
 

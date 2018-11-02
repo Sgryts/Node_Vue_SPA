@@ -45,7 +45,7 @@
       :headers="headers"
       :items="genres"
       hide-actions
-      class="elevation-1"
+      class="elevation-1 mb-5"
     >
       <template
         slot="items"
@@ -99,6 +99,10 @@ export default {
           sortable: false
         }
       ],
+      pagination: {
+        sortBy: 'name',
+        descending: true
+      },
       edited: false
     }
   },
@@ -115,14 +119,14 @@ export default {
   },
 
   created () {
-    this.all()
+    this.index()
   },
   methods: {
     // CRUD
-    async all () {
+    async index () {
       console.log('ALL')
       try {
-        const response = await GenreController.all()
+        const response = await GenreController.index()
         this.genres = await response.data.data
         console.log('data', response.data.data)
       } catch (error) {
@@ -141,27 +145,30 @@ export default {
         console.log('err', this.error)
       }
     },
-    async add (data) {
+    // TODO: ontype check if genre exists and return error
+    async post (data) {
       console.log('ADD', data)
       try {
-        const response = await GenreController.add({
+        const response = await GenreController.post({
           name: data
         })
         // this.genres = response.data.data
         console.log('genre', response.data.data)
+        this.index()
       } catch (error) {
         this.error = error.response.data.error
         console.log('err', this.error)
       }
     },
-    async update (id, data) {
+    async put (id, data) {
       console.log('UPDATE', id, data)
       try {
-        const response = await GenreController.update(id, {
+        const response = await GenreController.put(id, {
           name: data
         })
         // this.genres = response.data.data
         console.log('genre', response.data.data)
+        this.index()
       } catch (error) {
         this.error = error
         console.log('err', this.error)
@@ -208,13 +215,13 @@ export default {
         // update
         console.log('edit')
         console.log('EDITED->', this.tempItem._id, this.tempName)
-        this.update(this.tempItem._id, this.tempName)
+        this.put(this.tempItem._id, this.tempName)
         this.edited = false
       } else {
         // new
         if (this.tempName) {
           console.log('add')
-          this.add(this.tempName)
+          this.post(this.tempName)
           console.log('added->', this.tempName)
           this.genres.push(this.tempName)
         } else {
@@ -226,12 +233,6 @@ export default {
       this.tempItem = null
       this.tempName = null
     }
-  },
-  //
-
-  mounted () {
-    // this.show()
-    // this.add()
   }
 }
 </script>

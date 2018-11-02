@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-// const genresSchema = require('Genre')
-// const userSchema = require('User')
 
 const photoSchema = new Schema({
   name:
@@ -9,8 +7,16 @@ const photoSchema = new Schema({
           type: String,
           required: true
         },
-  // genres: [genresSchema],
-  // user: [userSchema],
+  genres:
+          [{
+            type: Schema.Types.ObjectId,
+            ref: 'genres'
+          }],
+  user_id:
+          {
+            type: Schema.Types.ObjectId,
+            ref: 'users'
+          },
   created:
         {
           type: Date,

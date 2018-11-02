@@ -2,6 +2,10 @@ GENERAL=>
 404/403/500 pages
 notifications(success, fail, errors, etc..)
 
+new version node =>
+rm -rf node_modules/bcrypt
+$ npm install
+
 ADMIN=>
 
 TODO: Add validators to routes
@@ -36,3 +40,5 @@ REGISTRATION + LOGIN forms
 + reset password
 
 
+
+https://stackoverflow.com/questions/44989162/file-upload-in-vuetify -- file upload

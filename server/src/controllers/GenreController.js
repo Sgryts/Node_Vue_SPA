@@ -1,7 +1,7 @@
 const Genre = require('../models/Genre')
 
 module.exports = {
-  async all (req, res) {
+  async index (req, res) {
     try {
       const genres = await Genre.find({})
       res.status(200).send({
@@ -26,7 +26,7 @@ module.exports = {
       })
     }
   },
-  async add (req, res) {
+  async post (req, res) {
     try {
       const genre = await Genre.create(req.body)
       res.status(201).send({
@@ -38,7 +38,7 @@ module.exports = {
       })
     }
   },
-  async update (req, res) {
+  async put (req, res) {
     try {
       const id = await req.params.id
       await Genre.findOneAndUpdate({ _id: id }, req.body)
