@@ -1,4 +1,23 @@
 const Photo = require('../models/Photo')
+// const multer = require('multer')
+// const path = require('path')
+//
+// const storage = multer.diskStorage({
+//   destination: '../uploads/img',
+//   filename: function (req, file, callback) {
+//     callback(null, file.fieldname + '-' + Date().now + path.extname(file.originalname))
+//   }
+// })
+//
+// const upload = multer({
+//   storate: storage,
+//   limits: {filesize: 1000000},
+//   fileFilter: function (req, file, callback) {
+//     checkFileType(file, callback)
+//   }
+// }).single('')
+//
+//
 
 module.exports = {
   // ADMIN - TODO: add showing by genres  -- spread by different components, navigate to the each one on click

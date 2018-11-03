@@ -1,4 +1,4 @@
-console.warn('SUCCESS')
+console.log('SUCCESS')
 const config = require('./config/config')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -11,6 +11,7 @@ const app = express()
 
 app.use(morgan('combined'))
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
 // require('./services/passport')
@@ -20,8 +21,7 @@ app.listen(process.env.PORT || config.port)
 
 mongoose.Promise = global.Promise
 if (process.env.NODE_ENV !== 'test') {
-  mongoose
-    .connect(config.db.dialect + config.db.host + config.db.database,
-      { useNewUrlParser: true }
-    )
+  mongoose.connect(config.db.dialect + config.db.host + config.db.database,
+    { useNewUrlParser: true }
+  )
 }

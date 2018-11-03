@@ -2,11 +2,11 @@
 const mongoose = require('mongoose')
 const config = require('../config/config')
 
+// photography_test DB
 before(done => {
-  mongoose
-    .connect(config.db.dialect + config.db.host + config.db.database,
-      { useNewUrlParser: true }
-    )
+  mongoose.connect(config.db.dialect + config.db.host + config.db.database + '_test',
+    { useNewUrlParser: true }
+  )
     .once('open', () => done())
     .on('error', err => {
       console.warn('ERROR: ', err)
