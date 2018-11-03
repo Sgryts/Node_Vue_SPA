@@ -1,12 +1,11 @@
-console.log('SUCCESS')
+console.warn('SUCCESS')
 const config = require('./config/config')
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
-const Promise = require('bluebird')
+// const Promise = require('bluebird')
 
 const app = express()
 
@@ -19,8 +18,10 @@ require('./routes')(app)
 
 app.listen(process.env.PORT || config.port)
 
-mongoose.Promise = Promise
-mongoose
-  .connect(config.db.dialect + config.db.host + config.db.database,
-    { useNewUrlParser: true }
-  )
+mongoose.Promise = global.Promise
+if (process.env.NODE_ENV !== 'test') {
+  mongoose
+    .connect(config.db.dialect + config.db.host + config.db.database,
+      { useNewUrlParser: true }
+    )
+}
