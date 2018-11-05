@@ -184,7 +184,7 @@ export default {
         console.log('err', this.error)
       }
     },
-    // Table
+    // TABLE
     editItem (item) {
       this.tempItem = Object.assign({}, item)
       this.tempName = this.tempItem.name

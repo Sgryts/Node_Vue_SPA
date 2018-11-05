@@ -34,6 +34,8 @@ some pic for the main chunk
 - email section
 some data in footer (contact info, insta, etc...)
 
+:id -> handle if passed improper id (404)
+
 
 
 REGISTRATION + LOGIN forms

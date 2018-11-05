@@ -1,23 +1,5 @@
 const Photo = require('../models/Photo')
-// const multer = require('multer')
-// const path = require('path')
-//
-// const storage = multer.diskStorage({
-//   destination: '../uploads/img',
-//   filename: function (req, file, callback) {
-//     callback(null, file.fieldname + '-' + Date().now + path.extname(file.originalname))
-//   }
-// })
-//
-// const upload = multer({
-//   storate: storage,
-//   limits: {filesize: 1000000},
-//   fileFilter: function (req, file, callback) {
-//     checkFileType(file, callback)
-//   }
-// }).single('')
-//
-//
+const upload = require('../utils/PhotoUploader')
 
 module.exports = {
   // ADMIN - TODO: add showing by genres  -- spread by different components, navigate to the each one on click
@@ -48,10 +30,30 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      const photo = await Photo.create(req.body)
-      res.status(201).send({
-        data: photo
+      console.log('PHOTO=>', req.files, req.file)
+
+      upload(req, res, (err) => {
+        if (err) {
+          res.status(500).send({
+            error: 'WRONG1'
+          })
+        } else {
+          if (req.file === undefined) {
+            res.status(500).send({
+              error: 'WRONG2'
+            })
+          } else {
+            res.status(201).send({
+              data: 'Uploaded'
+            })
+          }
+        }
       })
+
+      // const photo = await Photo.create(req.body)
+      // res.status(201).send({
+      //   // data: photo
+      // })
     } catch (err) {
       res.status(500).send({
         error: 'This genre already exists'

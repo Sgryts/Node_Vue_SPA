@@ -9,8 +9,11 @@
       ></v-divider>
       <v-spacer></v-spacer>
 
+        <input type="file" @change="onFileChanged">
+        <button @click="onUpload">Upload!</button>
+
       <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">New Photo</v-btn>
+        <v-btn slot="activator" color="primary" dark class="mb-2">Upload Photo</v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -19,23 +22,22 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <!--<v-flex xs12 sm6 md4>-->
-                  <!--<v-text-field v-model="tempName" label="Photo name"></v-text-field>-->
-                  <!--<v-text-field label="Select Image"-->
-                                <!--prepend-icon='attach_file'>-->
-
-                  <!--</v-text-field>-->
-                  <!--<input-->
-                          <!--type="file"-->
-                          <!--@change="onFileSelected"-->
-                  <!--&gt;-->
-                  <!--<v-btn @click="onUpload">Upload</v-btn>-->
-                <!--</v-flex>-->
                 <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-                  <img :src="imageUrl" height="150" v-if="imageUrl"/>
-                  <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
+                  <img
+                          :src="imageUrl"
+                          height="150"
+                          v-if="imageUrl"
+                  />
+                  <v-text-field v-model="tempName" label="Photo name"></v-text-field>
+                  <v-text-field
+                          label="Select Image"
+                          @click='pickFile'
+                          v-model='imageName'
+                          prepend-icon='attach_file'
+                  ></v-text-field>
                   <input
                           type="file"
+                          name="myImage"
                           style="display: none"
                           ref="image"
                           accept="image/*"
@@ -126,12 +128,12 @@ export default {
         sortBy: 'name',
         descending: true
       },
-      editedIndex: -1
+      edited: false
     }
   },
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'New photo' : 'Edit Photo'
+      return this.edited ? 'Update Photo' : 'Upload photo'
     }
   },
 
@@ -145,6 +147,15 @@ export default {
   },
 
   methods: {
+    //
+    onFileChanged (event) {
+      const file = event.target.files[0]
+      console.log('FILE', file)
+    },
+    onUpload () {
+      // upload file
+    },
+    //
     // IMG UPLOAD
     pickFile () {
       this.$refs.image.click()
@@ -162,6 +173,7 @@ export default {
           this.imageUrl = fr.result
           // img to store
           this.imageFile = files[0]
+          this.post(this.imageFile)
         })
       } else {
         this.imageName = null
@@ -179,6 +191,66 @@ export default {
         this.error = error.response.data.error
         console.log('err', this.error)
       }
+    },
+
+    async post (data) {
+      try {
+        console.log('photo', data)
+        await PhotoController.post(data)
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log('err', this.error)
+      }
+    },
+
+    // TABLE
+    editItem (item) {
+      this.tempItem = Object.assign({}, item)
+      this.tempName = this.tempItem.name
+      //
+      this.edited = true
+      this.dialog = true
+    },
+
+    deleteItem (item) {
+      const index = this.photos.indexOf(item)
+      confirm('Are you sure you want to delete this photo?') && this.photos.splice(index, 1)
+      console.log('ID', item._id)
+      this.destroy(item._id)
+    },
+
+    close () {
+      this.dialog = false
+      this.edited = false
+    },
+    // 1.if current item  => edited, if null => save new item
+    // 2. Or build new buttons : add and update
+    // 3. on ADD vue will rerender array
+    // 4. rerender items after each update with vue.set (check by VUE INDEX)
+    // 5. array find() element, update and display after update
+
+    save () {
+      if (this.edited) {
+        // update
+        console.log('edit')
+        console.log('EDITED->', this.tempItem._id, this.tempName)
+        this.put(this.tempItem._id, this.tempName)
+        this.edited = false
+      } else {
+        // new
+        if (this.tempName) {
+          console.log('add')
+          this.post(this.tempName)
+          console.log('added->', this.tempName)
+          this.photos.push(this.tempName)
+        } else {
+          // TODO: build FE validation service
+          console.log('Cannot be empty')
+        }
+      }
+      this.close()
+      this.tempItem = null
+      this.tempName = null
     }
   }
 }
