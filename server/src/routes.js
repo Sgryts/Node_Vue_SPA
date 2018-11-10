@@ -1,3 +1,6 @@
+// const multer = require('multer')
+// const upload = multer({ dest: 'src/uploads/img' })
+
 const InputValidator = require('./services/InputValidationService')
 const UserController = require('./controllers/UserController')
 const GenreController = require('./controllers/GenreController')
@@ -28,6 +31,7 @@ module.exports = (app) => {
     GenreController.put)
   app.delete('/admin/genres/:id',
     GenreController.destroy)
+
   // photos
   app.get('/admin/photos',
     PhotoController.index)
@@ -35,12 +39,16 @@ module.exports = (app) => {
     PhotoController.show)
   // TODO: Validation
   app.post('/admin/photos',
+    // upload.any(),
+    // validation
+    // PhotoController.imgUpload,
     PhotoController.post)
   // TODO: Validation
   app.put('/admin/photos/:id',
     PhotoController.put)
   app.delete('/admin/photos/:id',
     PhotoController.destroy)
+
   // CLIENT -- show By Genres
   app.get('/photos',
     PhotoController.index)

@@ -9,9 +9,6 @@
       ></v-divider>
       <v-spacer></v-spacer>
 
-        <input type="file" @change="onFileChanged">
-        <button @click="onUpload">Upload!</button>
-
       <v-dialog v-model="dialog" max-width="500px">
         <v-btn slot="activator" color="primary" dark class="mb-2">Upload Photo</v-btn>
         <v-card>
@@ -173,7 +170,6 @@ export default {
           this.imageUrl = fr.result
           // img to store
           this.imageFile = files[0]
-          this.post(this.imageFile)
         })
       } else {
         this.imageName = null

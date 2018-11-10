@@ -1,19 +1,31 @@
 console.log('SUCCESS')
+// require('sqreen')
 const config = require('./config/config')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const helmet = require('helmet')
 const mongoose = require('mongoose')
-// const path = require('path')
+// const { join } = require('path')
 
 const app = express()
 
 app.use(morgan('combined'))
+app.use(helmet.xssFilter())
+app.use(helmet.frameguard({ action: 'deny' }))
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'", 'fonts.googleapis.com'],
+    fontSrc: ["'self'", 'fonts.gstatic.com', 'data:'],
+    scriptSrc: ["'self'", 'code.jquery.com']
+  }
+}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }))
 app.use(cors())
-app.use(express.static('./uploads/img'))
+// app.use(express.static('./uploads/img'))
 
 // require('./services/passport')
 require('./routes')(app)

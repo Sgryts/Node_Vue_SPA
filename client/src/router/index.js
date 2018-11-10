@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+
+import Client from '@/components/Client'
+import About from '@/components/client/About'
+import Gallery from '@/components/client/Gallery'
+import Contact from '@/components/client/Contact'
 
 import Register from '@/components/admin/Register'
 import Login from '@/components/admin/Login'
-
 import Admin from '@/components/Admin'
-
 import Genres from '@/components/admin/Genres'
 import Photos from '@/components/admin/Photos'
 
@@ -17,9 +19,27 @@ export default new Router({
     {
       // client
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'client',
+      component: Client,
+      children: [
+        {
+          path: 'about',
+          name: 'about',
+          component: About
+        },
+        {
+          path: 'gallery',
+          name: 'gallery',
+          component: Gallery
+        },
+        {
+          path: 'contact',
+          name: 'contact',
+          component: Contact
+        }
+      ]
     },
+    // admin
     {
       path: '/admin/register',
       name: 'register',

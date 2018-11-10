@@ -1,10 +1,10 @@
 <template>
-    <h1>Baviga</h1>
+
 </template>
 
 <script>
 export default {
-  name: 'NavigationBar'
+  name: 'NavBar'
 }
 </script>
 

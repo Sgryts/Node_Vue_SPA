@@ -30,19 +30,18 @@ module.exports = {
   },
   async post (req, res) {
     try {
-      console.log('PHOTO=>', req.files, req.file)
-
-      upload(req, res, (err) => {
+      upload(req, res, err => {
         if (err) {
           res.status(500).send({
-            error: 'WRONG1'
+            error: err
           })
         } else {
-          if (req.file === undefined) {
+          if (req.files === undefined) {
             res.status(500).send({
-              error: 'WRONG2'
+              error: err
             })
           } else {
+            console.log('PHOTO=>', req.files, req.file)
             res.status(201).send({
               data: 'Uploaded'
             })

@@ -2,24 +2,24 @@ const multer = require('multer')
 const path = require('path')
 
 const storage = multer.diskStorage({
-  destination: '../uploads/img',
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
+  destination: 'src/uploads/img',
+  filename: (req, files, cb) => {
+    cb(null, `${files.fieldname}-${Date.now()}${path.extname(files.originalname)}`)
   }
 })
 
 const upload = multer({
   storage: storage,
-  limits: { filesize: 1000000 },
-  fileFilter: (req, file, cb) => {
-    checkFileType(file, cb)
+  limits: { filesize: 10000000 },
+  fileFilter: (req, files, cb) => {
+    checkFileType(files, cb)
   }
-}).single('myImage')
+}).any()
 
-const checkFileType = (file, cb) => {
+const checkFileType = (files, cb) => {
   const filetypes = /jpeg|jpg|png/
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
-  const mimetype = filetypes.test(file.mimetype)
+  const extname = filetypes.test(path.extname(files.originalname).toLowerCase())
+  const mimetype = filetypes.test(files.mimetype)
 
   if (mimetype && extname) {
     return cb(null, true)

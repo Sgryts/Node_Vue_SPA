@@ -44,3 +44,25 @@ REGISTRATION + LOGIN forms
 
 
 https://stackoverflow.com/questions/44989162/file-upload-in-vuetify -- file upload
+
+joi.string().allow('')
+
+
+
+ - create a separate service for the upload (without validation logic)
+- handle upload ONLY for photo-related HTTP's with my passport token validation
+ - create additional interceptor-validator for all uploads with Joi ( file type, size, etc..)
+- if Joi => next() then store the file in uploads folder accordingly, otherwise return an error from async/await POST method.
+
+
+app.use(helmet.hsts({
+  maxAge: 15780000,
+  preload: true
+}));
+
+DDoS prot
+--- cloudflare
+--- akamia
+
+Broot
+require('rate-limiter-flexible');
