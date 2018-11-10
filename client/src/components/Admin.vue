@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import Photos from './admin/Photos'
-import Genres from './admin/Genres'
 import SideControl from '../components/admin/SideControl'
 
 import AdminHeader from '../components/admin/Header'
@@ -26,7 +24,7 @@ import {mapState} from 'vuex'
 
 export default {
   name: 'Admin',
-  components: {Photos, Genres, AdminHeader, SideControl, AdminFooter},
+  components: {AdminHeader, SideControl, AdminFooter},
   data () {
     return {
     }

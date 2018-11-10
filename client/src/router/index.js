@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Client from '@/components/Client'
+import Home from '@/components/client/Home'
 import About from '@/components/client/About'
 import Gallery from '@/components/client/Gallery'
 import Contact from '@/components/client/Contact'
@@ -22,6 +23,11 @@ export default new Router({
       name: 'client',
       component: Client,
       children: [
+        {
+          path: 'home',
+          name: 'home',
+          component: Home
+        },
         {
           path: 'about',
           name: 'about',

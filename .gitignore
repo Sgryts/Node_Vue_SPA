@@ -201,6 +201,7 @@ sqreen.json
 
 #temporary disable uploads
 uploads
+img
 
 
 # End of https://www.gitignore.io/api/git,node,macos,phpstorm
