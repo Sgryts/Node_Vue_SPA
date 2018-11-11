@@ -7,6 +7,11 @@ const photoSchema = new Schema({
           type: String,
           required: true
         },
+  path:
+        {
+          type: String,
+          required: true
+        },
   genres:
           [{
             type: Schema.Types.ObjectId,

@@ -24,7 +24,7 @@ const checkFileType = (files, cb) => {
   if (mimetype && extname) {
     return cb(null, true)
   } else {
-    const error = 'Error: Please upload images only'
+    const error = 'Please upload images only'
     cb(error)
   }
 }
