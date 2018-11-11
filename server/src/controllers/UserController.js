@@ -62,15 +62,6 @@ module.exports = {
       })
     }
   },
-  async logout (req, res) {
-    try {
-      // name, pass = null
-    } catch (err) {
-      res.status(500).send({
-        error: 'An error has occurred, please log out again'
-      })
-    }
-  },
   sendEmail () {
 
   },

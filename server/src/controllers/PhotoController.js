@@ -18,7 +18,7 @@ module.exports = {
   },
   async show (req, res) {
     try {
-      const id = req.params.id
+      const id = await req.params.id
       const photo = await Photo.findOne({ _id: id })
       res.status(200).send({
         data: photo
@@ -42,7 +42,7 @@ module.exports = {
               error: 'Something went wrong...' + err
             })
           } else {
-            console.log('PHOTO=>', req.files[0].filename, req.files[0].path)
+            console.log('PHOTO=>', req.files)
             Photo.create({
               name: req.files[0].filename,
               path: req.files[0].path
@@ -71,14 +71,12 @@ module.exports = {
   },
   async put (req, res) {
     try {
-      const id = req.params.id
-      const data = req.body
+      const id = await req.params.id
+      const data = await req.body
       console.log('ID', req.params.id)
-      // console.log('DATA', data)
-      // console.log('BODY=>', req)
-      const genre = await Photo.findOneAndUpdate({ _id: id }, data)
+      const photo = await Photo.findOneAndUpdate({ _id: id }, data)
       res.status(201).send({
-        data: genre
+        data: photo
       })
     } catch (err) {
       res.status(500).send({
@@ -88,7 +86,7 @@ module.exports = {
   },
   async destroy (req, res) {
     try {
-      const id = req.params.id
+      const id = await req.params.id
       const photo = await Photo.findOne({ _id: id })
       await fs.access(photo.path, err => {
         if (!err) {

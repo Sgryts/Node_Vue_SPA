@@ -25,9 +25,8 @@ app.use(helmet.contentSecurityPolicy({
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
-// app.use(express.static('./uploads/img'))
 
-// require('./services/passport')
+require('./passport')
 require('./routes')(app)
 
 app.listen(process.env.PORT || config.port)

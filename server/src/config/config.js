@@ -10,7 +10,7 @@ module.exports = {
   },
   authentication: {
     jwt_encryption: process.env.JWT_SECRET || 'secret_token',
-    jwt_expiration: process.env.JWT_EXPIRATION || '10000'
+    jwt_expiration: process.env.JWT_EXPIRATION || '10000000000'
   },
   salt: {
     encryption: process.env.SALT || 'secret_salt',
