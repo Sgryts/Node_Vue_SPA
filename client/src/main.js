@@ -12,8 +12,11 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 import 'vuetify/dist/vuetify.min'
 
+import VueAWN from 'vue-awesome-notifications'
+import 'vue-awesome-notifications/dist/styles/style.css'
+
 Vue.config.productionTip = false
-Vue.use(Vuetify)
+Vue.use(Vuetify, VueAWN)
 
 sync(store, router)
 

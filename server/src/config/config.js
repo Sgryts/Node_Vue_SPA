@@ -1,6 +1,6 @@
 module.exports = {
   port: 3030,
-  app: process.env.APP || 'dev',
+  app: process.env.NODE_ENV || 'dev',
   db: {
     dialect: process.env.DB_DIALECT || 'mongodb',
     user: process.env.DB_USER || 'root',

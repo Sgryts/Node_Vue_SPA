@@ -17,7 +17,8 @@ const genresValidation = {
 
 const photoValidation = {
   name: Joi.string().trim().required(),
-  file: Joi.any().required()
+  genres_id: Joi.array().items(Joi.string()),
+  user_id: Joi.string()
 }
 
 module.exports = {

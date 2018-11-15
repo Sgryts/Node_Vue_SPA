@@ -6,7 +6,7 @@ module.exports = {
   // ADMIN - TODO: add showing by genres  -- spread by different components, navigate to the each one on click
   async index (req, res) {
     try {
-      const photos = await Photo.find({})
+      const photos = await Photo.find({}).sort('-created')
       res.status(200).send({
         data: photos
       })
@@ -20,6 +20,11 @@ module.exports = {
     try {
       const id = await req.params.id
       const photo = await Photo.findOne({ _id: id })
+      if (!photo) {
+        return res.status(400).send({
+          error: 'The photo with the given ID was not found'
+        })
+      }
       res.status(200).send({
         data: photo
       })
@@ -88,6 +93,11 @@ module.exports = {
     try {
       const id = await req.params.id
       const photo = await Photo.findOne({ _id: id })
+      if (!photo) {
+        return res.status(400).send({
+          error: 'The photo with the given ID was not found'
+        })
+      }
       await fs.access(photo.path, err => {
         if (!err) {
           fs.unlink(photo.path, err => {

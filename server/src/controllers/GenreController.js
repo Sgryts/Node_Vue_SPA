@@ -17,6 +17,11 @@ module.exports = {
     try {
       const id = await req.params.id
       const genre = await Genre.findOne({ _id: id })
+      if (!genre) {
+        return res.status(400).send({
+          error: 'The genre with the given ID was not found'
+        })
+      }
       res.status(200).send({
         data: genre
       })

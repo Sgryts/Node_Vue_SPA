@@ -7,11 +7,12 @@ const cors = require('cors')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const mongoose = require('mongoose')
-// const { join } = require('path')
+const path = require('path')
 
 const app = express()
 
 app.use(morgan('combined'))
+app.use(cors())
 app.use(helmet.xssFilter())
 app.use(helmet.frameguard({ action: 'deny' }))
 app.use(helmet.contentSecurityPolicy({
@@ -22,9 +23,10 @@ app.use(helmet.contentSecurityPolicy({
     scriptSrc: ["'self'", 'code.jquery.com']
   }
 }))
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(cors())
+app.use(express.static(path.join(__dirname, 'public')))
 
 require('./passport')
 require('./routes')(app)

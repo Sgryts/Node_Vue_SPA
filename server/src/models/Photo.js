@@ -12,7 +12,7 @@ const photoSchema = new Schema({
           type: String,
           required: true
         },
-  genres:
+  genres_id:
           [{
             type: Schema.Types.ObjectId,
             ref: 'genres'
