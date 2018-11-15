@@ -8,8 +8,11 @@ const morgan = require('morgan')
 const helmet = require('helmet')
 const mongoose = require('mongoose')
 const path = require('path')
+const winston = require('winston')
 
 const app = express()
+
+winston.add(winston.transport.File, { filename: 'errorlog.log' })
 
 app.use(morgan('combined'))
 app.use(cors())

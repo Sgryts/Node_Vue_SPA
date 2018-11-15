@@ -1,6 +1,10 @@
 const Photo = require('../models/Photo')
 const upload = require('../utils/PhotoUploader')
+const Fawn = require('fawn')
+const mongoose = require('mongoose')
 const fs = require('fs')
+
+Fawn.init(mongoose)
 
 module.exports = {
   // ADMIN - TODO: add showing by genres  -- spread by different components, navigate to the each one on click
@@ -79,7 +83,16 @@ module.exports = {
       const id = await req.params.id
       const data = await req.body
       console.log('ID', req.params.id)
-      const photo = await Photo.findOneAndUpdate({ _id: id }, data)
+
+      // TRANSACTION // TODO : do i need transactions ?
+      // new Fawn.Task()
+      //   .save('photos', photo)
+      //   .update('genres_id',[-update genres array-])
+      //   .update('user)id',[-update user_id-])
+      // .run()
+
+      await Photo.findOneAndUpdate({ _id: id }, data)
+      const photo = await Photo.findOne({ _id: id })
       res.status(201).send({
         data: photo
       })

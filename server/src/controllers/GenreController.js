@@ -1,4 +1,5 @@
 const Genre = require('../models/Genre')
+const winston = require('winston')
 
 module.exports = {
   async index (req, res) {
@@ -8,6 +9,7 @@ module.exports = {
         data: genres
       })
     } catch (err) {
+      winston.error(err.message, err)
       res.status(500).send({
         error: 'Something went wrong...' + err
       })
@@ -26,6 +28,7 @@ module.exports = {
         data: genre
       })
     } catch (err) {
+      winston.error(err.message, err)
       res.status(500).send({
         error: 'Something went wrong...' + err
       })
@@ -38,6 +41,7 @@ module.exports = {
         data: genre
       })
     } catch (err) {
+      winston.error(err.message, err)
       res.status(500).send({
         error: 'This genre already exists'
       })
@@ -65,6 +69,7 @@ module.exports = {
         data: ''
       })
     } catch (err) {
+      winston.error(err.message, err)
       res.status(500).send({
         error: 'Something went wrong...' + err
       })

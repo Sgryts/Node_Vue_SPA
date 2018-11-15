@@ -41,6 +41,7 @@ module.exports = (app) => {
     PhotoController.post)
   // TODO: Validation
   app.put('/admin/photos/:id',
+    InputValidator.photos,
     PhotoController.put)
   app.delete('/admin/photos/:id',
     PhotoController.destroy)
@@ -52,5 +53,4 @@ module.exports = (app) => {
     PhotoController.show)
 }
 
-// TODO: Change to index,create,store,show,edit,update,destroy
 // TODO: Analitics - photos, views per photo, visitors, etc ..

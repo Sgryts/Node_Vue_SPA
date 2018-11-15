@@ -1,4 +1,5 @@
 const Joi = require('joi')
+Joi.objectId = require('joi-objectid')(Joi)
 
 const registerValidation = {
   email: Joi.string().email().trim().required(),
@@ -17,8 +18,8 @@ const genresValidation = {
 
 const photoValidation = {
   name: Joi.string().trim().required(),
-  genres_id: Joi.array().items(Joi.string()),
-  user_id: Joi.string()
+  genres_id: Joi.array().items(Joi.objectId()),
+  user_id: Joi.objectId()
 }
 
 module.exports = {
@@ -110,9 +111,14 @@ module.exports = {
             error: 'Invalid photo name'
           })
           break
-        case 'file':
+        case 'genres_id':
           res.status(400).send({
-            error: 'Photo is required'
+            error: 'Genres IDs are invalid'
+          })
+          break
+        case 'user_id':
+          res.status(400).send({
+            error: 'User ID is invalid'
           })
           break
         default:
