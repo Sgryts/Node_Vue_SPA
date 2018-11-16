@@ -1,5 +1,5 @@
 console.log('SUCCESS')
-// require('sqreen')
+require('sqreen')
 const config = require('./config/config')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -12,7 +12,17 @@ const winston = require('winston')
 
 const app = express()
 
+// error logging
+process.on('unhandledRejection', err => {
+  throw err
+})
+winston.handleExceptions(new winston.transport.File({ filename: 'uncaughtExceptions.log' }))
 winston.add(winston.transport.File, { filename: 'errorlog.log' })
+winston.add(winston.transport.MongoDB,
+  {
+    db: config.db.dialect + config.db.host + config.db.database,
+    level: 'error'
+  })
 
 app.use(morgan('combined'))
 app.use(cors())

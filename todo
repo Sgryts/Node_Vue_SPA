@@ -12,6 +12,7 @@ TODO: Add validators to routes
 TODO: Display foreign keys for pictures
 TODO: Validate tokens in all admins routes
 TODO: Pass IDs to routes properly, then pass to controllers using synced params
+TODO: refactor routes handling  - factory wrapping for routes
 
 =VUE=
 create list of data on load, connect via v-model to the each componnent
