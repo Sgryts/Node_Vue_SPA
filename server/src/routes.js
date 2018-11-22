@@ -2,27 +2,26 @@ const InputValidator = require('./services/InputValidationService')
 const UserController = require('./controllers/UserController')
 const GenreController = require('./controllers/GenreController')
 const PhotoController = require('./controllers/PhotoController')
-const Authenticate = require('./services/AuthenticationService')
+// const Authenticate = require('./services/AuthenticationService')
 
 module.exports = (app) => {
   // ADMIN TODO: add validation methods to routes
-  // user authentication
   app.post('/admin/register',
     InputValidator.register,
     UserController.register)
   app.post('/admin/login',
     UserController.login)
   // admin
-  app.get('/admin'
   // load home page with all analytics
-  )
+  app.get('/admin')
+
   // genres
   app.get('/admin/genres',
     GenreController.index)
   app.get('/admin/genres/:id',
     GenreController.show)
   app.post('/admin/genres',
-    Authenticate,
+    // Authenticate,
     // TODO: Validation
     GenreController.post)
   // TODO: Validation
@@ -38,10 +37,11 @@ module.exports = (app) => {
     PhotoController.show)
   // TODO: Validation
   app.post('/admin/photos',
+    // InputValidator.photos,
     PhotoController.post)
   // TODO: Validation
   app.put('/admin/photos/:id',
-    InputValidator.photos,
+    // InputValidator.photos,
     PhotoController.put)
   app.delete('/admin/photos/:id',
     PhotoController.destroy)

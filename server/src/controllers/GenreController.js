@@ -4,7 +4,7 @@ const winston = require('winston')
 module.exports = {
   async index (req, res) {
     try {
-      const genres = await Genre.find({})
+      const genres = await Genre.find({}).populate({ path: 'photos' })
       res.status(200).send({
         data: genres
       })
@@ -62,6 +62,7 @@ module.exports = {
     }
   },
   async destroy (req, res) {
+    // TODO : cannot delete if has photo(s)
     try {
       const id = await req.params.id
       await Genre.findOneAndRemove({ _id: id })

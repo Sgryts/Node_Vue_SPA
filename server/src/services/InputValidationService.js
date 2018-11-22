@@ -13,13 +13,13 @@ const emailValidation = {
 }
 
 const genresValidation = {
-  name: Joi.string().trim().required()
+  name: Joi.string().trim().min(3).max(255).required(),
+  photos: Joi.array().items(Joi.objectId())
 }
 
 const photoValidation = {
-  name: Joi.string().trim().required(),
-  genres_id: Joi.array().items(Joi.objectId()),
-  user_id: Joi.objectId()
+  name: Joi.string().trim().min(3).max(255).required(),
+  genres: Joi.array().items(Joi.string())
 }
 
 module.exports = {
@@ -107,18 +107,14 @@ module.exports = {
     if (error) {
       switch (error.details[0].context.key) {
         case 'name':
+          console.log(req.body)
           res.status(400).send({
-            error: 'Invalid photo name'
+            error: 'Invalid image name'
           })
           break
-        case 'genres_id':
+        case 'genres':
           res.status(400).send({
-            error: 'Genres IDs are invalid'
-          })
-          break
-        case 'user_id':
-          res.status(400).send({
-            error: 'User ID is invalid'
+            error: 'Invalid genre(s)'
           })
           break
         default:

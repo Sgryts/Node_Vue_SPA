@@ -10,7 +10,12 @@
       <v-spacer></v-spacer>
 
       <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">Upload Photo</v-btn>
+        <v-btn slot="activator"
+               color="primary"
+               dark class="mb-2"
+        >
+          Upload Photo
+        </v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -19,13 +24,18 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
+                <v-flex xs12
+                        class="text-xs-center text-sm-center text-md-center text-lg-center"
+                >
                   <img
                           :src="imageUrl"
                           height="150"
                           v-if="imageUrl"
                   />
-                  <v-text-field v-model="tempName" label="Photo name"></v-text-field>
+                  <v-text-field
+                          v-model="tempName"
+                          label="Photo name"
+                  ></v-text-field>
                   <v-text-field
                           label="Select Image"
                           @click='pickFile'
@@ -34,12 +44,27 @@
                   ></v-text-field>
                   <input
                           type="file"
-                          name="myImage"
                           style="display: none"
                           ref="image"
                           accept="image/*"
                           @change="onFilePicked"
                   >
+                  <div>
+                    <label class="typo__label">
+                      Genres
+                    </label>
+                    <multiselect
+                            v-model="value"
+                            tag-placeholder="Add this as new tag"
+                            placeholder="Search or add a genre"
+                            label="name"
+                            track-by="code"
+                            :options="options"
+                            :multiple="true"
+                            :taggable="true"
+                            @tag="addTag"
+                    ></multiselect>
+                  </div>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -86,19 +111,33 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
 import PhotoController from '../../controllers/PhotoController'
 
 export default {
+  components: {Multiselect},
   name: 'Photos',
   data () {
     return {
+
+      // multiselect
+      value: [
+        { name: 'Javascript', code: 'js' }
+      ],
+      options: [
+        { name: 'Vue.js', code: 'vu' },
+        { name: 'Javascript', code: 'js' },
+        { name: 'Open Source', code: 'os' }
+      ],
+      //
+
       photos: [],
-      name: '',
+      // name: '',
       error: null,
 
       selectedFile: null,
 
-      //
+      // img upload
       imageName: null,
       imageUrl: null,
       imageFile: null,
@@ -112,7 +151,7 @@ export default {
         {
           text: 'Photo Name',
           align: 'left',
-          sortable: false,
+          sortable: true,
           value: 'name'
         },
         {
@@ -144,6 +183,17 @@ export default {
   },
 
   methods: {
+    // multiselect
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
+    },
+    //
+
     //
     onFileChanged (event) {
       const file = event.target.files[0]
@@ -192,7 +242,35 @@ export default {
     async post (data) {
       try {
         console.log('photo', data)
-        await PhotoController.post(data)
+        await PhotoController.post({
+          name: data.name,
+          genres: data.genres
+        })
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log('err', this.error)
+      }
+    },
+    async put (id, data) {
+      console.log('UPDATE', id, data)
+      try {
+        const response = await PhotoController.put(id, {
+          name: data.name,
+          genres: data.genres
+        })
+        // this.photo = response.data.data
+        console.log('photo', response.data.data)
+        this.index()
+      } catch (error) {
+        this.error = error
+        console.log('err', this.error)
+      }
+    },
+    async destroy (id) {
+      console.log('DELETE')
+      try {
+        const response = await PhotoController.destroy(id)
+        console.log('photo', response.data.data)
       } catch (error) {
         this.error = error.response.data.error
         console.log('err', this.error)
@@ -212,7 +290,7 @@ export default {
       const index = this.photos.indexOf(item)
       confirm('Are you sure you want to delete this photo?') && this.photos.splice(index, 1)
       console.log('ID', item._id)
-      this.destroy(item._id)
+      // this.destroy(item._id)
     },
 
     close () {
@@ -229,16 +307,26 @@ export default {
       if (this.edited) {
         // update
         console.log('edit')
-        console.log('EDITED->', this.tempItem._id, this.tempName)
-        this.put(this.tempItem._id, this.tempName)
+        console.log('EDITED->',
+          this.tempItem._id,
+          this.tempName,
+          this.value,
+          this.imageFile
+        )
+        // this.put(this.tempItem._id, this.tempName)
         this.edited = false
       } else {
         // new
         if (this.tempName) {
           console.log('add')
-          this.post(this.tempName)
-          console.log('added->', this.tempName)
+          // this.post(this.tempName)
+          console.log('added->',
+            this.tempName,
+            this.value,
+            this.imageFile
+          )
           this.photos.push(this.tempName)
+          console.log('ppp', this.photos)
         } else {
           // TODO: build FE validation service
           console.log('Cannot be empty')
@@ -251,7 +339,7 @@ export default {
   }
 }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 
 </style>

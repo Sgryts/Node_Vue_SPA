@@ -1,4 +1,5 @@
 const Photo = require('../models/Photo')
+const Genre = require('../models/Genre')
 const upload = require('../utils/PhotoUploader')
 const Fawn = require('fawn')
 const mongoose = require('mongoose')
@@ -43,38 +44,48 @@ module.exports = {
       await upload(req, res, err => {
         if (err) {
           res.status(500).send({
-            error: 'Something went wrong...' + err
+            error: 'Something went wrong1...' + err
           })
         } else {
           if (req.files === undefined) {
             res.status(500).send({
-              error: 'Something went wrong...' + err
+              error: 'Something went wrong2...' + err
             })
           } else {
             console.log('PHOTO=>', req.files)
+            // console.log('PHOTO=>', Photo)
+
+            const genres = ['5bf199ffd968530f1865a3fd', '5bf18c5dab92f65d3a3fcd16', '5bf18c62ab92f65d3a3fcd17']
+
             Photo.create({
-              name: req.files[0].filename,
+              name: 'default',
+              file: req.files[0].filename,
               path: req.files[0].path
             })
-              .then(data => {
-                // TODO store 'all' genre by default
-                console.log('data', data)
-                res.status(201).send({
-                  data: data
-                })
+              .then(photo => {
+                for (let genre of genres) {
+                  Genre.findById(genre)
+                    .then(genre => {
+                      genre.photos.push(photo)
+                      genre.save()
+                    })
+                    .then(console.log('SAVED'))
+                    .catch(err => console.log('ERROR!', err))
+                }
               })
-              .catch(err => {
-                // TODO if error  - find and remove stored photo
-                res.status(500).send({
-                  error: 'Something went wrong...' + err
-                })
-              })
+
+            // .catch(err => {
+            //   // TODO if error  - find and remove stored photo
+            //   res.status(500).send({
+            //     error: 'Something went wrong3...' + err
+            //   })
+            // })
           }
         }
       })
     } catch (err) {
       res.status(500).send({
-        error: 'Something went wrong...' + err
+        error: 'Something went wrong4...' + err
       })
     }
   },
@@ -90,6 +101,10 @@ module.exports = {
       //   .update('genres_id',[-update genres array-])
       //   .update('user)id',[-update user_id-])
       // .run()
+
+      // 1 find photo
+      // insert array of objects ( genres id)
+      // insert user id
 
       await Photo.findOneAndUpdate({ _id: id }, data)
       const photo = await Photo.findOne({ _id: id })

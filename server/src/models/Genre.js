@@ -7,7 +7,11 @@ const genreSchema = new Schema({
         type: String,
         required: true,
         unique: true
-      }
+      },
+  photos: [{
+    type: Schema.Types.ObjectId,
+    ref: 'photos'
+  }]
 })
 
 module.exports = mongoose.model('genres', genreSchema)
