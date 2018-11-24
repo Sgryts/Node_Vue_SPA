@@ -52,41 +52,42 @@ module.exports = {
               error: 'Something went wrong2...' + err
             })
           } else {
-            console.log('PHOTO=>', req.files, req.body)
-
-            const genres = req.body.genres
+            console.log('PHOTO=>', req.files)
+            console.log('BODY=>', req.body.name, req.body.genres)
 
             Photo.create({
-              name: 'default',
+              name: req.body.name,
               file: req.files[0].filename,
               path: req.files[0].path
             })
               .then(photo => {
-                for (let genre of genres) {
+                for (let genre of JSON.parse(req.body.genres)) {
+                  console.log('GENRE', genre)
                   Genre.findById(genre)
                     .then(genre => {
                       genre.photos.push(photo)
                       genre.save()
                     })
-                    .then(photo => {
-                      res.status(500).send({
-                        error: 'Something went wrong3...' + err
-                      })
-                    })
-                    .catch(err => {
-                      // TODO if error  - find and remove stored photo
-                      res.status(500).send({
-                        error: 'Something went wrong3...' + err
-                      })
-                    })
+                    .catch(err => console.log('genresSchemaPhoto', err.message))
                 }
+              }).then(photo => {
+                console.log('SAVED PHOTO', photo)
+                res.status(201).send({
+                  data: photo
+                })
+              })
+              .catch(err => {
+                // TODO if error  - find and remove stored photo?
+                res.status(500).send({
+                  error: 'Something went wrong4...' + err
+                })
               })
           }
         }
       })
     } catch (err) {
       res.status(500).send({
-        error: 'Something went wrong4...' + err
+        error: 'Something went wrong5...' + err
       })
     }
   },
