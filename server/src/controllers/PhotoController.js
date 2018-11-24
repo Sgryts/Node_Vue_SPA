@@ -52,10 +52,9 @@ module.exports = {
               error: 'Something went wrong2...' + err
             })
           } else {
-            console.log('PHOTO=>', req.files)
-            // console.log('PHOTO=>', Photo)
+            console.log('PHOTO=>', req.files, req.body)
 
-            const genres = ['5bf199ffd968530f1865a3fd', '5bf18c5dab92f65d3a3fcd16', '5bf18c62ab92f65d3a3fcd17']
+            const genres = req.body.genres
 
             Photo.create({
               name: 'default',
@@ -69,17 +68,19 @@ module.exports = {
                       genre.photos.push(photo)
                       genre.save()
                     })
-                    .then(console.log('SAVED'))
-                    .catch(err => console.log('ERROR!', err))
+                    .then(photo => {
+                      res.status(500).send({
+                        error: 'Something went wrong3...' + err
+                      })
+                    })
+                    .catch(err => {
+                      // TODO if error  - find and remove stored photo
+                      res.status(500).send({
+                        error: 'Something went wrong3...' + err
+                      })
+                    })
                 }
               })
-
-            // .catch(err => {
-            //   // TODO if error  - find and remove stored photo
-            //   res.status(500).send({
-            //     error: 'Something went wrong3...' + err
-            //   })
-            // })
           }
         }
       })

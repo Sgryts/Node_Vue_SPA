@@ -6,6 +6,11 @@ export default {
   },
   post (data) {
     console.log('api', data)
-    return api().post('/admin/photos', data)
+    return api().post('/admin/photos', data,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
   }
 }

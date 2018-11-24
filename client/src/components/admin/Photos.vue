@@ -3,9 +3,9 @@
     <v-toolbar flat color="white">
       <v-toolbar-title>Photos</v-toolbar-title>
       <v-divider
-        class="mx-2"
-        inset
-        vertical
+              class="mx-2"
+              inset
+              vertical
       ></v-divider>
       <v-spacer></v-spacer>
 
@@ -45,6 +45,7 @@
                   <input
                           type="file"
                           style="display: none"
+                          name="image"
                           ref="image"
                           accept="image/*"
                           @change="onFilePicked"
@@ -59,7 +60,7 @@
                             placeholder="Search or add a genre"
                             label="name"
                             track-by="code"
-                            :options="options"
+                            :options="genres"
                             :multiple="true"
                             :taggable="true"
                             @tag="addTag"
@@ -80,16 +81,17 @@
 
     </v-toolbar>
     <v-data-table
-      :headers="headers"
-      :items="photos"
-      hide-actions
-      class="elevation-1"
+            :headers="headers"
+            :items="photos"
+            hide-actions
+            class="elevation-1"
     >
       <template
               slot="items"
               slot-scope="props"
       >
-        <td>{{ props.item.name }}</td>
+        <!--<td><img v-bind:src="`../../server/src/uploads/img/${props.item.path}`" alt=""></td>-->
+        <td>{{props.item.name}}</td>
         <td class="justify-center layout px-0">
           <v-icon
                   small
@@ -113,6 +115,7 @@
 <script>
 import Multiselect from 'vue-multiselect'
 import PhotoController from '../../controllers/PhotoController'
+import GenreController from '../../controllers/GenreController'
 
 export default {
   components: {Multiselect},
@@ -122,14 +125,9 @@ export default {
 
       // multiselect
       value: [
-        { name: 'Javascript', code: 'js' }
+        // { name: 'Javascript', code: 'js' }
       ],
-      options: [
-        { name: 'Vue.js', code: 'vu' },
-        { name: 'Javascript', code: 'js' },
-        { name: 'Open Source', code: 'os' }
-      ],
-      //
+      genres: [],
 
       photos: [],
       // name: '',
@@ -181,7 +179,9 @@ export default {
   created () {
     this.index()
   },
-
+  mounted () {
+    this.getGenres()
+  },
   methods: {
     // multiselect
     addTag (newTag) {
@@ -189,20 +189,9 @@ export default {
         name: newTag,
         code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
-      this.options.push(tag)
+      this.genres.push(tag)
       this.value.push(tag)
     },
-    //
-
-    //
-    onFileChanged (event) {
-      const file = event.target.files[0]
-      console.log('FILE', file)
-    },
-    onUpload () {
-      // upload file
-    },
-    //
     // IMG UPLOAD
     pickFile () {
       this.$refs.image.click()
@@ -238,14 +227,19 @@ export default {
         console.log('err', this.error)
       }
     },
-
-    async post (data) {
+    async post () {
       try {
-        console.log('photo', data)
-        await PhotoController.post({
-          name: data.name,
-          genres: data.genres
-        })
+        const formData = new FormData()
+        const genres = JSON.stringify(this.value.map(val => val.code))
+        formData.append('image', this.imageFile)
+        formData.append('name', this.tempName)
+        formData.append('genres', genres)
+
+        await PhotoController.post(
+          // name: this.tempName,
+          // genres: this.value.map(val => val.code),
+          formData
+        )
       } catch (error) {
         this.error = error.response.data.error
         console.log('err', this.error)
@@ -276,7 +270,15 @@ export default {
         console.log('err', this.error)
       }
     },
-
+    async getGenres () {
+      try {
+        const response = await GenreController.index()
+        await response.data.data.forEach(genre => this.genres.push({name: genre.name, code: genre._id}))
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log('err', this.error)
+      }
+    },
     // TABLE
     editItem (item) {
       this.tempItem = Object.assign({}, item)
@@ -319,14 +321,12 @@ export default {
         // new
         if (this.tempName) {
           console.log('add')
-          // this.post(this.tempName)
           console.log('added->',
             this.tempName,
             this.value,
             this.imageFile
           )
-          this.photos.push(this.tempName)
-          console.log('ppp', this.photos)
+          this.post()
         } else {
           // TODO: build FE validation service
           console.log('Cannot be empty')

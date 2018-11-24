@@ -15,6 +15,8 @@ import 'vuetify/dist/vuetify.min'
 import VueAWN from 'vue-awesome-notifications'
 import 'vue-awesome-notifications/dist/styles/style.css'
 
+// export const eventBus = new Vue()
+
 Vue.config.productionTip = false
 Vue.use(Vuetify, VueAWN)
 
