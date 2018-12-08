@@ -71,3 +71,206 @@ Broot
 require('rate-limiter-flexible');
 
 rc or config for configurations??
+
+
+//// compare arrays
+
+let genresOld = [1, 2, 3, 33, 6]
+let genresNew = [1, 2, 3, 3, 33, 7]
+
+let if_has_difference = genresNew.every(genre => genresOld.includes(genre))
+let difference1
+let difference2
+
+if (!if_has_difference && genresOld.length != genresNew.length) {
+  difference1 = genresOld.filter(x => !genresNew.includes(x));
+  difference2 = genresNew.filter(x => !genresOld.includes(x));
+}
+
+
+console.log(difference1)
+console.log(difference2)
+
+
+// people, all, nature, street
+let genresOld =
+  [
+    {
+      "photos": [
+        {
+          "_id": "5bf9d0eb0bf3865efc7bfcec",
+          "name": "TEST",
+          "file": "image-1543098603155.JPG",
+          "path": "src/uploads/img/image-1543098603155.JPG",
+          "created": "2018-11-24T22:30:03.221Z",
+          "__v": 0
+        },
+        {
+          "_id": "5bfacd3bf939f9841e72d0d5",
+          "name": "TEST2",
+          "file": "image-1543163195090.JPG",
+          "path": "src/uploads/img/image-1543163195090.JPG",
+          "created": "2018-11-25T16:26:35.149Z",
+          "__v": 0
+        }
+      ],
+      "_id": "5bf18c62ab92f65d3a3fcd17",
+      "name": "People",
+      "__v": 4
+    },
+    {
+      "photos": [
+        {
+          "_id": "5bf9d0eb0bf3865efc7bfcec",
+          "name": "TEST",
+          "file": "image-1543098603155.JPG",
+          "path": "src/uploads/img/image-1543098603155.JPG",
+          "created": "2018-11-24T22:30:03.221Z",
+          "__v": 0
+        },
+        {
+          "_id": "5bfacd3bf939f9841e72d0d5",
+          "name": "TEST2",
+          "file": "image-1543163195090.JPG",
+          "path": "src/uploads/img/image-1543163195090.JPG",
+          "created": "2018-11-25T16:26:35.149Z",
+          "__v": 0
+        }
+      ],
+      "_id": "5bf199ffd968530f1865a3fd",
+      "name": "All",
+      "__v": 3
+    },
+    {
+      "photos": [
+        {
+          "_id": "5bfacd3bf939f9841e72d0d5",
+          "name": "TEST2",
+          "file": "image-1543163195090.JPG",
+          "path": "src/uploads/img/image-1543163195090.JPG",
+          "created": "2018-11-25T16:26:35.149Z",
+          "__v": 0
+        }
+      ],
+      "_id": "5bf9d0bc0bf3865efc7bfcea",
+      "name": "Nature",
+      "__v": 1
+    },
+    {
+      "photos": [
+        {
+          "_id": "5bf9d0eb0bf3865efc7bfcec",
+          "name": "TEST",
+          "file": "image-1543098603155.JPG",
+          "path": "src/uploads/img/image-1543098603155.JPG",
+          "created": "2018-11-24T22:30:03.221Z",
+          "__v": 0
+        }
+      ],
+      "_id": "5bf9d0c20bf3865efc7bfceb",
+      "name": "Street",
+      "__v": 1
+    }
+  ]
+
+let genresNew = [
+  {
+    "photos": [
+      {
+        "_id": "5bf9d0eb0bf3865efc7bfcec",
+        "name": "TEST",
+        "file": "image-1543098603155.JPG",
+        "path": "src/uploads/img/image-1543098603155.JPG",
+        "created": "2018-11-24T22:30:03.221Z",
+        "__v": 0
+      },
+      {
+        "_id": "5bfacd3bf939f9841e72d0d5",
+        "name": "TEST2",
+        "file": "image-1543163195090.JPG",
+        "path": "src/uploads/img/image-1543163195090.JPG",
+        "created": "2018-11-25T16:26:35.149Z",
+        "__v": 0
+      }
+    ],
+    "_id": "5bf18c62ab92f65d3a3fcd17",
+    "name": "People",
+    "__v": 4
+  },
+  {
+    "photos": [
+      {
+        "_id": "5bf9d0eb0bf3865efc7bfcec",
+        "name": "TEST",
+        "file": "image-1543098603155.JPG",
+        "path": "src/uploads/img/image-1543098603155.JPG",
+        "created": "2018-11-24T22:30:03.221Z",
+        "__v": 0
+      },
+      {
+        "_id": "5bfacd3bf939f9841e72d0d5",
+        "name": "TEST2",
+        "file": "image-1543163195090.JPG",
+        "path": "src/uploads/img/image-1543163195090.JPG",
+        "created": "2018-11-25T16:26:35.149Z",
+        "__v": 0
+      }
+    ],
+    "_id": "5bf199ffd968530f1865a3fd",
+    "name": "All",
+    "__v": 3
+  },
+  {
+    "photos": [
+      {
+        "_id": "5bfacd3bf939f9841e72d0d5",
+        "name": "TEST2",
+        "file": "image-1543163195090.JPG",
+        "path": "src/uploads/img/image-1543163195090.JPG",
+        "created": "2018-11-25T16:26:35.149Z",
+        "__v": 0
+      }
+    ],
+    "_id": "5bf9d0bc0bf3865efc7bfcea",
+    "name": "Nature",
+    "__v": 1
+  },
+  {
+    "photos": [
+      {
+        "_id": "5bf9d0eb0bf3865efc7bfcec",
+        "name": "TEST",
+        "file": "image-1543098603155.JPG",
+        "path": "src/uploads/img/image-1543098603155.JPG",
+        "created": "2018-11-24T22:30:03.221Z",
+        "__v": 0
+      }
+    ],
+    "_id": "5bf9d0c20bf3865efc7bfceb",
+    "name": "Street",
+    "__v": 1
+  }
+]
+
+let photos = [
+  {
+    "_id": "5bf9d0eb0bf3865efc7bfcec",
+    "name": "TEST",
+    "file": "image-1543098603155.JPG",
+    "path": "src/uploads/img/image-1543098603155.JPG",
+    "created": "2018-11-24T22:30:03.221Z",
+    "__v": 0
+  },
+  {
+    "_id": "5bfacd3bf939f9841e72d0d5",
+    "name": "TEST2",
+    "file": "image-1543163195090.JPG",
+    "path": "src/uploads/img/image-1543163195090.JPG",
+    "created": "2018-11-25T16:26:35.149Z",
+    "__v": 0
+  }
+]
+
+let objkeys = Object.keys(genresOld[0])
+
+console.log(objkeys)

@@ -36,36 +36,38 @@
                           v-model="tempName"
                           label="Photo name"
                   ></v-text-field>
-                  <v-text-field
-                          label="Select Image"
-                          @click='pickFile'
-                          v-model='imageName'
-                          prepend-icon='attach_file'
-                  ></v-text-field>
-                  <input
-                          type="file"
-                          style="display: none"
-                          name="image"
-                          ref="image"
-                          accept="image/*"
-                          @change="onFilePicked"
-                  >
-                  <div>
-                    <label class="typo__label">
-                      Genres
-                    </label>
-                    <multiselect
-                            v-model="value"
-                            tag-placeholder="Add this as new tag"
-                            placeholder="Search or add a genre"
-                            label="name"
-                            track-by="code"
-                            :options="genres"
-                            :multiple="true"
-                            :taggable="true"
-                            @tag="addTag"
-                    ></multiselect>
+                  <div v-if="!edited">
+                    <v-text-field
+                            label="Select Image"
+                            @click='pickFile'
+                            v-model='imageName'
+                            prepend-icon='attach_file'
+                    ></v-text-field>
+                    <input
+                            type="file"
+                            style="display: none"
+                            name="image"
+                            ref="image"
+                            accept="image/*"
+                            @change="onFilePicked"
+                    >
                   </div>
+                    <div>
+                      <label class="typo__label">
+                        Genres
+                      </label>
+                      <multiselect
+                              v-model="value"
+                              tag-placeholder="Add this as new tag"
+                              placeholder="Search or add a genre"
+                              label="name"
+                              track-by="code"
+                              :options="genres"
+                              :multiple="true"
+                              :taggable="true"
+                              @tag="addTag"
+                      ></multiselect>
+                    </div>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -246,15 +248,10 @@ export default {
       }
     },
     async put (id, data) {
-      console.log('UPDATE', id, data)
       try {
-        const response = await PhotoController.put(id, {
-          name: data.name,
-          genres: data.genres
-        })
-        // this.photo = response.data.data
+        const response = await PhotoController.put(id, data)
         console.log('photo', response.data.data)
-        this.index()
+        this.photos.push(await response.data.data)
       } catch (error) {
         this.error = error
         console.log('err', this.error)
@@ -282,6 +279,7 @@ export default {
     // TABLE
     editItem (item) {
       this.tempItem = Object.assign({}, item)
+      console.log(this.tempItem)
       this.tempName = this.tempItem.name
       //
       this.edited = true
@@ -315,7 +313,12 @@ export default {
           this.value,
           this.imageFile
         )
-        // this.put(this.tempItem._id, this.tempName)
+        const id = this.tempItem._id
+        const body = {
+          name: this.tempItem.name,
+          genres: this.genres
+        }
+        this.put(id, body)
         this.edited = false
       } else {
         // new

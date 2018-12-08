@@ -18,7 +18,7 @@ module.exports = {
   async show (req, res) {
     try {
       const id = await req.params.id
-      const genre = await Genre.findOne({ _id: id })
+      const genre = await Genre.findOne({ _id: id }).populate({ path: 'photos', populate: { path: 'photos' } })
       if (!genre) {
         return res.status(400).send({
           error: 'The genre with the given ID was not found'

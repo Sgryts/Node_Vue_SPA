@@ -19,7 +19,7 @@ const genresValidation = {
 
 const photoValidation = {
   name: Joi.string().trim().min(3).max(255).required(),
-  genres: Joi.array().items(Joi.string())
+  genres: Joi.array().items(Joi.objectId())
 }
 
 module.exports = {

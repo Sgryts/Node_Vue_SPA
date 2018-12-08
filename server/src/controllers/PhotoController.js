@@ -11,7 +11,7 @@ module.exports = {
   // ADMIN - TODO: add showing by genres  -- spread by different components, navigate to the each one on click
   async index (req, res) {
     try {
-      const photos = await Photo.find({}).sort('-created')
+      const photos = await Photo.find({}).sort('-created').populate({ path: 'genres' })
       res.status(200).send({
         data: photos
       })
@@ -24,7 +24,7 @@ module.exports = {
   async show (req, res) {
     try {
       const id = await req.params.id
-      const photo = await Photo.findOne({ _id: id })
+      const photo = await Photo.findOne({ _id: id }).populate({ path: 'genres' })
       if (!photo) {
         return res.status(400).send({
           error: 'The photo with the given ID was not found'
@@ -55,10 +55,13 @@ module.exports = {
             console.log('PHOTO=>', req.files)
             console.log('BODY=>', req.body.name, req.body.genres)
 
+            const genres = JSON.parse(req.body.genres)
+
             Photo.create({
               name: req.body.name,
               file: req.files[0].filename,
-              path: req.files[0].path
+              path: req.files[0].path,
+              genres: genres
             })
               .then(photo => {
                 for (let genre of JSON.parse(req.body.genres)) {
@@ -68,7 +71,12 @@ module.exports = {
                       genre.photos.push(photo)
                       genre.save()
                     })
-                    .catch(err => console.log('genresSchemaPhoto', err.message))
+                    .catch(err => {
+                      // TODO if error  - find and remove stored photo?
+                      res.status(500).send({
+                        error: 'Something went wrong3...' + err
+                      })
+                    })
                 }
               }).then(photo => {
                 console.log('SAVED PHOTO', photo)
@@ -105,8 +113,8 @@ module.exports = {
       // .run()
 
       // 1 find photo
-      // insert array of objects ( genres id)
-      // insert user id
+      // update genres => rm array, replace with new one?
+      // update photoname
 
       await Photo.findOneAndUpdate({ _id: id }, data)
       const photo = await Photo.findOne({ _id: id })
@@ -132,6 +140,14 @@ module.exports = {
         if (!err) {
           fs.unlink(photo.path, err => {
             if (!err) {
+              const genres = photo.genres
+              for (let genre of genres) {
+                Genre.findById(genre)
+                  .then(genre => {
+                    genre.photos.filter(ph => ph !== photo)
+                    genre.save()
+                  })
+              }
               photo.remove()
               res.status(204).send({
                 data: ''

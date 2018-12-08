@@ -17,6 +17,10 @@ const photoSchema = new Schema({
           type: String,
           required: true
         },
+  genres: [{
+    type: Schema.Types.ObjectId,
+    ref: 'genres'
+  }],
   created:
         {
           type: Date,
