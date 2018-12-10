@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0b0c0be-535d-4cb2-8a79-4db8359b433b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/admin/Photos.vue" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/admin/Photos.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/controllers/GenreController.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/controllers/GenreController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/controllers/PhotoController.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/controllers/PhotoController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/controllers/GenreController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/controllers/GenreController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/controllers/PhotoController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/controllers/PhotoController.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,7 +60,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/components/admin/Genres.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8">
+            <state relative-caret-position="38">
               <caret line="158" column="46" lean-forward="true" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
             </state>
           </provider>
@@ -79,20 +75,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/src/controllers/PhotoController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="141" column="86" selection-start-line="141" selection-start-column="86" selection-end-line="141" selection-end-column="86" />
+            <state relative-caret-position="245">
+              <caret line="137" column="9" lean-forward="true" selection-start-line="137" selection-start-column="9" selection-end-line="137" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/components/admin/Photos.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1087">
-              <caret line="261" column="48" selection-start-line="261" selection-start-column="48" selection-end-line="261" selection-end-column="48" />
+            <state relative-caret-position="241">
+              <caret line="330" column="22" lean-forward="true" selection-start-line="330" selection-start-column="22" selection-end-line="330" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -110,7 +106,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>body</find>
       <find>wro</find>
       <find>node_</find>
       <find>admin/pho</find>
@@ -140,6 +135,7 @@
       <find>close()</find>
       <find>SAVED</find>
       <find>show</find>
+      <find>this.put</find>
     </findStrings>
     <replaceStrings>
       <replace>photo</replace>
@@ -204,8 +200,8 @@
         <option value="$PROJECT_DIR$/server/src/controllers/GenreController.js" />
         <option value="$PROJECT_DIR$/client/src/controllers/GenreController.js" />
         <option value="$PROJECT_DIR$/client/src/controllers/PhotoController.js" />
-        <option value="$PROJECT_DIR$/client/src/components/admin/Photos.vue" />
         <option value="$PROJECT_DIR$/server/src/controllers/PhotoController.js" />
+        <option value="$PROJECT_DIR$/client/src/components/admin/Photos.vue" />
       </list>
     </option>
   </component>
@@ -463,7 +459,7 @@
       <workItem from="1543119993506" duration="3111000" />
       <workItem from="1544047505111" duration="8047000" />
       <workItem from="1544314267464" duration="4090000" />
-      <workItem from="1544331983134" duration="15219000" />
+      <workItem from="1544331983134" duration="15893000" />
     </task>
     <servers />
   </component>
@@ -473,19 +469,19 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285324000" />
+    <option name="totallyTimeSpent" value="285998000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4964539" visible="true" weight="0.22940226" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4964539" visible="true" weight="0.22940226" />
       <window_info id="Structure" order="1" sideWeight="0.5035461" side_tool="true" weight="0.1544196" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.8820327" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4951535" visible="true" weight="0.24752475" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4951535" visible="true" weight="0.24752475" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -494,7 +490,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32956153" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5048465" side_tool="true" weight="0.47100425" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49596122" weight="0.3592645" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49596122" weight="0.28995755" />
       <window_info anchor="bottom" id="TypeScript" order="12" weight="0.32956153" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -801,13 +797,6 @@
     <entry file="file://$PROJECT_DIR$/server/src/uploads/img/image-1543163195090.JPG">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/src/models/Photo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/src/models/Genre.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -839,13 +828,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/admin/Genres.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="158" column="46" lean-forward="true" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/src/controllers/GenreController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-393">
@@ -856,17 +838,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/admin/Photos.vue">
+    <entry file="file://$PROJECT_DIR$/server/src/models/Photo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1087">
-          <caret line="261" column="48" selection-start-line="261" selection-start-column="48" selection-end-line="261" selection-end-column="48" />
+        <state relative-caret-position="266">
+          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/src/controllers/PhotoController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="141" column="86" selection-start-line="141" selection-start-column="86" selection-end-line="141" selection-end-column="86" />
+        <state relative-caret-position="245">
+          <caret line="137" column="9" lean-forward="true" selection-start-line="137" selection-start-column="9" selection-end-line="137" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/admin/Genres.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="158" column="46" lean-forward="true" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/admin/Photos.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="330" column="22" lean-forward="true" selection-start-line="330" selection-start-column="22" selection-end-line="330" selection-end-column="22" />
         </state>
       </provider>
     </entry>

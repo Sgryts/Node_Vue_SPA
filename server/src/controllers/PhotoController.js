@@ -139,6 +139,7 @@ module.exports = {
       }
 
       photo.name = await req.body.name
+      console.log('NAME', req.body.name)
       await req.body.genres.forEach(genre => photo.genres.push(genre.code.toString()))
       await photo.save()
 

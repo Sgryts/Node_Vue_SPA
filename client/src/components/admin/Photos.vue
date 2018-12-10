@@ -323,13 +323,13 @@ export default {
         console.log('edit')
         console.log('EDITED->',
           this.tempItem._id,
-          this.tempItem.name,
+          this.tempName,
           this.value,
           this.imageFile
         )
         const id = this.tempItem._id
         const body = {
-          name: this.tempItem.name,
+          name: this.tempName,
           genres: this.value
         }
         this.put(id, body)
