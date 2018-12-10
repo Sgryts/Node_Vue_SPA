@@ -1,4 +1,5 @@
 const Genre = require('../models/Genre')
+const Photo = require('../models/Photo')
 const winston = require('winston')
 
 module.exports = {
@@ -18,7 +19,7 @@ module.exports = {
   async show (req, res) {
     try {
       const id = await req.params.id
-      const genre = await Genre.findOne({ _id: id }).populate({ path: 'photos', populate: { path: 'photos' } })
+      const genre = await Genre.findById(id).populate({ path: 'photos' })
       if (!genre) {
         return res.status(400).send({
           error: 'The genre with the given ID was not found'
@@ -51,7 +52,7 @@ module.exports = {
     try {
       const id = await req.params.id
       await Genre.findOneAndUpdate({ _id: id }, req.body)
-      const updatedGenre = await Genre.findOne({ _id: id })
+      const updatedGenre = await Genre.findById(id)
       res.status(201).send({
         data: updatedGenre
       })
@@ -65,7 +66,22 @@ module.exports = {
     // TODO : cannot delete if has photo(s)
     try {
       const id = await req.params.id
-      await Genre.findOneAndRemove({ _id: id })
+      const genre = await Genre.findById(id)
+      if (!genre) {
+        return res.status(400).send({
+          error: 'The genre with the given ID was not found'
+        })
+      }
+      const photos = genre.photos
+
+      for (let photo of photos) {
+        // await Photo.findByIdAndUpdate(photo, { $pull: { 'genres': { '_id': genre._id } } })
+        const _photo = await Photo.findById(photo)
+        _photo.genres = await _photo.genres.filter(gn => gn.toString() !== genre._id.toString())
+        await _photo.save()
+      }
+      await genre.remove()
+
       res.status(204).send({
         data: ''
       })

@@ -78,7 +78,6 @@ module.exports = {
                       })
                     })
                 }
-              }).then(photo => {
                 console.log('SAVED PHOTO', photo)
                 res.status(201).send({
                   data: photo
@@ -102,8 +101,6 @@ module.exports = {
   async put (req, res) {
     try {
       const id = await req.params.id
-      const data = await req.body
-      console.log('ID', req.params.id)
 
       // TRANSACTION // TODO : do i need transactions ?
       // new Fawn.Task()
@@ -116,8 +113,37 @@ module.exports = {
       // update genres => rm array, replace with new one?
       // update photoname
 
-      await Photo.findOneAndUpdate({ _id: id }, data)
-      const photo = await Photo.findOne({ _id: id })
+      // await Photo.findById({ _id: id }, data)
+      let photo = await Photo.findById(id)
+
+      console.log('p', photo)
+      console.log('p', req.body.name, req.body.genres)
+
+      // if existing genres changed, remove photo from genre(s)
+      if (photo.genres.length > 0) {
+        for (let genre of photo.genres) {
+          const _genre = await Genre.findById(genre)
+          _genre.photos = await _genre.photos.filter(gn => gn.toString() === photo._id.toString())
+          await _genre.save()
+        }
+        photo.genres = []
+        await photo.save()
+      }
+      // if new genres added, add photo to genre(s)
+      if (req.body.genres.length > 0) {
+        for (let genre of req.body.genres) {
+          const _genre = await Genre.findById(genre.code)
+          _genre.photos = await _genre.photos.filter(gn => gn.toString() === photo._id.toString())
+          await _genre.save()
+        }
+      }
+
+      photo.name = await req.body.name
+      await req.body.genres.forEach(genre => photo.genres.push(genre.code.toString()))
+      await photo.save()
+
+      photo = await Photo.findById(id)
+
       res.status(201).send({
         data: photo
       })
@@ -130,7 +156,7 @@ module.exports = {
   async destroy (req, res) {
     try {
       const id = await req.params.id
-      const photo = await Photo.findOne({ _id: id })
+      const photo = await Photo.findById(id)
       if (!photo) {
         return res.status(400).send({
           error: 'The photo with the given ID was not found'
@@ -144,7 +170,7 @@ module.exports = {
               for (let genre of genres) {
                 Genre.findById(genre)
                   .then(genre => {
-                    genre.photos.filter(ph => ph !== photo)
+                    genre.photos = genre.photos.filter(ph => ph.toString() !== photo._id.toString())
                     genre.save()
                   })
               }

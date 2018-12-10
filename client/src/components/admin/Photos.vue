@@ -229,6 +229,15 @@ export default {
         console.log('err', this.error)
       }
     },
+    async show (id) {
+      try {
+        const response = await PhotoController.show(id)
+        response.data.data.genres.forEach(genre => this.value.push({name: genre.name, code: genre._id}))
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log('err', this.error)
+      }
+    },
     async post () {
       try {
         const formData = new FormData()
@@ -237,11 +246,8 @@ export default {
         formData.append('name', this.tempName)
         formData.append('genres', genres)
 
-        await PhotoController.post(
-          // name: this.tempName,
-          // genres: this.value.map(val => val.code),
-          formData
-        )
+        const response = await PhotoController.post(formData)
+        this.photos.push(await response.data.data)
       } catch (error) {
         this.error = error.response.data.error
         console.log('err', this.error)
@@ -249,9 +255,11 @@ export default {
     },
     async put (id, data) {
       try {
-        const response = await PhotoController.put(id, data)
+        const response = await PhotoController.put(id, {
+          name: data.name,
+          genres: data.genres
+        })
         console.log('photo', response.data.data)
-        this.photos.push(await response.data.data)
       } catch (error) {
         this.error = error
         console.log('err', this.error)
@@ -279,9 +287,10 @@ export default {
     // TABLE
     editItem (item) {
       this.tempItem = Object.assign({}, item)
-      console.log(this.tempItem)
+      this.show(item._id)
+      console.log('vv', this.value)
+      console.log('ITEM', this.tempItem)
       this.tempName = this.tempItem.name
-      //
       this.edited = true
       this.dialog = true
     },
@@ -289,13 +298,18 @@ export default {
     deleteItem (item) {
       const index = this.photos.indexOf(item)
       confirm('Are you sure you want to delete this photo?') && this.photos.splice(index, 1)
-      console.log('ID', item._id)
-      // this.destroy(item._id)
+      this.destroy(item._id)
     },
 
     close () {
       this.dialog = false
       this.edited = false
+      this.tempItem = null
+      this.tempName = null
+      this.imageName = null
+      this.imageFile = null
+      this.imageUrl = null
+      this.value = []
     },
     // 1.if current item  => edited, if null => save new item
     // 2. Or build new buttons : add and update
@@ -309,14 +323,14 @@ export default {
         console.log('edit')
         console.log('EDITED->',
           this.tempItem._id,
-          this.tempName,
+          this.tempItem.name,
           this.value,
           this.imageFile
         )
         const id = this.tempItem._id
         const body = {
           name: this.tempItem.name,
-          genres: this.genres
+          genres: this.value
         }
         this.put(id, body)
         this.edited = false
@@ -336,8 +350,6 @@ export default {
         }
       }
       this.close()
-      this.tempItem = null
-      this.tempName = null
     }
   }
 }

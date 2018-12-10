@@ -17,7 +17,8 @@ export default {
       })
   },
   put (id, data) {
-    return api().post(`/admin/photos/${id}`, data)
+    console.log('Ppp', id, data)
+    return api().put(`/admin/photos/${id}`, data)
   },
   destroy (id) {
     return api().delete(`admin/photos/${id}`)
