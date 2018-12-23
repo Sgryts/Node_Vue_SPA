@@ -3,14 +3,19 @@
     <v-toolbar flat color="white">
       <v-toolbar-title>Photos</v-toolbar-title>
       <v-divider
-        class="mx-2"
-        inset
-        vertical
+              class="mx-2"
+              inset
+              vertical
       ></v-divider>
       <v-spacer></v-spacer>
 
       <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">Upload Photo</v-btn>
+        <v-btn slot="activator"
+               color="primary"
+               dark class="mb-2"
+        >
+          Upload Photo
+        </v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -19,27 +24,50 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
+                <v-flex xs12
+                        class="text-xs-center text-sm-center text-md-center text-lg-center"
+                >
                   <img
                           :src="imageUrl"
                           height="150"
                           v-if="imageUrl"
                   />
-                  <v-text-field v-model="tempName" label="Photo name"></v-text-field>
                   <v-text-field
-                          label="Select Image"
-                          @click='pickFile'
-                          v-model='imageName'
-                          prepend-icon='attach_file'
+                          v-model="tempName"
+                          label="Photo name"
                   ></v-text-field>
-                  <input
-                          type="file"
-                          name="myImage"
-                          style="display: none"
-                          ref="image"
-                          accept="image/*"
-                          @change="onFilePicked"
-                  >
+                  <div v-if="!edited">
+                    <v-text-field
+                            label="Select Image"
+                            @click='pickFile'
+                            v-model='imageName'
+                            prepend-icon='attach_file'
+                    ></v-text-field>
+                    <input
+                            type="file"
+                            style="display: none"
+                            name="image"
+                            ref="image"
+                            accept="image/*"
+                            @change="onFilePicked"
+                    >
+                  </div>
+                    <div>
+                      <label class="typo__label">
+                        Genres
+                      </label>
+                      <multiselect
+                              v-model="value"
+                              tag-placeholder="Add this as new tag"
+                              placeholder="Search or add a genre"
+                              label="name"
+                              track-by="code"
+                              :options="genres"
+                              :multiple="true"
+                              :taggable="true"
+                              @tag="addTag"
+                      ></multiselect>
+                    </div>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -55,16 +83,17 @@
 
     </v-toolbar>
     <v-data-table
-      :headers="headers"
-      :items="photos"
-      hide-actions
-      class="elevation-1"
+            :headers="headers"
+            :items="photos"
+            hide-actions
+            class="elevation-1"
     >
       <template
               slot="items"
               slot-scope="props"
       >
-        <td>{{ props.item.name }}</td>
+        <!--<td><img v-bind:src="`../../server/src/uploads/img/${props.item.path}`" alt=""></td>-->
+        <td>{{props.item.name}}</td>
         <td class="justify-center layout px-0">
           <v-icon
                   small
@@ -86,19 +115,29 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'
 import PhotoController from '../../controllers/PhotoController'
+import GenreController from '../../controllers/GenreController'
 
 export default {
+  components: {Multiselect},
   name: 'Photos',
   data () {
     return {
+
+      // multiselect
+      value: [
+        // { name: 'Javascript', code: 'js' }
+      ],
+      genres: [],
+
       photos: [],
-      name: '',
+      // name: '',
       error: null,
 
       selectedFile: null,
 
-      //
+      // img upload
       imageName: null,
       imageUrl: null,
       imageFile: null,
@@ -112,7 +151,7 @@ export default {
         {
           text: 'Photo Name',
           align: 'left',
-          sortable: false,
+          sortable: true,
           value: 'name'
         },
         {
@@ -142,17 +181,19 @@ export default {
   created () {
     this.index()
   },
-
+  mounted () {
+    this.getGenres()
+  },
   methods: {
-    //
-    onFileChanged (event) {
-      const file = event.target.files[0]
-      console.log('FILE', file)
+    // multiselect
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.genres.push(tag)
+      this.value.push(tag)
     },
-    onUpload () {
-      // upload file
-    },
-    //
     // IMG UPLOAD
     pickFile () {
       this.$refs.image.click()
@@ -188,22 +229,68 @@ export default {
         console.log('err', this.error)
       }
     },
-
-    async post (data) {
+    async show (id) {
       try {
-        console.log('photo', data)
-        await PhotoController.post(data)
+        const response = await PhotoController.show(id)
+        response.data.data.genres.forEach(genre => this.value.push({name: genre.name, code: genre._id}))
       } catch (error) {
         this.error = error.response.data.error
         console.log('err', this.error)
       }
     },
+    async post () {
+      try {
+        const formData = new FormData()
+        const genres = JSON.stringify(this.value.map(val => val.code))
+        formData.append('image', this.imageFile)
+        formData.append('name', this.tempName)
+        formData.append('genres', genres)
 
+        const response = await PhotoController.post(formData)
+        this.photos.push(await response.data.data)
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log('err', this.error)
+      }
+    },
+    async put (id, data) {
+      try {
+        const response = await PhotoController.put(id, {
+          name: data.name,
+          genres: data.genres
+        })
+        console.log('photo', response.data.data)
+      } catch (error) {
+        this.error = error
+        console.log('err', this.error)
+      }
+    },
+    async destroy (id) {
+      console.log('DELETE')
+      try {
+        const response = await PhotoController.destroy(id)
+        console.log('photo', response.data.data)
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log('err', this.error)
+      }
+    },
+    async getGenres () {
+      try {
+        const response = await GenreController.index()
+        await response.data.data.forEach(genre => this.genres.push({name: genre.name, code: genre._id}))
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log('err', this.error)
+      }
+    },
     // TABLE
     editItem (item) {
       this.tempItem = Object.assign({}, item)
+      this.show(item._id)
+      console.log('vv', this.value)
+      console.log('ITEM', this.tempItem)
       this.tempName = this.tempItem.name
-      //
       this.edited = true
       this.dialog = true
     },
@@ -211,13 +298,18 @@ export default {
     deleteItem (item) {
       const index = this.photos.indexOf(item)
       confirm('Are you sure you want to delete this photo?') && this.photos.splice(index, 1)
-      console.log('ID', item._id)
       this.destroy(item._id)
     },
 
     close () {
       this.dialog = false
       this.edited = false
+      this.tempItem = null
+      this.tempName = null
+      this.imageName = null
+      this.imageFile = null
+      this.imageUrl = null
+      this.value = []
     },
     // 1.if current item  => edited, if null => save new item
     // 2. Or build new buttons : add and update
@@ -228,30 +320,39 @@ export default {
     save () {
       if (this.edited) {
         // update
-        console.log('edit')
-        console.log('EDITED->', this.tempItem._id, this.tempName)
-        this.put(this.tempItem._id, this.tempName)
+        console.log('EDITED->',
+          this.tempItem._id,
+          this.tempName,
+          this.value,
+          this.imageFile
+        )
+        const id = this.tempItem._id
+        const body = {
+          name: this.tempName,
+          genres: this.value
+        }
+        this.put(id, body)
         this.edited = false
       } else {
         // new
         if (this.tempName) {
-          console.log('add')
-          this.post(this.tempName)
-          console.log('added->', this.tempName)
-          this.photos.push(this.tempName)
+          console.log('added->',
+            this.tempName,
+            this.value,
+            this.imageFile
+          )
+          this.post()
         } else {
           // TODO: build FE validation service
           console.log('Cannot be empty')
         }
       }
       this.close()
-      this.tempItem = null
-      this.tempName = null
     }
   }
 }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 
 </style>

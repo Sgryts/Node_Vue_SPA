@@ -11,8 +11,6 @@ export default {
     return api().post(`admin/genres`, data)
   },
   put (id, data) {
-    console.log('ID=>', id)
-    console.log('NAME=>', data)
     return api().put(`admin/genres/${id}`, data)
   },
   destroy (id) {
