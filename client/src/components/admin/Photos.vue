@@ -145,6 +145,7 @@ export default {
 
       tempItem: null,
       tempName: null,
+      tempIndex: null,
 
       dialog: false,
       headers: [
@@ -287,10 +288,9 @@ export default {
     // TABLE
     editItem (item) {
       this.tempItem = Object.assign({}, item)
-      this.show(item._id)
-      console.log('vv', this.value)
-      console.log('ITEM', this.tempItem)
+      this.tempIndex = this.photos.indexOf(item)
       this.tempName = this.tempItem.name
+      //
       this.edited = true
       this.dialog = true
     },
@@ -327,11 +327,19 @@ export default {
           this.imageFile
         )
         const id = this.tempItem._id
+
+        const genres = []
+        this.value.forEach(val => genres.push({name: val.name, _id: val.code}))
+
         const body = {
           name: this.tempName,
-          genres: this.value
+          genres: genres
         }
         this.put(id, body)
+
+        this.tempItem.name = this.tempName
+        Object.assign(this.photos[this.tempIndex], this.tempItem)
+
         this.edited = false
       } else {
         // new

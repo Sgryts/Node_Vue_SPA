@@ -132,7 +132,7 @@ module.exports = {
       // if new genres added, add photo to genre(s)
       if (req.body.genres.length > 0) {
         for (let genre of req.body.genres) {
-          const _genre = await Genre.findById(genre.code)
+          const _genre = await Genre.findById(genre._id)
           if (!_genre.photos.includes(photo._id.toString())) {
             console.log(!_genre.photos.includes(photo._id.toString()))
             await _genre.photos.push(photo._id.toString())
@@ -142,7 +142,7 @@ module.exports = {
       }
 
       photo.name = await req.body.name
-      await req.body.genres.forEach(genre => photo.genres.push(genre.code.toString()))
+      await req.body.genres.forEach(genre => photo.genres.push(genre._id.toString()))
       await photo.save()
 
       photo = await Photo.findById(id)

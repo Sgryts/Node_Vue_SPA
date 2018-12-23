@@ -23,10 +23,11 @@ module.exports = (app) => {
   app.post('/admin/genres',
     // Authenticate,
     // TODO: Validation
+    InputValidator.genres,
     GenreController.post)
   // TODO: Validation
   app.put('/admin/genres/:id',
-    // InputValidator.genres,
+    InputValidator.genres,
     GenreController.put)
   app.delete('/admin/genres/:id',
     GenreController.destroy)

@@ -84,6 +84,7 @@ export default {
 
       tempItem: null,
       tempName: null,
+      tempIndex: null,
 
       dialog: false,
       headers: [
@@ -166,9 +167,7 @@ export default {
         const response = await GenreController.put(id, {
           name: data
         })
-        // this.genres = response.data.data
         console.log('genre', response.data.data)
-        this.index()
       } catch (error) {
         this.error = error
         console.log('err', this.error)
@@ -187,6 +186,7 @@ export default {
     // TABLE
     editItem (item) {
       this.tempItem = Object.assign({}, item)
+      this.tempIndex = this.genres.indexOf(item)
       this.tempName = this.tempItem.name
       //
       this.edited = true
@@ -203,6 +203,9 @@ export default {
     close () {
       this.dialog = false
       this.edited = false
+      this.tempItem = null
+      this.tempName = null
+      this.tempIndex = null
     },
     // 1.if current item  => edited, if null => save new item
     // 2. Or build new buttons : add and update
@@ -214,8 +217,9 @@ export default {
       if (this.edited) {
         // update
         console.log('edit')
-        console.log('EDITED->', this.tempItem._id, this.tempName)
-        this.put(this.tempItem._id, this.tempName)
+        this.tempItem.name = this.tempName
+        Object.assign(this.genres[this.tempIndex], this.tempItem)
+        this.put(this.tempItem._id, this.tempItem.name)
         this.edited = false
       } else {
         // new
@@ -230,8 +234,6 @@ export default {
         }
       }
       this.close()
-      this.tempItem = null
-      this.tempName = null
     }
   }
 }
