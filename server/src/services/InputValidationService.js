@@ -14,11 +14,14 @@ const emailValidation = {
 
 const genresValidation = {
   name: Joi.string().trim().min(3).max(255).required()
+  // photos: Joi.array().items(Joi.objectId()),
+  // photos: Joi.array().items(Joi.string())
 }
 
 const photoValidation = {
-  name: Joi.string().trim().min(3).max(255).required(),
-  genres: Joi.array().items(Joi.objectId()).required()
+  name: Joi.string().trim().min(3).max(255).required()
+  // genres: Joi.array().items(Joi.objectId())
+  // genres: Joi.array().items(Joi.string())
 }
 
 module.exports = {

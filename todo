@@ -17,9 +17,9 @@ TODO: refactor routes handling  - factory wrapping for routes
 =VUE=
 create list of data on load, connect via v-model to the each componnent
 TODO: Organize VUE components ( Admin panel is the main one, it includes header/footer + left side navigation
-header: LOGIN/LOGOUT, navigation includes drop downs for ALL/Pictures/Genres/User info
-Pictures - table with photos (edit inline)
-Genres - table with photos ( edit inline)
+++header: LOGIN/LOGOUT, navigation includes drop downs for ALL/Pictures/Genres/User info
+++Pictures - table with photos (edit inline)
+++Genres - table with photos ( edit inline)
 User - display profile, update name/pass.
 Passing ID's to params, synced with VUEX
 TODO: Set up VUEX to control the state
@@ -44,7 +44,7 @@ REGISTRATION + LOGIN forms
 
 
 
-https://stackoverflow.com/questions/44989162/file-upload-in-vuetify -- file upload
+++https://stackoverflow.com/questions/44989162/file-upload-in-vuetify -- file upload
 
 joi.string().allow('')
 

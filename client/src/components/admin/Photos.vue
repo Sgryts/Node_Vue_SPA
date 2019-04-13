@@ -290,6 +290,12 @@ export default {
       this.tempItem = Object.assign({}, item)
       this.tempIndex = this.photos.indexOf(item)
       this.tempName = this.tempItem.name
+
+      console.log(this.tempItem.genres)
+
+      if (this.tempItem.genres.length > 0) {
+        this.tempItem.genres.forEach(val => this.value.push({name: val.name, _id: val.code}))
+      }
       //
       this.edited = true
       this.dialog = true
@@ -335,6 +341,8 @@ export default {
           name: this.tempName,
           genres: genres
         }
+
+        // console.log(id, body)
         this.put(id, body)
 
         this.tempItem.name = this.tempName
