@@ -69,3 +69,9 @@ Broot
 require('rate-limiter-flexible');
 
 rc or config for configurations??
+
+
+//////////2.0
+dirname for logs && logs for prod/dev
+add validation to controllers
+double check JWT verification
