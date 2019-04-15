@@ -95,7 +95,7 @@ export default class GenreController {
 
             res.status(201).send({
                 success: true,
-                message: 'Genre was created',
+                message: 'Genre added',
                 data: newGenre
             });
         } catch (err) {

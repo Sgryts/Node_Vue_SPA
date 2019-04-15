@@ -37,9 +37,9 @@ const PhotoSchema = Schema(
 
 const validatePhoto = (rental) => {
     const schema = {
-        name: Joi.string().min(5).max(255).required(),
-        file: Joi.string().min(5).max(255).required(),
-        path: Joi.string().min(5).max(255).required().email(),
+        name: Joi.string().min(1).max(255).required(),
+        // file: Joi.string().min(5).max(255).required(),
+        // path: Joi.string().min(5).max(255).required().email(),
         genres: Joi.array().items(Joi.string())
     };
 
