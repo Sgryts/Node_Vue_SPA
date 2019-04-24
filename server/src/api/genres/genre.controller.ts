@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
+import logger from "../../helpers/logger";
 
 const {Genre, validate} = require('../genres/genre.model');
-
 
 export default class GenreController {
     private errorMessage: string = '';
@@ -22,6 +22,7 @@ export default class GenreController {
                 message: 'Something went wrong...',
                 data: null
             });
+            logger.error(err.message, err);
         }
     };
 
@@ -49,6 +50,7 @@ export default class GenreController {
                 message: 'Something went wrong...',
                 data: null
             });
+            logger.error(err.message, err);
         }
     };
 
@@ -74,7 +76,7 @@ export default class GenreController {
                 });
             }
 
-            const {name, photos} = req.body;
+            const {name} = req.body;
 
             const checkGenre = await Genre.findOne({name: name});
 
@@ -87,8 +89,7 @@ export default class GenreController {
             }
 
             const genre = new Genre({
-                name,
-                photos
+                name: name,
             });
 
             const newGenre = await genre.save();
@@ -104,6 +105,7 @@ export default class GenreController {
                 message: 'Something went wrong...' + err,
                 data: null
             });
+            logger.error(err.message, err);
         }
 
     };
@@ -116,9 +118,6 @@ export default class GenreController {
                     case 'name':
                         this.errorMessage = 'Invalid name';
                         break
-                    case 'photos':
-                        this.errorMessage = 'Invalid photos';
-                        break
                     default:
                         this.errorMessage = 'Invalid credentials';
                 }
@@ -130,14 +129,13 @@ export default class GenreController {
                 });
             }
 
-            const {name, photos} = req.body;
+            const {name} = req.body;
 
             const genreUpdated = await Genre.findByIdAndUpdate(
                 req.params.id,
                 {
                     $set: {
-                        name,
-                        photos //TODO: validate if photo exists
+                        name: name
                     }
                 },
                 {new: true}
@@ -155,11 +153,13 @@ export default class GenreController {
                 message: 'Something went wrong...',
                 data: null
             });
+            logger.error(err.message, err);
         }
     };
 
     public remove = async (req: Request, res: Response): Promise<any> => {
         try {
+            // TODO: remove if photo(s) has assigned genre ?
             const genre = await Genre.findByIdAndRemove(req.params.id);
 
             if (!genre) {
@@ -169,6 +169,9 @@ export default class GenreController {
                     data: null
                 });
             }
+
+            console.log('2', genre);
+
             res.status(204).send({
                 success: true,
                 message: 'Genre deleted',
@@ -181,6 +184,7 @@ export default class GenreController {
                 message: 'Something went wrong...',
                 data: null
             });
+            logger.error(err.message, err);
         }
     };
 }

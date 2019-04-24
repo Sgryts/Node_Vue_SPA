@@ -10,17 +10,10 @@ const GenreSchema = Schema(
             required: true,
             unique: true,
             trim: true
-        },
-        photos: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'Photo',
-                required: false
-            }
-        ]
+        }
     },
     {
-        timestamps: true,
+        timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},
         useNestedStrict: true
     }
 );
@@ -28,11 +21,15 @@ const GenreSchema = Schema(
 const validateGenre = (rental) => {
     const schema = {
         name: Joi.string().regex(new RegExp('^[a-zA-z]{2,50}$')).required(),
-        photos: Joi.array().items(Joi.string())
     };
 
     return Joi.validate(rental, schema);
 };
+
+GenreSchema.pre('deleteMany', next => {
+    const genre = this;
+    genre.model('Photo').deleteOne({person: genre._id}, next);
+});
 
 exports.genreSchema = GenreSchema;
 exports.Genre = mongoose.model("Genre", GenreSchema);

@@ -29,7 +29,8 @@ const UserSchema = Schema(
         }
     },
     {
-        timestamps: true,
+        // timestamps: true,
+        timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},
         useNestedStrict: true
     }
 );

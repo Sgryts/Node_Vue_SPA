@@ -6,10 +6,13 @@ import Controller from './photo.controller';
 const photo: Router = Router();
 const controller = new Controller();
 
-// Retrieve all Users
+// Retrieve all Photos
 photo.get('/', controller.findAll);
 
-// Retrieve a Specific User
+// Retrieve all Photos by Genre
+photo.get('/genre/:id', objectIdValidator, controller.findByGenre);
+
+// Retrieve a Specific Photo
 photo.get('/:id', objectIdValidator, controller.findOne);
 
 // Create a Photo

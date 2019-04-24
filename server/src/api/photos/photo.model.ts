@@ -29,9 +29,9 @@ const PhotoSchema = Schema(
         ]
     },
     {
-        // timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},
-        timestamps: true,
-        // useNestedStrict: true
+        timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},
+        // timestamps: true,
+        useNestedStrict: true
     }
 );
 
@@ -40,7 +40,8 @@ const validatePhoto = (rental) => {
         name: Joi.string().min(1).max(255).required(),
         // file: Joi.string().min(5).max(255).required(),
         // path: Joi.string().min(5).max(255).required().email(),
-        genres: Joi.array().items(Joi.string())
+        genres: Joi.array().items(Joi.string().max(24).min(24))
+        // genres: Joi.array().items(Joi.string().regex(new RegExp('/^(?=[a-f\\d]{24}$)(\\d+[a-f]|[a-f]+\\d)/i')))
     };
 
     return Joi.validate(rental, schema);
@@ -49,5 +50,3 @@ const validatePhoto = (rental) => {
 exports.photoSchema = PhotoSchema;
 exports.Photo = mongoose.model("Photo", PhotoSchema);
 exports.validate = validatePhoto;
-
-export default mongoose.model("Photo", PhotoSchema);

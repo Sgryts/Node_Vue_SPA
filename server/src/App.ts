@@ -5,7 +5,6 @@ import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 import api from './api/index';
 import * as errorHandler from './helpers/errorHandler';
-import validator from './helpers/validator';
 
 class App {
     public express: express.Application;
@@ -23,7 +22,6 @@ class App {
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({extended: false}));
         this.express.use(helmet());
-        // validator();
     }
 
     private setRoutes(): void {

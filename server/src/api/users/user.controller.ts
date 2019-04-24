@@ -2,6 +2,7 @@ import * as bcrypt from 'bcrypt';
 import {Request, Response} from 'express';
 import * as jwt from 'jwt-then';
 import config from '../../config/config';
+import logger from "../../helpers/logger";
 // import User from './user.model';
 const {User, validateUser} = require('../users/user.model');
 
@@ -19,6 +20,7 @@ export default class UserController {
             });
 
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',
@@ -46,6 +48,7 @@ export default class UserController {
             });
 
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: err.toString(),
@@ -111,6 +114,7 @@ export default class UserController {
             });
 
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',
@@ -138,6 +142,7 @@ export default class UserController {
             });
 
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',

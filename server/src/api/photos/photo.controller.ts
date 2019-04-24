@@ -1,13 +1,13 @@
 import {Request, Response} from 'express';
 import * as fs from 'fs';
+import logger from "../../helpers/logger";
 import upload from '../../utils/photo.upload';
 import {MulterFile} from "./imulter.file";
 
 const {Photo, validate} = require('../photos/photo.model');
-const {Genre} = require('../genres/genre.model');
 
 export default class PhotoController {
-    private errorMessage: string = '';
+    private errorMessage: string;
 
     public findAll = async (req: Request, res: Response): Promise<any> => {
         try {
@@ -19,9 +19,32 @@ export default class PhotoController {
                 data: photos
             });
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',
+                data: null
+            });
+        }
+    };
+
+    public findByGenre = async (req: Request, res: Response): Promise<any> => {
+        try {
+            const photos = await Photo.find({'genres': {'$in': [req.params.id]}})
+                .populate({path: 'genres'});
+
+
+            res.status(200).send({
+                success: true,
+                message: '',
+                data: photos
+            });
+
+        } catch (err) {
+            logger.error(err.message, err);
+            res.status(500).send({
+                success: false,
+                message: 'Something went wrong...' + err.toString(),
                 data: null
             });
         }
@@ -46,6 +69,7 @@ export default class PhotoController {
             });
 
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: err.toString(),
@@ -58,7 +82,6 @@ export default class PhotoController {
         try {
             await upload(req, res, err => {
                 if (err) {
-                    console.log('err', err);
                     res.status(400).send({
                         success: false,
                         message: err,
@@ -72,7 +95,7 @@ export default class PhotoController {
                             data: null
                         })
                     } else {
-                        const genres = JSON.parse(req.body.genres)
+                        const genres = JSON.parse(req.body.genres);
 
                         Photo.create({
                             name: req.body.name,
@@ -81,22 +104,7 @@ export default class PhotoController {
                             genres: genres
                         })
                             .then(photo => {
-                                for (let genre of JSON.parse(req.body.genres)) {
-                                    Genre.findById(genre)
-                                        .then(genre => {
-                                            genre.photos.push(photo)
-                                            genre.save()
-                                        })
-                                        .catch(err => {
-                                            // TODO if error  - find and remove stored photo?
-                                            res.status(500).send({
-                                                success: false,
-                                                message: 'Something went wrong...',
-                                                data: null
-                                            });
-                                        });
-                                }
-                                console.log('SAVED PHOTO', photo)
+                                // console.log('SAVED PHOTO', photo)
                                 res.status(201).send({
                                     success: true,
                                     message: 'Photo added',
@@ -105,6 +113,7 @@ export default class PhotoController {
                             })
                             .catch(err => {
                                 // TODO if error  - find and remove stored photo?
+                                logger.error(err.message, err);
                                 res.status(500).send({
                                     success: false,
                                     message: 'Something went wrong...',
@@ -115,8 +124,11 @@ export default class PhotoController {
                 }
             })
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
-                error: 'Something went wrong5...' + err
+                success: false,
+                message: 'Something went wrong...',
+                data: null
             });
         }
     };
@@ -124,14 +136,46 @@ export default class PhotoController {
 
     public update = async (req: Request, res: Response): Promise<any> => {
         try {
-            //TODO : add logic
-            const {name} = req.body;
+            const {error} = validate(req.body);
+            if (error) {
+                switch (error.details[0].context.key) {
+                    case 'name':
+                        this.errorMessage = 'Invalid name';
+                        break
+                    case 'genres':
+                        this.errorMessage = 'Invalid genre(s)';
+                        break
+                    default:
+                        this.errorMessage = 'Invalid credentials';
+                }
+
+                return res.status(400).send({
+                    success: false,
+                    message: this.errorMessage,
+                    data: null
+                });
+            }
+
+            const {name, genres} = req.body;
+
+            const photoUpdated = await Photo.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: {
+                        name: name,
+                        genres: genres
+                    }
+                },
+                {new: true}
+            );
+
             res.status(200).send({
                 success: true,
                 message: 'Photo updated',
-                data: null
+                data: photoUpdated
             });
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',
@@ -142,8 +186,8 @@ export default class PhotoController {
 
     public remove = async (req: Request, res: Response): Promise<any> => {
         try {
-            const id = await req.params.id;
-            const photo = await Photo.findById(id);
+            const photo = await Photo.findByIdAndRemove(req.params.id);
+
             if (!photo) {
                 return res.status(400).send({
                     success: false,
@@ -151,25 +195,18 @@ export default class PhotoController {
                     data: null
                 });
             }
+
             await fs.access(photo.path, err => {
                 if (!err) {
                     fs.unlink(photo.path, err => {
                         if (!err) {
-                            const genres = photo.genres;
-                            for (let genre of genres) {
-                                Genre.findById(genre)
-                                    .then(genre => {
-                                        genre.photos = genre.photos.filter(ph => ph.toString() !== photo._id.toString());
-                                        genre.save();
-                                    });
-                            }
-                            photo.remove();
                             res.status(204).send({
                                 success: true,
-                                message: 'Photo updated',
+                                message: 'Photo deleted',
                                 data: null
                             });
                         } else {
+                            logger.error(err.message, err);
                             res.status(500).send({
                                 success: false,
                                 message: 'Something went wrong...',
@@ -178,6 +215,7 @@ export default class PhotoController {
                         }
                     })
                 } else {
+                    logger.error(err.message, err);
                     res.status(500).send({
                         success: false,
                         message: 'Something went wrong...',
@@ -186,6 +224,7 @@ export default class PhotoController {
                 }
             })
         } catch (err) {
+            logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',
