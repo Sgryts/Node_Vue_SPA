@@ -37,7 +37,7 @@ const upload = multer({
                     err = 'Invalid genre/genres';
                     break
                 default:
-                    err = 'Invalid credentials';
+                    err = 'Invalid input';
             }
             cb(err);
         } else {

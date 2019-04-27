@@ -35,7 +35,7 @@ const PhotoSchema = Schema(
     }
 );
 
-const validatePhoto = (rental) => {
+const validatePhoto = (data) => {
     const schema = {
         name: Joi.string().min(1).max(255).required(),
         // file: Joi.string().min(5).max(255).required(),
@@ -44,7 +44,7 @@ const validatePhoto = (rental) => {
         // genres: Joi.array().items(Joi.string().regex(new RegExp('/^(?=[a-f\\d]{24}$)(\\d+[a-f]|[a-f]+\\d)/i')))
     };
 
-    return Joi.validate(rental, schema);
+    return Joi.validate(data, schema);
 };
 
 exports.photoSchema = PhotoSchema;

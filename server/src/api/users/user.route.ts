@@ -18,4 +18,6 @@ user.put('/:id', objectIdValidator, controller.update);
 // Delete a User with Id
 user.delete('/:id', objectIdValidator, controller.remove);
 
+
+
 export default user;

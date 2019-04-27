@@ -66,7 +66,7 @@ export default class GenreController {
                         this.errorMessage = 'Invalid photos';
                         break
                     default:
-                        this.errorMessage = 'Invalid credentials';
+                        this.errorMessage = 'Invalid input';
                 }
 
                 return res.status(400).send({
@@ -119,7 +119,7 @@ export default class GenreController {
                         this.errorMessage = 'Invalid name';
                         break
                     default:
-                        this.errorMessage = 'Invalid credentials';
+                        this.errorMessage = 'Invalid input';
                 }
 
                 return res.status(400).send({

@@ -33,7 +33,6 @@ export default class PhotoController {
             const photos = await Photo.find({'genres': {'$in': [req.params.id]}})
                 .populate({path: 'genres'});
 
-
             res.status(200).send({
                 success: true,
                 message: '',
@@ -146,7 +145,8 @@ export default class PhotoController {
                         this.errorMessage = 'Invalid genre(s)';
                         break
                     default:
-                        this.errorMessage = 'Invalid credentials';
+                        this.errorMessage = 'Invalid input';
+                    // error.details[0].message
                 }
 
                 return res.status(400).send({
@@ -186,7 +186,7 @@ export default class PhotoController {
 
     public remove = async (req: Request, res: Response): Promise<any> => {
         try {
-            const photo = await Photo.findByIdAndRemove(req.params.id);
+            const photo = await Photo.findById(req.params.id);
 
             if (!photo) {
                 return res.status(400).send({
@@ -200,6 +200,7 @@ export default class PhotoController {
                 if (!err) {
                     fs.unlink(photo.path, err => {
                         if (!err) {
+                            photo.remove();
                             res.status(204).send({
                                 success: true,
                                 message: 'Photo deleted',

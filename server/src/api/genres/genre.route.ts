@@ -1,6 +1,5 @@
 import {Router} from 'express';
 import objectIdValidator from "../../helpers/objectId.validator";
-import verifyToken from '../../helpers/verifyToken';
 import Controller from './genre.controller';
 
 const genre: Router = Router();

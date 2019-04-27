@@ -76,7 +76,7 @@ export default class UserController {
                         this.errorMessage = 'Password has to be letters and numbers and least 8 characters long';
                         break
                     default:
-                        this.errorMessage = 'Invalid credentials';
+                        this.errorMessage = 'Invalid input';
                 }
 
                 return res.status(400).send({

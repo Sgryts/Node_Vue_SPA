@@ -18,12 +18,12 @@ const GenreSchema = Schema(
     }
 );
 
-const validateGenre = (rental) => {
+const validateGenre = (data) => {
     const schema = {
         name: Joi.string().regex(new RegExp('^[a-zA-z]{2,50}$')).required(),
     };
 
-    return Joi.validate(rental, schema);
+    return Joi.validate(data, schema);
 };
 
 GenreSchema.pre('deleteMany', next => {
