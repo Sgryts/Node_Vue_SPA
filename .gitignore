@@ -201,6 +201,7 @@ sqreen.json
 
 #temporary disable uploads
 uploads
+images
 img
 
 # local env files
