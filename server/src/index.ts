@@ -1,7 +1,7 @@
 import app from './App';
 import CONFIG from './config/config';
 import './config/db';
-const logger = require('./helpers/logger');
+const logger = require('./middleware/logger');
 
 const PORT = CONFIG.PORT;
 

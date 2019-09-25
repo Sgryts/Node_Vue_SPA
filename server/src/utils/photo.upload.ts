@@ -1,9 +1,10 @@
-const multer = require('multer');
-const path = require('path');
+import * as multer from 'multer';
+import * as path from 'path';
+
 const {validate} = require('../api/photos/photo.model');
 
 const storage = multer.diskStorage({
-    destination: 'src/uploads/img',
+    destination: 'images',
     filename: (req, file, cb) => {
         cb(null, `${file.fieldname || 'img'}-${Date.now()}${path.extname(file.originalname)}`);
     }

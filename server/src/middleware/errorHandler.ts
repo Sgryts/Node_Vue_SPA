@@ -1,5 +1,5 @@
 import * as httpStatus from 'http-status';
-const logger = require('../helpers/logger');
+const logger = require('.//logger');
 
 // handle not found errors
 export const notFound = (req, res, next) => {

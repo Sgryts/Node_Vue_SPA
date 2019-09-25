@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import CONFIG from './config';
-import logger from '../helpers/logger'
+import logger from '../middleware/logger'
 
 mongoose.set('useCreateIndex', true);
 

@@ -203,9 +203,24 @@ sqreen.json
 uploads
 img
 
+# local env files
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 # End of https://www.gitignore.io/api/git,node,macos,phpstorm
 server/README.md
 server/src/robots.txt
 server/logs/
 todo
 /todo
+client/.env
+client/.env.production

@@ -1,6 +1,10 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
+    <JSCodeStyleSettings version="1">
+      <option name="USE_DOUBLE_QUOTES" value="false" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
+    </JSCodeStyleSettings>
     <PHPCodeStyleSettings>
       <option name="ALIGN_KEY_VALUE_PAIRS" value="true" />
       <option name="ALIGN_ASSIGNMENTS" value="true" />
@@ -14,7 +18,9 @@
       <option name="SPACE_BEFORE_UNARY_NOT" value="true" />
       <option name="SPACE_AFTER_UNARY_NOT" value="true" />
     </PHPCodeStyleSettings>
-    <TypeScriptCodeStyleSettings version="0">
+    <TypeScriptCodeStyleSettings version="1">
+      <option name="USE_DOUBLE_QUOTES" value="false" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
       <option name="IMPORT_SORT_MODULE_NAME" value="true" />
     </TypeScriptCodeStyleSettings>
     <codeStyleSettings language="PHP">

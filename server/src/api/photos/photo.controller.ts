@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import * as fs from 'fs';
-import logger from "../../helpers/logger";
+import logger from "../../middleware/logger";
 import upload from '../../utils/photo.upload';
 import {MulterFile} from "./imulter.file";
 
@@ -23,27 +23,6 @@ export default class PhotoController {
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',
-                data: null
-            });
-        }
-    };
-
-    public findByGenre = async (req: Request, res: Response): Promise<any> => {
-        try {
-            const photos = await Photo.find({'genres': {'$in': [req.params.id]}})
-                .populate({path: 'genres'});
-
-            res.status(200).send({
-                success: true,
-                message: '',
-                data: photos
-            });
-
-        } catch (err) {
-            logger.error(err.message, err);
-            res.status(500).send({
-                success: false,
-                message: 'Something went wrong...' + err.toString(),
                 data: null
             });
         }

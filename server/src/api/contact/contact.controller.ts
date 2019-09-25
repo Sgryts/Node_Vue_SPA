@@ -1,17 +1,20 @@
 import {Request, Response} from 'express';
 import * as reCAPTCHA from 'recaptcha2';
 import * as nodemailer from 'nodemailer';
-import logger from "../../helpers/logger";
+import logger from "../../middleware/logger";
 
 const {validate} = require('../contact/contact.model');
 
 
 export default class PhotoController {
     private errorMessage: string = '';
+    // what does captcha return?
+    // get forms values + recaptcha
+    // if form values OK
     public reCaptcha = async (req: Request, res: Response) => {
         const recaptcha = new reCAPTCHA({
-            siteKey: '',
-            secretKey: '',
+            siteKey: process.env.SITE_KEY,
+            secretKey: process.env.SECURITY_ERR,
             ssl: false
         });
 
@@ -87,7 +90,7 @@ export default class PhotoController {
             // send mail with defined transport object
             const info = await transporter.sendMail({
                 from: `"SGpixels - ${name} " ${email}`, // sender address
-                to: "bar@example.com, baz@example.com", // list of receivers
+                to: process.env.ADMIN_EMAIL, //"bar@example.com, baz@example.com", // list of receivers
                 subject: subject, // Subject line
                 text: body, // plain text body
             });

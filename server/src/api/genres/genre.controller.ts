@@ -1,7 +1,8 @@
 import {Request, Response} from 'express';
-import logger from "../../helpers/logger";
+import logger from "../../middleware/logger";
 
 const {Genre, validate} = require('../genres/genre.model');
+const {Photo} = require('../photos/photo.model');
 
 export default class GenreController {
     private errorMessage: string = '';
@@ -51,6 +52,27 @@ export default class GenreController {
                 data: null
             });
             logger.error(err.message, err);
+        }
+    };
+
+    public findPhotosByGenre = async (req: Request, res: Response): Promise<any> => {
+        try {
+            const photos = await Photo.find({'genres': {'$in': [req.params.id]}})
+                .populate({path: 'genres'});
+
+            res.status(200).send({
+                success: true,
+                message: '',
+                data: photos
+            });
+
+        } catch (err) {
+            logger.error(err.message, err);
+            res.status(500).send({
+                success: false,
+                message: 'Something went wrong...' + err.toString(),
+                data: null
+            });
         }
     };
 
