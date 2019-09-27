@@ -1,6 +1,6 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 // import * as fromAuth from './auth/reducer';
-import * as fromClient from './client/reducer';
+import * as fromClient from './reducer';
 // import * as fromAdmin from './admin/reducer';
 
 

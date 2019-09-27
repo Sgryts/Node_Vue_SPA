@@ -12,4 +12,4 @@ export const loadAllPhotosFail = createAction('[CLIENT] Load All Photos Fail', p
 
 export const loadAllPhotosByGenre = createAction('[CLIENT] Load All Photos', props<{ params: string }>());
 export const loadAllPhotosByGenreSuccess = createAction('[CLIENT] Load All Photos Success', props<{ payload: IPhoto[] }>());
-export const loadAllByGenreFail = createAction('[CLIENT] Load All Photos Fail', props<{ error: any }>());
+export const loadAllPhotosByGenreFail = createAction('[CLIENT] Load All Photos Fail', props<{ error: any }>());
