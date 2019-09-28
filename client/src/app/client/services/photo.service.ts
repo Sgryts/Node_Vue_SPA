@@ -8,14 +8,14 @@ import IPhoto from '../../models/photo.model';
 @Injectable()
 export class PhotoService {
 
-    readonly baseUrl = environment.baseUrl;
+    readonly baseUrl = environment.baseUrl + '/api';
     readonly headers = new HttpHeaders({'Content-Type': 'application/json'});
 
     constructor(private httpClient: HttpClient) {
     }
 
     getPhotosByGenre(id: string): Observable<IPhoto[]> {
-        let url = `${this.baseUrl}/genres/${id}/photos`;
+        const url = `${this.baseUrl}/genres/${id}/photos`;
         return this.httpClient.get<IPhoto[]>(url, {headers: this.headers}).pipe(
             catchError(this.handleError)
         );

@@ -4,12 +4,13 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {ClientRoutingModule} from './client-routing.module';
 import {FEATURE_NAME, reducers} from './state';
-import {ClientEffects} from './state/effects';
+import {GenresEffects} from './state/genres/effects';
+import {PhotosEffects} from './state/photos/effects';
 
 @NgModule({
     imports: [
         StoreModule.forFeature(FEATURE_NAME, reducers),
-        EffectsModule.forFeature([ClientEffects]),
+        EffectsModule.forFeature([GenresEffects, PhotosEffects]),
     ],
     declarations: [
         BrowserModule,

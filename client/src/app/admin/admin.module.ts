@@ -8,12 +8,14 @@ import {AuthGuard} from './guards/auth.guard';
 import {AuthService} from './services/auth.service';
 import {ErrorInterceptor, TokenInterceptor} from './services/token.interceptor.service';
 import {FEATURE_NAME, reducers} from './state';
-import {ClientEffects} from './state/effects';
+import {AuthEffects} from './state/auth/effects';
+import {PhotosEffects} from './state/photos/effects';
+import {GenresEffects} from './state/genres/effects';
 
 @NgModule({
     imports: [
         StoreModule.forFeature(FEATURE_NAME, reducers),
-        EffectsModule.forFeature([ClientEffects]),
+        EffectsModule.forFeature([GenresEffects, PhotosEffects, AuthEffects]),
     ],
     declarations: [
         BrowserModule,

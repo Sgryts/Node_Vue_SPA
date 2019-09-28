@@ -1,7 +1,7 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import * as fromClient from './reducer';
+import * as fromGenres from './genres/reducer';
+import * as fromPhotos from './photos/reducer';
 
-// TODO: import genre, photos reducers
 export const FEATURE_NAME = 'client';
 
 export interface State {
@@ -9,11 +9,13 @@ export interface State {
 }
 
 export interface FeatureState {
-    client: fromClient.State;
+    genres: fromGenres.State;
+    photos: fromPhotos.State
 }
 
 export const reducers: ActionReducerMap<FeatureState> = {
-    client: fromClient.reducer,
+    genres: fromGenres.reducer,
+    photos: fromPhotos.reducer,
 };
 
 export const selectFeatureState = createFeatureSelector<FeatureState>(FEATURE_NAME);

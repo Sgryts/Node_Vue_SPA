@@ -9,8 +9,6 @@ export class AuthService {
 
     readonly baseUrl = environment.baseUrl;
 
-    user: IUser[];
-
     constructor(private http: HttpClient) {
     }
 
@@ -28,10 +26,8 @@ export class AuthService {
     }
 
     logOut(): void {
-        this.user = null;
-        this.removeToken()
+        return this.removeToken()
     }
-
 
     signUp(email: string, password: string): Observable<IUser> {
         const url = `${this.baseUrl}/register`;
