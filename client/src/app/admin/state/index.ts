@@ -1,10 +1,10 @@
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 // import * as fromAuth from './auth/reducer';
-import * as fromClient from './reducer';
+// import * as fromUser from './auth/reducer';
 // import * as fromAdmin from './admin/reducer';
 
 
-export const FEATURE_NAME = 'sgpixels';
+export const FEATURE_NAME = 'admin';
 
 export interface State {
     [FEATURE_NAME]: FeatureState;
@@ -12,13 +12,13 @@ export interface State {
 
 export interface FeatureState {
     // auth: fromAuth.State;
-    client: fromClient.State;
+    // user: fromUser.State;
     // admin: fromAdmin.State;
 }
 
 export const reducers: ActionReducerMap<FeatureState> = {
     // auth: fromAuth.State,
-    client: fromClient.reducer,
+    // user: fromUser.State;
     // admin: fromAdmin.State,
 };
 

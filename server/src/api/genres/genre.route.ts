@@ -1,12 +1,13 @@
 import {Router} from 'express';
 import objectIdValidator from '../../middleware/objectId.validator';
 import trimmer from '../../middleware/whiteSpaceTrimmer';
-import photo from '../photos/photo.route';
+import verifyToken from '../../middleware/verifyToken';
 import Controller from './genre.controller';
 // import rateLimit from 'express-rate-limit';
 // import RateLimiter from '../../middleware/rateLimiter';
 
 const genre: Router = Router();
+const genreAdmin: Router = Router();
 const controller = new Controller();
 // const limit = 15 * 60 * 1000; // 15 minutes
 // const max = 900; // 1 req per s
@@ -20,24 +21,34 @@ const controller = new Controller();
 
 // Retrieve all Genres
 genre.get('/', controller.findAll);
-genre.get('/admin', controller.findAll);
+
 
 // Retrieve a Specific Genre
 genre.get('/:id', objectIdValidator, controller.findOne);
-genre.get('/admin/:id', objectIdValidator, controller.findOne);
+
 
 // Retrieve a Specific Photo By Genre
 genre.get('/:id/photos', objectIdValidator, controller.findPhotosByGenre);
-genre.get('/admin/:id/photos', objectIdValidator, controller.findPhotosByGenre);
+
 
 /* ADMIN ONLY */
+
+// Retrieve all Genres
+genreAdmin.get('/', verifyToken, controller.findAll);
+
+// Retrieve a Specific Photo By Genre
+genreAdmin.get('/:id', verifyToken, objectIdValidator, controller.findOne);
+
+// Retrieve a Specific Photo By Genre
+genreAdmin.get('/:id/photos', verifyToken, objectIdValidator, controller.findPhotosByGenre);
+
 // Create a Genre
-genre.post('/admin/', trimmer, controller.create);
+genreAdmin.post('/', verifyToken, trimmer, controller.create);
 
 // Update a Genre with Id
-genre.put('/admin/:id', objectIdValidator, trimmer, controller.update);
+genreAdmin.put('/:id', verifyToken, objectIdValidator, trimmer, controller.update);
 
 // Delete a Genre with Id
-genre.delete('/admin/:id', objectIdValidator, controller.remove);
+genreAdmin.delete('/:id', objectIdValidator, controller.remove);
 
-export default genre;
+export {genre, genreAdmin};

@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 import {Request, Response} from 'express';
 import * as jwt from 'jwt-then';
 import config from '../../config/config';
-import logger from "../../middleware/logger";
+import logger from '../../middleware/logger';
 // import User from '../users/user.model';
 const {User, validateUser, validateLogin} = require('../users/user.model');
 
@@ -18,7 +18,11 @@ export default class UserController {
                 return res.status(400).send({
                     success: false,
                     message: this.errorMessage,
-                    data: null
+                    data: {
+                        email: null,
+                        token: null,
+                        isAuthenticated: false
+                    }
                 });
             }
 
@@ -28,7 +32,9 @@ export default class UserController {
                 return res.status(400).send({
                     success: false,
                     message: this.errorMessage,
-                    data: null
+                    data: {
+                        isAuthenticated: false
+                    }
                 });
             }
 
@@ -37,7 +43,9 @@ export default class UserController {
                 return res.status(400).send({
                     success: false,
                     message: this.errorMessage,
-                    data: null
+                    data: {
+                        isAuthenticated: false
+                    }
                 });
             }
 
@@ -48,14 +56,20 @@ export default class UserController {
             res.status(200).send({
                 success: true,
                 message: 'Successfully logged in',
-                data: token
+                data: {
+                    email,
+                    token,
+                    isAuthenticated: true
+                }
             });
         } catch (err) {
             logger.error(err.message, err);
             res.status(500).send({
                 success: false,
                 message: 'Something went wrong...',
-                data: null
+                data: {
+                    isAuthenticated: false
+                }
             });
         }
     };
@@ -65,12 +79,12 @@ export default class UserController {
             const {error} = validateUser(req.body);
             if (error) {
                 switch (error.details[0].context.key) {
-                    case 'name':
-                        this.errorMessage = 'Invalid name';
-                        break
-                    case 'lastName':
-                        this.errorMessage = 'Invalid last name';
-                        break
+                    // case 'name':
+                    //     this.errorMessage = 'Invalid name';
+                    //     break
+                    // case 'lastName':
+                    //     this.errorMessage = 'Invalid last name';
+                    //     break
                     case 'email':
                         this.errorMessage = 'Invalid email';
                         break
@@ -88,7 +102,8 @@ export default class UserController {
                 });
             }
 
-            const {name, lastName, email, password} = req.body;
+            // const {name, lastName, email, password} = req.body;
+            const {email, password} = req.body;
 
             const checkEmail = await User.findOne({email: email});
 
@@ -103,8 +118,8 @@ export default class UserController {
             const hash = await bcrypt.hash(password, config.SALT_ROUNDS);
 
             const user = new User({
-                name,
-                lastName,
+                // name,
+                // lastName,
                 email,
                 password: hash
             });

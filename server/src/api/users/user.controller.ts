@@ -5,7 +5,7 @@ import config from '../../config/config';
 import logger from "../../middleware/logger";
 // import User from './user.model';
 const {User, validateUser} = require('../users/user.model');
-
+// TODO: for now this controller not needed
 export default class UserController {
     private errorMessage: string = '';
 
@@ -63,12 +63,12 @@ export default class UserController {
             const {error} = validateUser(req.body);
             if (error) {
                 switch (error.details[0].context.key) {
-                    case 'name':
-                        this.errorMessage = 'Invalid name';
-                        break
-                    case 'lastName':
-                        this.errorMessage = 'Invalid last name';
-                        break
+                    // case 'name':
+                    //     this.errorMessage = 'Invalid name';
+                    //     break
+                    // case 'lastName':
+                    //     this.errorMessage = 'Invalid last name';
+                    //     break
                     case 'email':
                         this.errorMessage = 'Invalid email';
                         break
@@ -86,13 +86,14 @@ export default class UserController {
                 });
             }
 
-            const {name, lastName, email, password} = req.body;
+            // const {name, lastName, email, password} = req.body;
+            const {email, password} = req.body;
             const userUpdated = await User.findByIdAndUpdate(
                 req.params.id,
                 {
                     $set: {
-                        name,
-                        lastName,
+                        // name,
+                        // lastName,
                         email,
                         password
                     }

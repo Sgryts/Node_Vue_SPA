@@ -1,16 +1,21 @@
 import {Router} from 'express';
 import auth from './auth/auth.route';
-import users from './users/user.route';
-import genres from './genres/genre.route';
-import photos from './photos/photo.route';
+import user from './users/user.route';
+import {genre, genreAdmin} from './genres/genre.route';
+import {photo, photoAdmin} from './photos/photo.route';
 import contact from './contact/contact.route';
 
 const router: Router = Router();
 
-router.use('/', auth);
-router.use('/users', users);
-router.use('/genres', genres);
-router.use('/photos', photos);
+// CLIENT
+router.use('/genres', genre);
+router.use('/photos', photo);
 router.use('/contact', contact);
+
+// ADMIN
+router.use('/', auth);
+router.use('/admin/users', user);
+router.use('/admin/genres', genreAdmin);
+router.use('/admin/photos', photoAdmin);
 
 export default router;
