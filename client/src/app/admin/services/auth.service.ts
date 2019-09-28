@@ -8,7 +8,6 @@ import IUser from '../../models/user.model';
 export class AuthService {
 
     readonly baseUrl = environment.baseUrl;
-    readonly headers = new HttpHeaders({'Content-Type': 'application/json'});
 
     user: IUser[];
 

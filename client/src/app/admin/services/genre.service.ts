@@ -8,19 +8,14 @@ import IGenre from '../../models/genre.model';
 @Injectable()
 export class GenreService {
 
-    private authToken: string = null;
     readonly baseUrl = environment.baseUrl;
-    readonly headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': this.authToken
-    });
 
     constructor(private httpClient: HttpClient) {
     }
 
     getAllGenres(): Observable<IGenre[]> {
         let url = this.baseUrl + '/api/genres';
-        return this.httpClient.get<IGenre[]>(url, {headers: this.headers}).pipe(
+        return this.httpClient.get<IGenre[]>(url).pipe(
             catchError(this.handleError)
         );
     }

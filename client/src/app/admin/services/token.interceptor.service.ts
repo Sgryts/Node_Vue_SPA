@@ -8,7 +8,7 @@ import {
     HttpErrorResponse
 } from '@angular/common/http';
 import {throwError} from 'rxjs';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import 'rxjs/add/operator/do';
 import {Router} from '@angular/router';
 import {catchError, map} from 'rxjs/operators';
@@ -51,7 +51,7 @@ export class TokenInterceptor implements HttpInterceptor {
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router, private authService: AuthService) {
+    constructor(private router: Router, private injector: Injector, private authService: AuthService) {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -63,8 +63,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                     this.authService.removeToken();
                     this.router.navigateByUrl('/login');
                 }
-                return catchError(this.handleError);
-            }));
+                return response;
+            }),
+            catchError(this.handleError)
+        );
     }
 
     private handleError(err: HttpErrorResponse): Observable<never> {
