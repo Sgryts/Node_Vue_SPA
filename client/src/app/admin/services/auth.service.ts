@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     logOut(): void {
-        return this.removeToken()
+        this.removeToken()
     }
 
     signUp(email: string, password: string): Observable<IUser> {

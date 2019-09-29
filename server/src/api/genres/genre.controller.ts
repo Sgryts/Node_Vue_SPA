@@ -84,9 +84,6 @@ export default class GenreController {
                     case 'name':
                         this.errorMessage = 'Invalid name';
                         break
-                    case 'photos':
-                        this.errorMessage = 'Invalid photos';
-                        break
                     default:
                         this.errorMessage = 'Invalid input';
                 }

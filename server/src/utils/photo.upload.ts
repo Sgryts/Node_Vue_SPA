@@ -33,10 +33,10 @@ const upload = multer({
             switch (error.details[0].context.key) {
                 case 'name':
                     err = 'Invalid name';
-                    break
+                    break;
                 case 'genres':
                     err = 'Invalid genre/genres';
-                    break
+                    break;
                 default:
                     err = 'Invalid input';
             }

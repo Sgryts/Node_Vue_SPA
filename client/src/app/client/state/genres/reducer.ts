@@ -4,23 +4,27 @@ import IGenre from '../../../models/genre.model';
 
 export interface State {
     genres: IGenre[];
-    error: string;
+    isLoaded: boolean,
+    error: string
 }
 
 const initialState: State = {
     genres: [],
+    isLoaded: false,
     error: null
 };
 
 const genresReducer = createReducer(initialState,
     on(GenreActions.loadAllGenresSuccess, (state, {payload}) => ({
         ...state,
-        genres: payload || []
+        genres: payload || [],
+        isLoaded: true,
+        error: null
     })),
 
     on(GenreActions.loadAllGenresFail, (state, {error}) => ({
         ...state,
-        genres: [],
+        isLoaded: true,
         error: error
     }))
 );

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType, createEffect} from '@ngrx/effects';
-import {Store} from '@ngrx/store';
-import {of} from 'rxjs';
+import {Action, Store} from '@ngrx/store';
+import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {PhotoService} from '../../services/photo.service';
 import {State} from '../index';
@@ -14,13 +14,14 @@ export class PhotosEffects {
     }
 
     @Effect()
-    loadPhotos$ = createEffect(() =>
-        this.action$.pipe(
+    loadPhotos$: Observable<Action> = createEffect(() => {
+        return this.action$.pipe(
             ofType(PhotoActions.loadPhotosByGenre),
-            mergeMap(({params}) => {
-                return this.photoService.getPhotosByGenre(params).pipe(
+            mergeMap(({id}) => {
+                return this.photoService.getPhotosByGenre(id).pipe(
                     map((payload) => PhotoActions.loadPhotosByGenreSuccess({payload})),
-                    catchError(error => of(PhotoActions.loadPhotosByGenreFail({error}))));
+                    catchError((error) => of(PhotoActions.loadPhotosByGenreFail({error}))));
             })
-        ));
+        );
+    });
 }

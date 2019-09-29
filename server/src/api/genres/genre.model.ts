@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 import * as  Joi from 'joi';
 
 const Schema = mongoose.Schema;
@@ -9,7 +9,8 @@ const GenreSchema = Schema(
             type: String,
             required: true,
             unique: true,
-            trim: true
+            trim: true,
+            protect: true
         }
     },
     {
@@ -20,7 +21,7 @@ const GenreSchema = Schema(
 
 const validateGenre = (data) => {
     const schema = {
-        name: Joi.string().regex(new RegExp('^[a-zA-z]{2,50}$')).required(),
+        name: Joi.string().min(1).max(255).required(),
     };
 
     return Joi.validate(data, schema);

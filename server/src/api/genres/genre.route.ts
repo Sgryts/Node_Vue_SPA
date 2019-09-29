@@ -22,10 +22,8 @@ const controller = new Controller();
 // Retrieve all Genres
 genre.get('/', controller.findAll);
 
-
 // Retrieve a Specific Genre
 genre.get('/:id', objectIdValidator, controller.findOne);
-
 
 // Retrieve a Specific Photo By Genre
 genre.get('/:id/photos', objectIdValidator, controller.findPhotosByGenre);

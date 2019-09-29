@@ -33,6 +33,8 @@ export default class UserController {
                     success: false,
                     message: this.errorMessage,
                     data: {
+                        email: null,
+                        token: null,
                         isAuthenticated: false
                     }
                 });
@@ -44,6 +46,8 @@ export default class UserController {
                     success: false,
                     message: this.errorMessage,
                     data: {
+                        email: null,
+                        token: null,
                         isAuthenticated: false
                     }
                 });
@@ -68,6 +72,8 @@ export default class UserController {
                 success: false,
                 message: 'Something went wrong...',
                 data: {
+                    email: null,
+                    token: null,
                     isAuthenticated: false
                 }
             });

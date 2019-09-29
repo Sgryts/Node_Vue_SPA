@@ -16,6 +16,7 @@ const adminReducer = createReducer(initialState,
     on(AuthActions.loginSuccess, (state, {payload}) => ({
         ...state,
         user: payload,
+        error: null
     })),
 
     on(AuthActions.loginFail, (state, {error}) => ({

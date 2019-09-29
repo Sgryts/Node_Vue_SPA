@@ -1,7 +1,7 @@
 import {Router} from 'express';
-import objectIdValidator from "../../middleware/objectId.validator";
+import objectIdValidator from '../../middleware/objectId.validator';
 import verifyToken from '../../middleware/verifyToken';
-import trimmer from "../../middleware/whiteSpaceTrimmer";
+import trimmer from '../../middleware/whiteSpaceTrimmer';
 import Controller from './photo.controller';
 
 const photo: Router = Router();
@@ -19,18 +19,18 @@ photo.get('/:id', objectIdValidator, controller.findOne);
 /* ADMIN ONLY */
 
 // Retrieve all Photos
-photo.get('/', controller.findAll);
+photoAdmin.get('/', verifyToken, controller.findAll);
 
 // Retrieve a Specific Photo
-photo.get('/:id', objectIdValidator, controller.findOne);
+photoAdmin.get('/:id', verifyToken, objectIdValidator, controller.findOne);
 
 // Create a Photo
-photo.post('/', trimmer, controller.create);
+photoAdmin.post('/', verifyToken, trimmer, controller.create);
 
 // Update a User with Id
-photo.put('/:id', objectIdValidator, trimmer, controller.update);
+photoAdmin.put('/:id', verifyToken, objectIdValidator, trimmer, controller.update);
 
 // Delete a User with Id
-photo.delete('/:id', objectIdValidator, controller.remove);
+photoAdmin.delete('/:id', verifyToken, objectIdValidator, controller.remove);
 
 export {photo, photoAdmin};

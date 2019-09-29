@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 import * as  Joi from 'joi';
 
 const Schema = mongoose.Schema;
@@ -8,23 +8,30 @@ const PhotoSchema = Schema(
         name:
             {
                 type: String,
-                required: true
+                required: true,
+                trim: true,
+                protect: true
             },
         file:
             {
                 type: String,
-                required: true
+                required: true,
+                trim: true,
+                protect: true
             },
         path:
             {
                 type: String,
-                required: true
+                required: true,
+                trim: true,
+                protect: true
             },
         genres: [
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Genre',
-                required: false
+                required: false,
+                protect: true
             }
         ]
     },
@@ -48,5 +55,5 @@ const validatePhoto = (data) => {
 };
 
 exports.photoSchema = PhotoSchema;
-exports.Photo = mongoose.model("Photo", PhotoSchema);
+exports.Photo = mongoose.model('Photo', PhotoSchema);
 exports.validate = validatePhoto;
