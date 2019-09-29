@@ -17,8 +17,8 @@ export class AuthEffects {
     logIn$ = createEffect(() =>
         this.action$.pipe(
             ofType(AuthActions.login),
-            mergeMap(({params}) => {
-                return this.authService.logIn(params.email, params.password).pipe(
+            mergeMap(({email, password}) => {
+                return this.authService.logIn(email, password).pipe(
                     map((payload) => AuthActions.loginSuccess({payload})), // TODO : set token
                     catchError(error => of(AuthActions.loginFail({error}))));
             })

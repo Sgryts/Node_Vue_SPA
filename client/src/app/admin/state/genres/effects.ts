@@ -24,23 +24,23 @@ export class GenresEffects {
             })
         ));
 
-    @Effect()
-    loadGenre$: Observable<Action> = createEffect(() =>
-        this.action$.pipe(
-            ofType(GenreActions.loadGenre),
-            mergeMap(({id}) => {
-                return this.genreService.getGenre(id).pipe(
-                    map((payload) => GenreActions.loadGenreSuccess({payload})),
-                    catchError(error => of(GenreActions.loadGenreFail({error}))));
-            })
-        ));
+    // @Effect()
+    // loadGenre$: Observable<Action> = createEffect(() =>
+    //     this.action$.pipe(
+    //         ofType(GenreActions.loadGenre),
+    //         mergeMap(({id}) => {
+    //             return this.genreService.getGenre(id).pipe(
+    //                 map((payload) => GenreActions.loadGenreSuccess({payload})),
+    //                 catchError(error => of(GenreActions.loadGenreFail({error}))));
+    //         })
+    //     ));
 
     @Effect()
     createGenre$: Observable<Action> = createEffect(() =>
         this.action$.pipe(
             ofType(GenreActions.createGenre),
             mergeMap(({params}) => {
-                return this.genreService.createGenre(params.name).pipe(
+                return this.genreService.createGenre(params).pipe(
                     map((payload) => GenreActions.createGenreSuccess({payload})),
                     catchError(error => of(GenreActions.createGenreFail({error}))));
             })
@@ -50,8 +50,8 @@ export class GenresEffects {
     updateGenre$: Observable<Action> = createEffect(() => {
         return this.action$.pipe(
             ofType(GenreActions.updateGenre),
-            mergeMap(({params}) => {
-                return this.genreService.updateGenre(params.id, params.name).pipe(
+            mergeMap(({id, params}) => {
+                return this.genreService.updateGenre(id, params).pipe(
                     map((payload) => GenreActions.updateGenreSuccess({payload})),
                     catchError(error => of(GenreActions.updateGenreFail({error}))));
             })

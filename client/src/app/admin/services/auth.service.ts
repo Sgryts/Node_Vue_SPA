@@ -29,8 +29,9 @@ export class AuthService {
         this.removeToken()
     }
 
-    signUp(email: string, password: string): Observable<IUser> {
-        const url = `${this.baseUrl}/register`;
-        return this.http.post<IUser>(url, {email, password});
-    }
+    // TODO: not used as of right now
+    // signUp(email: string, password: string): Observable<IUser> {
+    //     const url = `${this.baseUrl}/register`;
+    //     return this.http.post<IUser>(url, {email, password});
+    // }
 }

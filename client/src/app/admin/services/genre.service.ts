@@ -21,12 +21,12 @@ export class GenreService {
         );
     }
 
-    getGenre(id: string): Observable<IGenre> {
-        const url = `${this.baseUrl}/${id}`;
-        return this.httpClient.get<IGenre>(url).pipe(
-            catchError(this.handleError)
-        );
-    }
+    // getGenre(id: string): Observable<IGenre> {
+    //     const url = `${this.baseUrl}/${id}`;
+    //     return this.httpClient.get<IGenre>(url).pipe(
+    //         catchError(this.handleError)
+    //     );
+    // }
 
     createGenre(genre: string): Observable<IGenre> {
         const url = this.baseUrl;

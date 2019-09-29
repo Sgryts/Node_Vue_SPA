@@ -25,25 +25,26 @@ export class PhotosEffects {
             })
         ));
 
-    @Effect()
-    loadPhoto$: Observable<Action> = createEffect(() =>
-        this.action$.pipe(
-            ofType(PhotoActions.loadPhoto),
-            mergeMap(({id}) => {
-                return this.photoService.getPhoto(id).pipe(
-                    map((payload) => PhotoActions.loadPhotoSuccess({payload})),
-                    catchError(error => of(PhotoActions.loadPhotoFail({error}))));
-            })
-        ));
+    // @Effect()
+    // loadPhoto$: Observable<Action> = createEffect(() =>
+    //     this.action$.pipe(
+    //         ofType(PhotoActions.loadPhoto),
+    //         mergeMap(({id}) => {
+    //             return this.photoService.getPhoto(id).pipe(
+    //                 map((payload) => PhotoActions.loadPhotoSuccess({payload})),
+    //                 catchError(error => of(PhotoActions.loadPhotoFail({error}))));
+    //         })
+    //     ));
 
     @Effect()
-    createPhoto$: Observable<Action> = createEffect(() => {
+    uploadPhoto$: Observable<Action> = createEffect(() => {
         return this.action$.pipe(
             ofType(PhotoActions.uploadRequest),
             mergeMap(({params}) => {
                 return this.photoService.uploadPhoto(params).pipe(
                     takeUntil(this.action$.pipe(ofType(PhotoActions.uploadCancel))),
                     map(event => this.photoService.getActionFromHttpEvent(event)),
+                    mergeMap((payload) => of(PhotoActions.uploadCompletedSuccess({payload}))),
                     catchError(error => of(PhotoActions.updatePhotoFail({error})))
                 )
             })
@@ -54,8 +55,8 @@ export class PhotosEffects {
     updatePhoto$: Observable<Action> = createEffect(() =>
         this.action$.pipe(
             ofType(PhotoActions.updatePhoto),
-            mergeMap(({id, photo}) => {
-                return this.photoService.updatePhoto(id, photo).pipe(
+            mergeMap(({id, params}) => {
+                return this.photoService.updatePhoto(id, params).pipe(
                     map((payload: IPhoto) => PhotoActions.updatePhotoSuccess({payload})),
                     catchError(error => of(PhotoActions.updatePhotoFail({error}))));
             })

@@ -1,5 +1,6 @@
 import {HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {TypedAction} from '@ngrx/store/src/models';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
@@ -21,12 +22,12 @@ export class PhotoService {
         );
     }
 
-    getPhoto(id: string): Observable<IPhoto> {
-        const url = `${this.baseUrl}/photos/${id}`;
-        return this.httpClient.get<IPhoto>(url).pipe(
-            catchError(this.handleError)
-        );
-    }
+    // getPhoto(id: string): Observable<IPhoto> {
+    //     const url = `${this.baseUrl}/photos/${id}`;
+    //     return this.httpClient.get<IPhoto>(url).pipe(
+    //         catchError(this.handleError)
+    //     );
+    // }
 
     uploadPhoto(file: File): Observable<HttpEvent<{}>> {
         const url = `${this.baseUrl}/photos`;
@@ -45,7 +46,7 @@ export class PhotoService {
         );
     }
 
-    getActionFromHttpEvent(event: HttpEvent<any>) {
+    getActionFromHttpEvent(event: HttpEvent<any>): TypedAction<any> {
         switch (event.type) {
             case HttpEventType.Sent: {
                 return fromPhotoActions.uploadStarted;

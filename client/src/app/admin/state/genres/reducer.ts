@@ -4,13 +4,11 @@ import IGenre from '../../../models/genre.model';
 
 export interface State {
     genres: IGenre[];
-    genre: IGenre,
     error: string
 }
 
 const initialState: State = {
     genres: [],
-    genre: null,
     error: null
 };
 
@@ -22,17 +20,6 @@ const genresReducer = createReducer(initialState,
     })),
 
     on(GenreActions.loadAllGenresFail, (state, {error}) => ({
-        ...state,
-        error: error
-    })),
-
-    on(GenreActions.loadGenreSuccess, (state, {payload}) => ({
-        ...state,
-        genre: payload,
-        error: null
-    })),
-
-    on(GenreActions.loadGenreFail, (state, {error}) => ({
         ...state,
         error: error
     })),

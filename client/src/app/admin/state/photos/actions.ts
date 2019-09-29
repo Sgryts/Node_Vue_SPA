@@ -10,9 +10,9 @@ export const loadPhotosByGenre = createAction('[ADMIN PHOTO] Load Photos By Genr
 export const loadPhotosByGenreSuccess = createAction('[ADMIN PHOTO] Load Photos By Genre Success', props<{ payload: IPhoto[] }>());
 export const loadPhotosByGenreFail = createAction('[ADMIN PHOTO] Load Photos By Genre Fail', props<{ error: any }>());
 
-export const loadPhoto = createAction('[ADMIN PHOTO] Load Photo', props<{ id: string }>());
-export const loadPhotoSuccess = createAction('[ADMIN PHOTO] Load Photo Success', props<{ payload: IPhoto }>());
-export const loadPhotoFail = createAction('[ADMIN PHOTO] Load Photo Fail', props<{ error: any }>());
+// export const loadPhoto = createAction('[ADMIN PHOTO] Load Photo', props<{ id: string }>());
+// export const loadPhotoSuccess = createAction('[ADMIN PHOTO] Load Photo Success', props<{ payload: IPhoto }>());
+// export const loadPhotoFail = createAction('[ADMIN PHOTO] Load Photo Fail', props<{ error: any }>());
 
 // export const createPhoto = createAction('[ADMIN PHOTO] Create Photo', props<{ params: Partial<IPhoto> }>());
 // export const createPhotoSuccess = createAction('[ADMIN PHOTO] Create Photo Success', props<{ payload: IPhoto }>());
@@ -23,10 +23,11 @@ export const uploadCancel = createAction('[ADMIN PHOTO] Upload Cancel');
 export const uploadReset = createAction('[ADMIN PHOTO] Upload Reset');
 export const uploadStarted = createAction('[ADMIN PHOTO] Upload Started');
 export const uploadProgress = createAction('[ADMIN PHOTO] Upload Progress', props<{ progress: number }>());
-export const uploadCompleted = createAction('[ADMIN PHOTO] Upload Success', props<{ payload: IPhoto }>());
+export const uploadCompleted = createAction('[ADMIN PHOTO] Upload Success');
+export const uploadCompletedSuccess = createAction('[ADMIN PHOTO] Upload Success', props<{ payload: any }>()); // TODO: change to IPhoto
 export const uploadFail = createAction('[ADMIN PHOTO] Upload Fail', props<{ error: any }>());
 
-export const updatePhoto = createAction('[ADMIN PHOTO] Update Photo', props<{ id: string, photo: IPhoto }>());
+export const updatePhoto = createAction('[ADMIN PHOTO] Update Photo', props<{ id: string, params: Partial<IPhoto> }>());
 export const updatePhotoSuccess = createAction('[ADMIN PHOTO] Update Photo Success', props<{ payload: IPhoto }>());
 export const updatePhotoFail = createAction('[ADMIN PHOTO] Update Photo Fail', props<{ error: any }>());
 
