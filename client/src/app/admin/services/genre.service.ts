@@ -4,7 +4,6 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import IGenre from '../../models/genre.model';
-import IPhoto from '../../models/photo.model';
 
 @Injectable()
 export class GenreService {

@@ -37,7 +37,7 @@ import {GenresEffects} from './state/genres/effects';
     ],
 
 })
-export class ClientModule {
+export class AdminModule {
 }
 
 
