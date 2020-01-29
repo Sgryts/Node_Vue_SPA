@@ -34,7 +34,7 @@ class App {
             }
         }));
         this.express.set('trust proxy', 1); // heroku
-        // this.express.use('/api/images', express.static('images'));
+        this.express.use('/images', express.static('images'));
         // this.express.use('/', express.static('dist', { index: 'index.html' }));
     }
 

@@ -1,5 +1,6 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import objectIdValidator from '../../middleware/objectId.validator';
+import { apiLimiter15_900 } from '../../middleware/rateLimiter';
 import trimmer from '../../middleware/whiteSpaceTrimmer';
 import verifyToken from '../../middleware/verifyToken';
 import Controller from './genre.controller';
@@ -20,12 +21,12 @@ const controller = new Controller();
 // });
 
 // Retrieve all Genres
-genre.get('/', controller.findAll);
+genre.get('/', apiLimiter15_900, controller.findAll);
 
 // Retrieve a Specific Genre
 genre.get('/:id', objectIdValidator, controller.findOne);
 
-// Retrieve a Specific Photo By Genre
+// Retrieve Photos By Genre
 genre.get('/:id/photos', objectIdValidator, controller.findPhotosByGenre);
 
 
@@ -49,4 +50,4 @@ genreAdmin.put('/:id', verifyToken, objectIdValidator, trimmer, controller.updat
 // Delete a Genre with Id
 genreAdmin.delete('/:id', objectIdValidator, controller.remove);
 
-export {genre, genreAdmin};
+export { genre, genreAdmin };

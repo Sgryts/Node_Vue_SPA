@@ -108,7 +108,7 @@ export default class GenreController {
             }
 
             const genre = new Genre({
-                name: name,
+                name: name.replace(/^\w/, n => n.toUpperCase())
             });
 
             const newGenre = await genre.save();

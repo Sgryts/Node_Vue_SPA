@@ -220,9 +220,11 @@ img
 
 # End of https://www.gitignore.io/api/git,node,macos,phpstorm
 server/README.md
+server/images
 server/src/robots.txt
 server/logs/
 todo
 /todo
 client/.env
 client/.env.production
+/server/images/
