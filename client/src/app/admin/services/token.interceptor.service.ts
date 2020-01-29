@@ -9,7 +9,6 @@ import {
 } from '@angular/common/http';
 import {throwError} from 'rxjs';
 import {Observable} from 'rxjs';
-import 'rxjs/add/operator/do';
 import {Router} from '@angular/router';
 import {catchError, map} from 'rxjs/operators';
 

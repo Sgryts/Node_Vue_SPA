@@ -20,6 +20,6 @@ export const reducers: ActionReducerMap<FeatureState> = {
 
 export const selectFeatureState = createFeatureSelector<FeatureState>(FEATURE_NAME);
 
-export const selectGenres = createSelector(selectFeatureState, (state) => state.photos);
+export const selectGenres = createSelector(selectFeatureState, (state) => state.genres);
 
 export const selectPhotos = createSelector(selectFeatureState, (state) => state.photos);
