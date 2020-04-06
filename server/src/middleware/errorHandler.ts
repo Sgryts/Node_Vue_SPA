@@ -1,5 +1,6 @@
+import { OptionsJson } from 'body-parser';
 import * as httpStatus from 'http-status';
-const logger = require('.//logger');
+const logger = require('./logger');
 
 // handle not found errors
 export const notFound = (req, res, next) => {
@@ -7,7 +8,7 @@ export const notFound = (req, res, next) => {
     res.json({
         success: false,
         message: 'Requested Resource Not Found'
-    });
+    } as OptionsJson);
     res.end();
 };
 

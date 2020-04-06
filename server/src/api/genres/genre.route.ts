@@ -26,20 +26,13 @@ genre.get('/', apiLimiter15_900, controller.findAll);
 // Retrieve a Specific Genre
 genre.get('/:id', objectIdValidator, controller.findOne);
 
-// Retrieve Photos By Genre
-genre.get('/:id/photos', objectIdValidator, controller.findPhotosByGenre);
-
-
-/* ADMIN ONLY */
+/* ADMIN */
 
 // Retrieve all Genres
 genreAdmin.get('/', verifyToken, controller.findAll);
 
 // Retrieve a Specific Photo By Genre
 genreAdmin.get('/:id', verifyToken, objectIdValidator, controller.findOne);
-
-// Retrieve a Specific Photo By Genre
-genreAdmin.get('/:id/photos', verifyToken, objectIdValidator, controller.findPhotosByGenre);
 
 // Create a Genre
 genreAdmin.post('/', verifyToken, trimmer, controller.create);

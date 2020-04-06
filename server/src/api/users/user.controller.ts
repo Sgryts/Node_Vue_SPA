@@ -23,7 +23,7 @@ export default class UserController {
             logger.error(err.message, err);
             res.status(500).send({
                 success: false,
-                message: 'Something went wrong...',
+                message: 'Something went wrong, please try again.',
                 data: null
             });
         }
@@ -118,7 +118,7 @@ export default class UserController {
             logger.error(err.message, err);
             res.status(500).send({
                 success: false,
-                message: 'Something went wrong...',
+                message: 'Something went wrong, please try again.',
                 data: null
             });
         }
@@ -146,7 +146,7 @@ export default class UserController {
             logger.error(err.message, err);
             res.status(500).send({
                 success: false,
-                message: 'Something went wrong...',
+                message: 'Something went wrong, please try again.',
                 data: null
             });
         }
