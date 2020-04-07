@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
+import SessionManager from './api/auth/session.manager';
 import api from './api/index';
 import * as errorHandler from './middleware/errorHandler';
 import * as expressip from 'express-ip';
@@ -47,6 +48,7 @@ class App {
     // this.express.use('/genres/:id/images', express.static('images'));
     // this.express.use('/images', express.static('images'));
     // this.express.use('/', express.static('dist', { index: 'index.html' }));
+    SessionManager(this.express);
   }
 
   private setRoutes(): void {

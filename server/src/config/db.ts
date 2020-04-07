@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import * as colors from 'colors';
 import CONFIG from './config';
 import logger from '../middleware/logger'
 
@@ -15,10 +16,10 @@ export default (async () => {
         useFindAndModify: false
       }
     );
-    console.log('The Connection is Successful');
+    console.log(colors.green('The Connection is Successful'));
   } catch (err) {
     logger.error(err.message, err);
-    console.log(`${err} Could not Connect to the Database. Exiting Now...`);
+    console.log(colors.red(`${err} Could not Connect to the Database. Exiting Now...`));
     process.exit();
   }
 })();

@@ -16,5 +16,6 @@ export default {
   JWT_ENCRYPTION: process.env.JWT_ENCRYPTION || 'jwt_please_change',
   JWT_EXPIRATION: process.env.JWT_EXPIRATION || '1h',
   SALT_ROUNDS: process.env.SALT_ROUNDS || 10,
+  SESSION_ENCRYPTION: process.env.SESSION_ENCRYPTION || 'session_please_change',
   RESPONSE_DELAY_MS: process.env.RESPONSE_DELAY_MS || 1000
 };

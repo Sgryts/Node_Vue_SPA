@@ -227,4 +227,7 @@ todo
 /todo
 client/.env
 client/.env.production
-/server/images/
+/TODO
+server/src/config/
+server/src/config/config.ts
+server/src/config/db.ts
