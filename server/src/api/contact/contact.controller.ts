@@ -52,16 +52,16 @@ export default class PhotoController {
                 switch (error.details[0].context.key) {
                     case 'name':
                         this.errorMessage = 'Invalid name (at least 2 characters required)';
-                        break
+                        break;
                     case 'subject':
                         this.errorMessage = 'Invalid subject (at least 2 characters required, max 255)';
-                        break
+                        break;
                     case 'email':
                         this.errorMessage = 'Invalid email';
-                        break
+                        break;
                     case 'body':
                         this.errorMessage = 'Invalid body (at least 2 characters required, max 500)';
-                        break
+                        break;
                     default:
                         this.errorMessage = 'Invalid input';
                 }

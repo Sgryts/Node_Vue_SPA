@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import logger from '../../middleware/logger';
 import { orderBy } from 'lodash';
+import * as xssFilters from 'xss-filters';
 
 const { Genre, validate } = require('../genres/genre.model');
 const { Photo } = require('../photos/photo.model');
@@ -16,6 +17,8 @@ export default class GenreController {
         success: true,
         message: '',
         data: orderBy(genres, 'name')
+        // TODO: impletent DTO? or returning id/genre, etc ...?
+        // data: orderBy(genres, 'name').map(g => xssFilters.inHTMLData(g))
       });
 
     } catch (err) {
@@ -143,7 +146,7 @@ export default class GenreController {
       res.status(200).send({
         success: true,
         message: 'Genre updated',
-        data: genreUpdated
+        data: xssFilters.inHTMLData(genreUpdated)
       });
 
     } catch (err) {

@@ -12,8 +12,8 @@ export default class UserController {
   private errorMessage: string = '';
   private clientIp: string = '';
 
-  private delayResponse = (response: any) => {
-    setTimeout(() => response(), +config.RESPONSE_DELAY_MS);
+  private delayResponse = (response: any): any => {
+    setTimeout(() => response, +config.RESPONSE_DELAY_MS);
   };
 
   private canAuthenticate = async (key: string): Promise<boolean> => {
@@ -68,7 +68,7 @@ export default class UserController {
       // }
 
       if (!await this.canAuthenticate(this.clientIp)) {
-        return res.status(429).send({
+        const response = res.status(429).send({
           success: false,
           message: 'Your are temporary locked',
           data: {
@@ -77,6 +77,7 @@ export default class UserController {
             isAuthenticated: false
           }
         });
+        return this.delayResponse(response)
       }
 
       const { error } = validateLogin(req.body);
@@ -205,13 +206,12 @@ export default class UserController {
       });
 
       const newUser = await user.save();
-
-      return res.status(201).send({
+      return this.delayResponse(res.status(201).send({
         success: true,
         message: 'Successfully registered',
         // data: null
         data: newUser // TODO: null in prod
-      })
+      }));
 
     } catch (err) {
       logger.error(err.message, err);

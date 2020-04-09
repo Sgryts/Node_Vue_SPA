@@ -5,6 +5,6 @@ const trimmer = function (req, res, next) {
         return [key, value.trim()];
     }));
     next();
-}
+};
 
 export default trimmer;

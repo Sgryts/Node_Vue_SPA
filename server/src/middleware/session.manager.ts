@@ -2,7 +2,7 @@ import { MongoStoreFactory } from 'connect-mongo';
 import { Application } from 'express';
 import * as session from 'express-session';
 import * as connectMongo from 'connect-mongo';
-import CONFIG from '../../config/config';
+import CONFIG from '../config/config';
 
 export default function SessionManager(app: Application): void {
   const MongoStore: MongoStoreFactory = connectMongo(session);
