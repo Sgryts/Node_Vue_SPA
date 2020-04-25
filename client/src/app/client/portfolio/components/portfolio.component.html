@@ -1,15 +1,14 @@
 <div>
   <client-navigation></client-navigation>
-  <span class="fa fa-spinner spinner" *ngIf="!(isLoading$ | async)"></span>
+  <span class="fa fa-spinner spinner" *ngIf="!isLoading"></span>
   <div class="container">
     <br>
     <br>
     <br>
     <br>
     <br>
-    <div *ngIf="isLoading$ | async as isLoading">{{isLoading}}</div>
-    <div *ngIf="!(isLoading$ | async)">{{isLoading$}}</div>
-    <div *ngIf="genres$ | async as genres">
+    <div>{{isLoading}}</div>
+    <div *ngIf="genres">
       <ul style="float:left;display:inline-block;height:50px;"
           class="list-inline text-center"
           *ngFor="let genre of genres">
@@ -20,13 +19,13 @@
         </li>
       </ul>
     </div>
-
     <br>
-    <div *ngFor="let image of albums; let i=index">
-      <img [src]="image.src" class="img-thumbnail img-responsive"
-           (click)="open(i)" [alt]="image.caption"
-           style="float:left;display:inline-block;"
-           width="100px"/>
-    </div>
+    <br>
+    <br>
+    <client-gallery
+      [photos]="photos"
+      (selectedImageId)="openSelectedImage($event)"
+    >
+    </client-gallery>
   </div>
 </div>

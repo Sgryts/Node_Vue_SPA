@@ -3,6 +3,7 @@
     [photos]="albums"
     [genres]="genres$ | async"
     [isLoading]="isLoading$ | async"
+    (selectedGenre)="onGenreSelected($event)"
   >
   </client-portfolio>
 </div>

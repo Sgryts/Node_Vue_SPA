@@ -15,5 +15,4 @@ export class NavigationComponent implements OnInit {
     // const that = window;
     invoke(window, 'burgerMenuClick');
   }
-
 }

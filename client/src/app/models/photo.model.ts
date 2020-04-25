@@ -1,9 +1,8 @@
+import { IModel } from './abstract.model';
 import IGenre from './genre.model';
 
-export default interface IPhoto {
-    id: string;
-    name: string;
-    file: string;
-    path: string;
-    genres?: IGenre[];
+export default interface IPhoto extends IModel {
+  file: string;
+  path: string;
+  genres?: IGenre[];
 }

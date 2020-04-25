@@ -1,124 +1,32 @@
-<div>
-  <client-navigation></client-navigation>
-  <span class="fa fa-spinner spinner" *ngIf="isLoading"></span>
-  <section id="portfolio">
-    <h1>PHOTO TUT____</h1>
-    <!--    <img src="http://localhost:3000/images/img-1556070207475.png" alt="">-->
-    <div class="container">
-      <ul class="portfolio-sorting list-inline text-center">
-        <li><a href="#" data-group="all" class="active">All</a>
-        </li>
-        <li><a href="#" data-group="moment">Moment</a>
-        </li>
-        <li><a href="#" data-group="people">People</a>
-        </li>
-        <li><a href="#" data-group="mountain">Mountain</a>
-        </li>
-      </ul>
+<!--<div>-->
+<!--  <client-navigation></client-navigation>-->
+<!--  <span class="fa fa-spinner spinner" *ngIf="!(isLoading$ | async)"></span>-->
+<!--  <div class="container">-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <br>-->
+<!--    <div *ngIf="isLoading$ | async as isLoading">{{isLoading}}</div>-->
+<!--    <div *ngIf="!(isLoading$ | async)">{{isLoading$}}</div>-->
+<!--    <div *ngIf="genres$ | async as genres">-->
+<!--      <ul style="float:left;display:inline-block;height:50px;"-->
+<!--          class="list-inline text-center"-->
+<!--          *ngFor="let genre of genres">-->
+<!--        <li>-->
+<!--          <span (click)="onGenreSelected(genre._id);" class="active">-->
+<!--            {{genre.name}}-->
+<!--          </span>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
 
-
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="lightbox-grid square-thumbs" data-gallery-title="Gallery">
-            <ul class="portfolio-items list-unstyled" id="grid">
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["moment","people"]'>
-                <a href="img/portfolio1.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio1.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["people"]'>
-                <a href="img/portfolio2.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio2.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["mountain"]'>
-                <a href="img/portfolio3.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio3.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["people"]'>
-                <a href="img/portfolio4.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio4.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["moment"]'>
-                <a href="img/portfolio5.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio5.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["people"]'>
-                <a href="img/portfolio6.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio6.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["people"]'>
-                <a href="img/portfolio7.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio7.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["mountain"]'>
-                <a href="img/portfolio8.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio8.jpg"/>
-                  </div>
-                </a>
-              </li>
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["mountain"]'>
-                <a href="img/portfolio9.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio9.jpg"/>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <hr>
-
-      <div *ngIf="genres$ | async as genres">
-        <ul class="portfolio-sorting list-inline text-center"
-            *ngFor="let genre of genres">
-          <li>
-            <a href="#" data-group="genre_.id" class="active">
-              {{genre.name}}
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <br>
-
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="lightbox-grid square-thumbs" data-gallery-title="Gallery">
-            <ul class="portfolio-items list-unstyled" id="grid">
-              <li class="col-md-4 col-sm-12 col-xs-12 no-gutter" data-groups='["moment","people"]'>
-                <a href="img/portfolio1.jpg" data-lightbox="true">
-                  <div class="background-image-holder">
-                    <img alt="portfolio" class="background-image" src="img/portfolio1.jpg"/>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
+<!--    <br>-->
+<!--    <div *ngFor="let image of albums; let i=index">-->
+<!--      <img [src]="image.src" class="img-thumbnail img-responsive"-->
+<!--           (click)="open(i)" [alt]="image.caption"-->
+<!--           style="float:left;display:inline-block;"-->
+<!--           width="100px"/>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './about/components/about.component';
 import { ContactComponent } from './contact/components/contact.component';
 import { HomeComponent } from './home/components/home.component';
-import { PortfolioComponent } from './portfolio/portfolio.component';
+import { PortfolioContainerComponent } from './portfolio/containers/portfolio-container.component';
 import { PageNotFoundComponent } from './shared/PageNotFound.component';
 
 
@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'about', component: AboutComponent
   },
   {
-    path: 'genres/:id/photos', component: PortfolioComponent
+    path: 'photos', component: PortfolioContainerComponent
   },
   {
     path: 'contact', component: ContactComponent

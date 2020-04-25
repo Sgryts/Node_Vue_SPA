@@ -25,9 +25,12 @@
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
     "bootstrap": "^4.4.1",
+    "colors": "^1.4.0",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.15",
     "ngx-bootstrap": "^5.2.0",
+    "ngx-lightbox": "^2.1.1",
+    "ngx-uploader": "^8.0.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

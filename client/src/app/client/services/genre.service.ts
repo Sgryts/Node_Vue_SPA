@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { IPayload } from '../../models/abstract.model';
+import { IPayload } from '../../models/payload.model';
 import IGenre from '../../models/genre.model';
 import {flatten} from 'lodash';
 

@@ -1,4 +1,4 @@
-export default interface IGenre {
-    id: string;
-    name: string;
+import { IModel } from './abstract.model';
+
+export default interface IGenre extends IModel {
 }

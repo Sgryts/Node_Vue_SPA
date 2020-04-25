@@ -14,7 +14,9 @@
       <ul class="nav-list vcenter">
         <li class="nav-item"><a class="item-anchor" [routerLink]="['/']">Home</a></li>
         <li class="nav-item"><a class="item-anchor" [routerLink]="['/about']">About Me</a></li>
-        <li class="nav-item"><a class="item-anchor" [routerLink]="['/genres', '000000000000000000000000', 'photos']">Portfolio</a></li>
+        <li class="nav-item">
+          <a class="item-anchor" [routerLink]="['/photos']" [queryParams]="{genre:''}">Portfolio</a>
+        </li>
         <li class="nav-item"><a class="item-anchor" [routerLink]="['/contact']">Contact</a></li>
       </ul>
     </div>

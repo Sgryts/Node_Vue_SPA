@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, SecurityContext } from '@angular/core';
-import { DomSanitizer, ɵDomSanitizerImpl } from '@angular/platform-browser';
+import { Component, NgZone, OnDestroy, OnInit, SecurityContext } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAlbum } from 'ngx-lightbox';
 import { Observable, of } from 'rxjs';
@@ -11,8 +10,7 @@ import { ClientStateFacade } from '../../state/state.facade';
 
 @Component({
   selector: 'client-portfolio-container',
-  templateUrl: './portfolio.container.component.html',
-  styleUrls: ['']
+  templateUrl: './portfolio-container.component.html',
 })
 export class PortfolioContainerComponent implements OnInit, OnDestroy {
   genres$: Observable<IGenre[]>;
@@ -22,20 +20,23 @@ export class PortfolioContainerComponent implements OnInit, OnDestroy {
 
   constructor(private clientFacade: ClientStateFacade,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private ngZone: NgZone) {
   }
 
   ngOnInit() {
     this.isLoading$ = this.clientFacade.isSpinnerActive$;
-    this.isLoading$.pipe(
-      tap(l => console.log("l", l))).subscribe(console.log);
     const genreId = this.activatedRoute.snapshot.queryParamMap.get('genre');
+    this.ngZone.run(() => {
+      this.onGenreSelected(genreId);
+    });
     this.clientFacade.loadGenres();
-    this.clientFacade.loadPhotosByGenre(genreId);
-    this.genres$ = this.clientFacade.getGenres$.pipe(
-      map(g => g),
-      tap(res => console.log('GENRES', res)),
-    );
+    this.onGenreSelected(genreId);
+    this.genres$ = this.clientFacade.getGenres$;
+    this.getPhotos();
+  }
+
+  private getPhotos(): void {
     this.clientFacade.getPhotos$.pipe(
       takeWhile(_ => this.isActive),
       map((p): IPhoto[] => p),
@@ -49,6 +50,22 @@ export class PortfolioContainerComponent implements OnInit, OnDestroy {
           thumb: `${environment.baseUrl}/${p.file}`
         });
       });
+    });
+  }
+
+  private onGenreSelected(id: string): void {
+    this.updateQueryParams(id);
+    this.clientFacade.loadPhotosByGenre(id);
+  }
+
+  private updateQueryParams(id: string) {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams:
+        {
+          genre: id
+        },
+      replaceUrl: true,
     });
   }
 

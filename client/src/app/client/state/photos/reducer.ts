@@ -23,20 +23,7 @@ const photosReducer = createReducer(initialState,
     error: null
   })),
 
-  on(GenreActions.initLoadPhotosByGenreSuccess, (state, { payload }) => ({
-    ...state,
-    photos: payload || [],
-    isLoaded: true,
-    error: null
-  })),
-
   on(GenreActions.loadPhotosByGenreFail, (state, { error }) => ({
-    ...state,
-    isLoaded: true,
-    error: error
-  })),
-
-  on(GenreActions.initLoadPhotosByGenreFail, (state, { error }) => ({
     ...state,
     isLoaded: true,
     error: error

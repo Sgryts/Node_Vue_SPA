@@ -37,7 +37,7 @@ const genresReducer = createReducer(initialState,
 
     on(GenreActions.updateGenreSuccess, (state, {payload}) => ({
         ...state,
-        genres: state.genres.map((genre: IGenre) => payload.id === genre.id ? payload : genre),
+        genres: state.genres.map((genre: IGenre) => payload._id === genre._id ? payload : genre),
         error: null
     })),
 
@@ -48,7 +48,7 @@ const genresReducer = createReducer(initialState,
 
     on(GenreActions.deleteGenreSuccess, (state, {id}) => ({
         ...state,
-        genres: state.genres.filter(genre => genre.id !== id),
+        genres: state.genres.filter(genre => genre._id !== id),
         error: null
     })),
 

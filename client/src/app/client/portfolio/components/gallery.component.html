@@ -1,32 +1,6 @@
-<div>
-  <client-navigation></client-navigation>
-  <span class="fa fa-spinner spinner" *ngIf="!(isLoading$ | async)"></span>
-  <div class="container">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div *ngIf="isLoading$ | async as isLoading">{{isLoading}}</div>
-    <div *ngIf="!(isLoading$ | async)">{{isLoading$}}</div>
-    <div *ngIf="genres$ | async as genres">
-      <ul style="float:left;display:inline-block;height:50px;"
-          class="list-inline text-center"
-          *ngFor="let genre of genres">
-        <li>
-          <span (click)="onGenreSelected(genre._id);" class="active">
-            {{genre.name}}
-          </span>
-        </li>
-      </ul>
-    </div>
-
-    <br>
-    <div *ngFor="let image of albums; let i=index">
-      <img [src]="image.src" class="img-thumbnail img-responsive"
-           (click)="open(i)" [alt]="image.caption"
-           style="float:left;display:inline-block;"
-           width="100px"/>
-    </div>
-  </div>
+<div *ngFor="let image of photos; let i=index">
+  <img [src]="image.src" class="img-thumbnail img-responsive"
+       (click)="openSelectedImage(i)" [alt]="image.caption"
+       style="float:left;display:inline-block;"
+       width="100px"/>
 </div>

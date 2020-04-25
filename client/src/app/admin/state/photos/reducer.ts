@@ -97,7 +97,7 @@ const photosReducer = createReducer(initialState,
 
     on(PhotosActions.updatePhotoSuccess, (state, {payload}) => ({
         ...state,
-        photos: state.photos.map((photo: IPhoto) => payload.id === photo.id ? payload : photo),
+        photos: state.photos.map((photo: IPhoto) => payload._id === photo._id ? payload : photo),
         error: null
     })),
 
@@ -108,7 +108,7 @@ const photosReducer = createReducer(initialState,
 
     on(PhotosActions.deletePhotoSuccess, (state, {id}) => ({
         ...state,
-        photos: state.photos.filter((photo: IPhoto) => photo.id !== id),
+        photos: state.photos.filter((photo: IPhoto) => photo._id !== id),
         error: null
     })),
 
