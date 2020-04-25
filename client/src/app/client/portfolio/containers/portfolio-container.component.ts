@@ -53,7 +53,7 @@ export class PortfolioContainerComponent implements OnInit, OnDestroy {
     });
   }
 
-  private onGenreSelected(id: string): void {
+  public onGenreSelected(id: string): void {
     this.updateQueryParams(id);
     this.clientFacade.loadPhotosByGenre(id);
   }
