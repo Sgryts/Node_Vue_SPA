@@ -1,0 +1,7 @@
+<app-genres
+  [genres]="genres$ | async"
+  (genreAdded)="addGenre($event)"
+  (genreUpdated)="updateGenre($event)"
+  (genreDeleted)="deleteGenre($event)"
+>
+</app-genres>
