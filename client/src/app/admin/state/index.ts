@@ -24,7 +24,7 @@ export const reducers: ActionReducerMap<FeatureState> = {
 
 export const selectFeatureState = createFeatureSelector<FeatureState>(FEATURE_NAME);
 export const selectAuthError = createSelector(selectFeatureState, (state) => state.auth.error);
-export const selectGenres = createSelector(selectFeatureState, (state) => state.genres);
+export const selectGenres = createSelector(selectFeatureState, (state) => state.genres.genres);
 export const selectGenresError = createSelector(selectFeatureState, (state) => state.genres.error);
 
 export const selectPhotos = createSelector(selectFeatureState, (state) => state.photos);

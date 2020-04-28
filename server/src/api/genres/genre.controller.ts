@@ -66,7 +66,7 @@ export default class GenreController {
         switch (error.details[0].context.key) {
           case 'name':
             this.errorMessage = 'Invalid name';
-            break
+            break;
           default:
             this.errorMessage = 'Invalid input';
         }
@@ -119,7 +119,7 @@ export default class GenreController {
         switch (error.details[0].context.key) {
           case 'name':
             this.errorMessage = 'Invalid name';
-            break
+            break;
           default:
             this.errorMessage = 'Invalid input';
         }
@@ -146,7 +146,8 @@ export default class GenreController {
       res.status(200).send({
         success: true,
         message: 'Genre updated',
-        data: xssFilters.inHTMLData(genreUpdated)
+        data: genreUpdated
+        // data: xssFilters.inHTMLData(genreUpdated)
       });
 
     } catch (err) {
@@ -171,8 +172,6 @@ export default class GenreController {
           data: null
         });
       }
-
-      console.log('2', genre);
 
       res.status(204).send({
         success: true,

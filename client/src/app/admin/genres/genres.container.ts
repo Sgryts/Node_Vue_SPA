@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, tap } from 'rxjs/operators';
 import IGenre from '../../models/genre.model';
 import { AdminStateFacade } from '../state/state.facade';
 
 @Component({
   selector: 'app-genres-container',
   templateUrl: './genres.container.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenresContainerComponent implements OnInit, OnDestroy {
+export class GenresContainerComponent implements OnInit, OnDestroy, OnChanges {
   genres$: Observable<IGenre[]>;
   public isComponentActive: boolean = true;
 
@@ -19,20 +19,25 @@ export class GenresContainerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.adminFacade.loadGenres();
     this.genres$ = this.adminFacade.getGenres$.pipe(
-      takeWhile((): boolean => this.isComponentActive)
-    )
+      takeWhile((): boolean => this.isComponentActive),
+      tap(g => console.log('GGG', g))
+    );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
   }
 
   public addGenre(genre: string): void {
-
+    this.adminFacade.createGenre$(genre);
   }
 
   public updateGenre(genre: IGenre): void {
-
+    this.adminFacade.updateGenre$(genre._id, genre.name);
   }
 
   public deleteGenre(id: string): void {
-
+    this.adminFacade.deleteGenre$(id);
   }
 
   ngOnDestroy(): void {

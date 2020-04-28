@@ -91,9 +91,13 @@
             "styles": [
               "src/client/shared/css/styles.css",
               "src/client/assets/css/styles.css",
+              "src/client/assets/css/bootstrap.min.css",
+              "src/client/assets/font-awesome/css/font-awesome.min.css",
               "./node_modules/ngx-lightbox/lightbox.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/client/assets/js/bootstrap.min.js"
+            ]
           }
         },
         "lint": {

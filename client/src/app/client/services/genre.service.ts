@@ -10,8 +10,8 @@ import {flatten} from 'lodash';
 @Injectable()
 export class GenreService {
 
-  readonly baseUrl = environment.baseUrl + '/api';
-  readonly headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private readonly baseUrl = environment.baseUrl + '/api';
+  private readonly headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private httpClient: HttpClient) {
   }

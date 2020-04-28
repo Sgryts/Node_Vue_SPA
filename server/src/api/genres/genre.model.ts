@@ -21,6 +21,7 @@ const GenreSchema = Schema(
 
 const validateGenre = (data) => {
   const schema = {
+    _id: Joi.string().max(24).min(24).required(),
     name: Joi.string().min(1).max(255).required(),
   };
 

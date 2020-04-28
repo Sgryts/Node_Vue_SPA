@@ -1,64 +1,71 @@
-import {Action, createReducer, on} from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import * as GenreActions from './actions';
 import IGenre from '../../../models/genre.model';
 
 export interface State {
-    genres: IGenre[];
-    error: string
+  genres: IGenre[];
+  isLoaded: boolean;
+  error: string
 }
 
 const initialState: State = {
-    genres: [],
-    error: null
+  genres: [],
+  isLoaded: false,
+  error: null
 };
 
 const genresReducer = createReducer(initialState,
-    on(GenreActions.loadAllGenresSuccess, (state, {payload}) => ({
-        ...state,
-        genres: payload || [],
-        error: null
-    })),
+  on(GenreActions.loadAllGenresSuccess, (state, { payload }) => ({
+    ...state,
+    genres: payload || [],
+    error: null
+  })),
 
-    on(GenreActions.loadAllGenresFail, (state, {error}) => ({
-        ...state,
-        error: error
-    })),
+  on(GenreActions.loadAllGenresFail, (state, { error }) => ({
+    ...state,
+    error: error
+  })),
 
-    on(GenreActions.createGenreSuccess, (state, {payload}) => ({
-        ...state,
-        genres: [...state.genres, payload],
-        error: null
-    })),
+  on(GenreActions.createGenreSuccess, (state, { payload }) => ({
+    ...state,
+    genres: [...state.genres, payload],
+    error: null
+  })),
 
-    on(GenreActions.createGenreFail, (state, {error}) => ({
-        ...state,
-        error: error
-    })),
+  on(GenreActions.createGenreFail, (state, { error }) => ({
+    ...state,
+    error: error
+  })),
 
-    on(GenreActions.updateGenreSuccess, (state, {payload}) => ({
-        ...state,
-        genres: state.genres.map((genre: IGenre) => payload._id === genre._id ? payload : genre),
-        error: null
-    })),
+  on(GenreActions.updateGenreSuccess, (state, { payload }) => ({
+    ...state,
+    genres: state.genres.map((genre: IGenre): IGenre => payload._id === genre._id ? payload : genre),
+    error: null
+  })),
 
-    on(GenreActions.updateGenreFail, (state, {error}) => ({
-        ...state,
-        error: error
-    })),
+  on(GenreActions.updateGenreFail, (state, { error }) => ({
+    ...state,
+    error: error
+  })),
 
-    on(GenreActions.deleteGenreSuccess, (state, {id}) => ({
-        ...state,
-        genres: state.genres.filter(genre => genre._id !== id),
-        error: null
-    })),
+  on(GenreActions.deleteGenreSuccess, (state, { id }) => ({
+    ...state,
+    genres: state.genres.filter((genre: IGenre): boolean => genre._id !== id),
+    some: getG(state.genres, id),
+    error: null
+  })),
 
-    on(GenreActions.deleteGenreFail, (state, {error}) => ({
-        ...state,
-        error: error
-    })),
-    )
-;
+  on(GenreActions.deleteGenreFail, (state, { error }) => ({
+    ...state,
+    error: error
+  })),
+);
+
+function getG(genres, id) {
+  let z = genres.filter((genre: IGenre): boolean => genre._id !== id);
+  console.log('r-g', z);
+}
 
 export function reducer(state: State | undefined, action: Action) {
-    return genresReducer(state, action);
+  return genresReducer(state, action);
 }
