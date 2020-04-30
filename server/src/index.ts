@@ -1,4 +1,5 @@
 import { inspect } from 'util';
+import { Logger } from 'winston';
 import app from './App';
 import CONFIG from './config/config';
 import './config/db';
@@ -7,7 +8,7 @@ import * as open from 'open';
 import * as https from 'https';
 import * as fs from 'fs';
 
-const logger = require('./middleware/logger');
+const logger: Logger = require('./middleware/logger');
 
 const PORT: string = CONFIG.PORT;
 const INSECURE_PORT = CONFIG.INSECURE_PORT;
@@ -23,7 +24,6 @@ app.listen(PORT, (err: any) => {
     logger.error(err.message, err);
     return console.log(colors.red(err));
   } else {
-    // open(`http://${HOST}:${INSECURE_PORT}`);
     console.log(colors.yellow.bold.bgCyan.underline(`Server is listening on ${PORT}`));
   }
   // https.createServer(options, app).listen(SECURE_PORT);
