@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { error } from 'selenium-webdriver';
-import * as GenreActions from './actions';
+import * as PhotoActions from './actions';
 import IPhoto from '../../../models/photo.model';
 
 export interface State {
@@ -16,14 +16,18 @@ const initialState: State = {
 };
 
 const photosReducer = createReducer(initialState,
-  on(GenreActions.loadPhotosByGenreSuccess, (state, { payload }) => ({
+  on(PhotoActions.loadingStarted, (state,) => ({
+    ...state,
+    isLoaded: false
+  })),
+  on(PhotoActions.loadPhotosByGenreSuccess, (state, { payload }) => ({
     ...state,
     photos: payload || [],
     isLoaded: true,
     error: null
   })),
 
-  on(GenreActions.loadPhotosByGenreFail, (state, { error }) => ({
+  on(PhotoActions.loadPhotosByGenreFail, (state, { error }) => ({
     ...state,
     isLoaded: true,
     error: error

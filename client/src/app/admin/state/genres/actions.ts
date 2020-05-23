@@ -1,7 +1,7 @@
-import {createAction, props} from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import IGenre from '../../../models/genre.model';
 
-export const loadAllGenres = createAction('[ADMIN GENRE GENRE] Load All Genres');
+export const loadAllGenres = createAction('[ADMIN GENRE] Load All Genres');
 export const loadAllGenresSuccess = createAction('[ADMIN GENRE] Load All Genres Success', props<{ payload: IGenre[] }>());
 export const loadAllGenresFail = createAction('[ADMIN GENRE] Load All Genres Fail', props<{ error: any }>());
 
@@ -13,7 +13,7 @@ export const createGenre = createAction('[ADMIN GENRE] Create Genre', props<{ pa
 export const createGenreSuccess = createAction('[ADMIN GENRE] Create Genre Success', props<{ payload: IGenre }>());
 export const createGenreFail = createAction('[ADMIN GENRE] Create Genre Fail', props<{ error: any }>());
 
-export const updateGenre = createAction('[ADMIN GENRE] Update Genre', props<{ id: string, params: string }>());
+export const updateGenre = createAction('[ADMIN GENRE] Update Genre', props<{ params: IGenre }>());
 export const updateGenreSuccess = createAction('[ADMIN GENRE] Update Genre Success', props<{ payload: IGenre }>());
 export const updateGenreFail = createAction('[ADMIN GENRE] Update Genre Fail', props<{ error: any }>());
 

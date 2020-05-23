@@ -5,4 +5,6 @@ export const loadPhotosByGenre = createAction('[CLIENT PHOTO] Load Photos', prop
 export const loadPhotosByGenreSuccess = createAction('[CLIENT PHOTO] Load Photos Success', props<{ payload: IPhoto[] }>());
 export const loadPhotosByGenreFail = createAction('[CLIENT PHOTO] Load Photos Fail', props<{ error: any }>());
 
+export const loadingStarted = createAction('[CLIENT PHOTO] Loading Started');
+
 

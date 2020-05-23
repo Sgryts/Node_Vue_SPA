@@ -8,13 +8,13 @@ import {
   OnChanges, SimpleChanges
 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import IGenre from '../../models/genre.model';
+import IGenre from '../../../models/genre.model';
 
 @Component({
-  selector: 'app-genres',
+  selector: 'admin-genres',
   templateUrl: './genres.component.html',
   styleUrls: ['./genres.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenresComponent implements OnInit, OnChanges {
   @Input() genres: IGenre[];

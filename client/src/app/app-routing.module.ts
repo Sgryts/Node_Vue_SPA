@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { PageNotFoundComponent } from './client/shared/PageNotFound.component';
 
 
 const routes = [
@@ -12,7 +13,12 @@ const routes = [
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module').then(m => m.AdminModule)
-  }
+  },
+  // { path: '', redirectTo: 'client', pathMatch: 'full' },
+  // {
+  //   path: '**', component: PageNotFoundComponent
+  // },
+  // { preloadingStrategy: PreloadAllModules }
 ];
 
 @NgModule({

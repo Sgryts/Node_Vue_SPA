@@ -1,0 +1,35 @@
+<div id="wrapper">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <admin-header></admin-header>
+    <admin-sidenav></admin-sidenav>
+  </nav>
+  <div id="page-wrapper">
+    <div class="row"><h1 (click)="seeForm()">PHOTOS</h1></div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div *ngIf="genres">
+      <ul style="float:left;display:inline-block;height:50px;"
+          class="list-inline text-center"
+          *ngFor="let genre of genres">
+        <li>
+          <span (click)="onGenreSelected(genre._id);" class="active">
+            {{genre.name}}
+          </span>
+        </li>
+      </ul>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <admin-photos-gallery
+      [photos]="photos"
+      (selectedImageId)="openSelectedImage($event)"
+    >
+    </admin-photos-gallery>
+  </div>
+</div>

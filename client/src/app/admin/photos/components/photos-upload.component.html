@@ -1,0 +1,107 @@
+<div id="wrapper">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <admin-header></admin-header>
+    <admin-sidenav></admin-sidenav>
+  </nav>
+  <div id="page-wrapper">
+    <div class="row"><h1>PHOTOS UPLOAD</h1></div>
+    <br>
+    <br>
+    <div *ngIf="loadContent">
+      <form [formGroup]="form" (ngSubmit)="save()" (reset)="resetForm()">
+
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" formControlName="name" class="form-control input-sm" id="name">
+          <span *ngIf="f?.name?.touched && f?.name.invalid">
+            <span *ngIf="f?.name?.errors?.required" style="color: red;">
+            Name is required
+          </span>
+          <span
+            *ngIf="f?.name?.errors?.minLength ||
+            f?.name?.errors?.maxlength"
+            style="color: red;"
+          >
+            Invalid Name
+          </span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="genres">Genres:</label>
+          <ng-multiselect-dropdown
+            class=""
+            id="genres"
+            #multiSelect
+            [placeholder]="placeholder"
+            [settings]="settings"
+            [data]="genres"
+            [formControl]="f.genres"
+            [attr.disabled]="false"
+            (onFilterChange)="onFilterChange($event)"
+            (onDropDownClose)="onDropDownClose($event)"
+            (onSelect)="onItemSelect($event)"
+            (onDeSelect)="onDeSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+            (onDeSelectAll)="onDeSelectAll($event)">
+          </ng-multiselect-dropdown>
+          <span *ngIf="f?.genres.touched && f?.genres.invalid">
+            <span *ngIf="f?.genres?.errors?.required" style="color: red;">
+                    Genre is required
+            </span>
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="image">Image:</label>
+          <div class="message" *ngIf="isReady || hasFailed">
+            <span *ngIf="form?.controls?.image.value">{{form.controls.image.value}}</span>
+            <input #file formControlName="image"
+                   id="image" type="file"
+                   class="btn btn-default btn-file"
+                   (change)="uploadPhoto($event)"
+            />
+          </div>
+
+          <span *ngIf="f?.image.touched && f?.image.invalid">
+            <span *ngIf="f?.image?.errors?.required" style="color: red;">
+                    Image is required
+            </span>
+               <span *ngIf="f?.image?.errors?.fileTypeInvalid" style="color: red;">
+                    Image format is invalid
+            </span>
+          </span>
+
+          <div class="message" *ngIf="isInProgress">
+            <div style="margin-bottom: 14px;">Uploading... {{ progress }}%</div>
+          </div>
+
+          <div class="message" *ngIf="isInProgress ">
+            <button (click)="cancelPhotoUpload()">Cancel Upload</button>
+          </div>
+
+          <div class="message" *ngIf="completed">
+            <h4>
+              File has been uploaded successfully!
+            </h4>
+            <button (click)="resetPhotoUpload()">Upload Another File</button>
+          </div>
+
+          <div class="message error" *ngIf="hasFailed">
+            Error: {{ error }}
+          </div>
+        </div>
+
+        <br/><br/>
+
+        <input type="submit" value="Submit" class="btn btn-primary"> | <input type="reset" value="Reset"
+                                                                              class="btn btn-warning">
+
+      </form>
+    </div>
+
+
+  </div>
+</div>
+
+

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { takeWhile, tap } from 'rxjs/operators';
-import IGenre from '../../models/genre.model';
-import { AdminStateFacade } from '../state/state.facade';
+import IGenre from '../../../models/genre.model';
+import { AdminStateFacade } from '../../state/state.facade';
 
 @Component({
-  selector: 'app-genres-container',
-  templateUrl: './genres.container.html',
+  selector: 'admin-genres-container',
+  templateUrl: './genres-container.component.html',
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenresContainerComponent implements OnInit, OnDestroy, OnChanges {
@@ -33,7 +33,7 @@ export class GenresContainerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   public updateGenre(genre: IGenre): void {
-    this.adminFacade.updateGenre$(genre._id, genre.name);
+    this.adminFacade.updateGenre$(genre);
   }
 
   public deleteGenre(id: string): void {

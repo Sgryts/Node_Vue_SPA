@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SecurityContext } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  SecurityContext
+} from '@angular/core';
 import { IAlbum } from 'ngx-lightbox/lightbox-event.service';
 import IGenre from '../../../models/genre.model';
 import { Lightbox } from 'ngx-lightbox';
@@ -6,7 +15,8 @@ import { Lightbox } from 'ngx-lightbox';
 @Component({
   selector: 'client-portfolio',
   templateUrl: './portfolio.component.html',
-  styleUrls: ['./portfolio.component.css']
+  styleUrls: ['./portfolio.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PortfolioComponent {
   @Input() photos: IAlbum[];
@@ -29,5 +39,4 @@ export class PortfolioComponent {
   close(): void {
     this.lightbox.close();
   }
-
 }

@@ -1,0 +1,12 @@
+<admin-photos-upload
+  [genres]="genres$ | async"
+  [completed]="completed$ | async"
+  [progress]="progress$ | async"
+  [isReady]="isReady$ | async"
+  [error]="error$ | async"
+  [isInProgress]="isInProgress$ | async"
+  [hasFailed]="hasFailed$ | async"
+  (photoUploaded)="handlePhotoUploaded($event)"
+  (photoUploadedReset)="handlePhotoUploadReset()"
+  (photoUploadedCanceled)="handlePhotoUploadCanceled()"
+></admin-photos-upload>

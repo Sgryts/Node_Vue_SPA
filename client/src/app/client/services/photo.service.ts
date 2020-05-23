@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { IPayload } from '../../models/payload.model';
 import IPhoto from '../../models/photo.model';
-import { flatten } from 'lodash';
+import flatten from 'lodash/flatten';
 
 @Injectable()
 export class PhotoService {

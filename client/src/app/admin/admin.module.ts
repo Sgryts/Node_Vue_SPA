@@ -5,9 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AdminRoutingModule } from './admin-routing.module';
-import { GenresContainerComponent } from './genres/genres.container';
+import { GenresContainerComponent } from './genres/containers/genres-container.component';
 import { AuthGuard } from './guards/auth.guard';
+import { PhotosGalleryComponent } from './photos/components/photos-gallery.component';
+import { PhotosUploadComponent } from './photos/components/photos-upload.component';
+import { PhotosUploadContainerComponent } from './photos/containers/photos-upload-container.component';
+import { PhotosContainerComponent } from './photos/containers/photos-container.component';
 import { AuthService } from './services/auth.service';
 import { GenreService } from './services/genre.service';
 import { PhotoService } from './services/photo.service';
@@ -17,8 +22,8 @@ import { AuthEffects } from './state/auth/effects';
 import { PhotosEffects } from './state/photos/effects';
 import { GenresEffects } from './state/genres/effects';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { GenresComponent } from './genres/genres.component';
-import { PhotosComponent } from './photos/photos.component';
+import { GenresComponent } from './genres/components/genres.component';
+import { PhotosComponent } from './photos/components/photos.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { HeaderComponent } from './header/header.component';
 import { AdminStateFacade } from './state/state.facade';
@@ -28,9 +33,13 @@ const COMPONENTS =
     DashboardComponent,
     GenresContainerComponent,
     GenresComponent,
+    PhotosContainerComponent,
     PhotosComponent,
+    PhotosUploadComponent,
     SidenavComponent,
-    HeaderComponent
+    HeaderComponent,
+    PhotosUploadContainerComponent,
+    PhotosGalleryComponent
   ];
 
 @NgModule({
@@ -40,22 +49,23 @@ const COMPONENTS =
     AdminRoutingModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule
   ],
   declarations: COMPONENTS,
   providers: [
     AuthService,
-    AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true
-    },
+    // AuthGuard,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: TokenInterceptor,
+    //   multi: true
+    // },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: ErrorInterceptor,
+    //   multi: true
+    // },
     GenreService,
     PhotoService,
     AdminStateFacade

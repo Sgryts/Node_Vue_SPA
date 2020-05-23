@@ -41,9 +41,8 @@ export class GenreService {
     );
   }
 
-  updateGenre(id: string, name: string): Observable<IGenre> {
-    const url = `${this.baseUrl}/${id}`;
-    const genre = { _id: id, name: name };
+  updateGenre(genre: IGenre): Observable<IGenre> {
+    const url = `${this.baseUrl}/${genre._id}`;
     return this.httpClient.put<IPayload<IGenre>>(url, genre, { headers: this.headers }).pipe(
       map(payload => payload.data),
       catchError(this.handleError)

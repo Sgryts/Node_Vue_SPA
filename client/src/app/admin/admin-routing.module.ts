@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { GenresComponent } from './genres/genres.component';
-import { GenresContainerComponent } from './genres/genres.container';
-import { PhotosComponent } from './photos/photos.component';
+import { GenresContainerComponent } from './genres/containers/genres-container.component';
+import { PhotosUploadContainerComponent } from './photos/containers/photos-upload-container.component';
+import { PhotosContainerComponent } from './photos/containers/photos-container.component';
 
 
 const routes: Routes = [
@@ -17,14 +17,14 @@ const routes: Routes = [
     path: 'genres/:id', component: GenresContainerComponent
   },
   {
-    path: 'photos', component: PhotosComponent
+    path: 'photos', component: PhotosContainerComponent,
   },
   {
-    path: 'photos/:id', component: PhotosComponent
+    path: 'photos/:id', component: PhotosContainerComponent,
   },
   {
-    path: '**', component: DashboardComponent
-  }
+    path: 'upload', component: PhotosUploadContainerComponent
+  },
 ];
 
 @NgModule({

@@ -5,19 +5,15 @@ import { Observable, of } from 'rxjs';
 import {
   catchError,
   debounceTime,
-  distinct,
   map,
-  mergeMap,
-  switchMap,
-  take,
-  tap,
+  switchMap, tap,
   withLatestFrom
 } from 'rxjs/operators';
 import { PhotoService } from '../../services/photo.service';
 import { GenreService } from '../../services/genre.service';
 import { selectGenres, State } from '../index';
 import * as PhotoActions from './actions';
-import { get, find } from 'lodash';
+import find from 'lodash/find';
 
 
 @Injectable({
@@ -30,12 +26,13 @@ export class PhotosEffects {
 
   loadPhotosByGenre$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
+      tap(_ => PhotoActions.loadingStarted()),
       debounceTime(500),
       ofType(PhotoActions.loadPhotosByGenre),
       withLatestFrom(this.store$.select(selectGenres)),
       switchMap(([{ id }, genres]) => {
         if (id === '') {
-          id = (find(genres, g => g.name === 'All'))._id;
+          id = (find(genres, g => g.name === 'All'))?._id;
         }
         return this.photoService.getPhotosByGenre(id).pipe(
           map((payload) => PhotoActions.loadPhotosByGenreSuccess({ payload })),

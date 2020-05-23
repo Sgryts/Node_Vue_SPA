@@ -3,19 +3,23 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import IGenre from '../../models/genre.model';
 import IPhoto from '../../models/photo.model';
+import { IPhotoUpload } from '../photos/photo-upload.model';
 import * as authActions from './auth/actions';
 import * as genresActions from './genres/actions';
 import {
+  isLoaded,
   selectAuthError,
   selectGenres,
   selectGenresError,
   selectPhotos,
-  selectPhotosError, selectPhotoUploadCompleted,
+  selectPhotosError,
+  selectPhotoUploadCompleted,
   selectPhotoUploadFail,
   selectPhotoUploadInProgress,
   selectPhotoUploadProgress,
   selectPhotoUploadReady,
-  selectPhotoUploadRequested, selectPhotoUploadStarted,
+  selectPhotoUploadRequested,
+  selectPhotoUploadStarted,
   State
 } from './index';
 import * as photosActions from './photos/actions';
@@ -24,6 +28,8 @@ import * as photosActions from './photos/actions';
 export class AdminStateFacade {
   constructor(private store$: Store<State>) {
   }
+
+  isLoaded$: Observable<boolean> = this.store$.select(isLoaded);
 
   // GENRE
   getGenres$: Observable<IGenre[]> = this.store$.select(selectGenres);
@@ -36,8 +42,8 @@ export class AdminStateFacade {
     return this.store$.dispatch(genresActions.createGenre({ params }));
   }
 
-  updateGenre$(id: string, params: string) {
-    return this.store$.dispatch(genresActions.updateGenre({ id, params }));
+  updateGenre$(params: IGenre) {
+    return this.store$.dispatch(genresActions.updateGenre({ params }));
   }
 
   deleteGenre$(id: string) {
@@ -47,12 +53,8 @@ export class AdminStateFacade {
   getGenresError$ = this.store$.select(selectGenresError);
 
   // PHOTO
-  getPhotos$ = this.store$.select(selectPhotos);
-
-
-  uploadPhoto$(params: File) {
-    return this.store$.dispatch(photosActions.uploadRequest({ params }));
-  }
+  getPhotos$: Observable<IPhoto[]> = this.store$.select(selectPhotos);
+  getPhotosError$ = this.store$.select(selectPhotosError);
 
   getPhotoUploadReady$ = this.store$.select(selectPhotoUploadReady);
   getPhotoUploadRequested$ = this.store$.select(selectPhotoUploadRequested);
@@ -62,15 +64,29 @@ export class AdminStateFacade {
   getPhotoUploadCompleted$ = this.store$.select(selectPhotoUploadCompleted);
   getPhotoUploadError$ = this.store$.select(selectPhotoUploadFail);
 
-  updatePhoto$(id: string, params: Partial<IPhoto>) {
-    return this.store$.dispatch(photosActions.updatePhoto({ id, params }))
+  loadPhotosByGenre(id: string): void {
+    this.store$.dispatch(photosActions.loadPhotosByGenre({ id: id }));
+  }
+
+  uploadPhoto$(params: IPhotoUpload) {
+    return this.store$.dispatch(photosActions.uploadRequest({ params }));
+  }
+
+  resetPhotoUpload(): void {
+    this.store$.dispatch(photosActions.uploadReset());
+  }
+
+  cancelPhotoUpload(): void {
+    this.store$.dispatch(photosActions.uploadCancel());
+  }
+
+  updatePhoto$(params: Partial<IPhoto>) {
+    return this.store$.dispatch(photosActions.updatePhoto({ params }))
   }
 
   deletePhoto$(id: string) {
     return this.store$.dispatch(photosActions.deletePhoto({ id }));
   }
-
-  getPhotosError$ = this.store$.select(selectPhotosError);
 
   // AUTH
   login$(email: string, password: string) {

@@ -1,7 +1,9 @@
-<client-portfolio
+<admin-photos
   [photos]="albums"
   [genres]="genres$ | async"
   [isLoading]="isLoading$ | async"
   (selectedGenre)="onGenreSelected($event)"
+  (updatedPhoto)="onPhotoUpdated($event)"
+  (deletedPhoto)="onPhotoDeleted($event)"
 >
-</client-portfolio>
+</admin-photos>

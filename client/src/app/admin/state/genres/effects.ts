@@ -47,8 +47,8 @@ export class GenresEffects {
   updateGenre$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
       ofType(GenreActions.updateGenre),
-      mergeMap(({ id, params }) => {
-        return this.genreService.updateGenre(id, params).pipe(
+      mergeMap(({ params }) => {
+        return this.genreService.updateGenre(params).pipe(
           map((payload) => GenreActions.updateGenreSuccess({ payload })),
           catchError(error => of(GenreActions.updateGenreFail({ error }))));
       })

@@ -96,7 +96,8 @@
               "./node_modules/ngx-lightbox/lightbox.css"
             ],
             "scripts": [
-              "src/client/assets/js/bootstrap.min.js"
+              "src/client/assets/js/bootstrap.min.js",
+              "src/client/assets/js/jquery.js"
             ]
           }
         },
