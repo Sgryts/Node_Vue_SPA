@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import logger from '../../middleware/logger';
+import { logger } from '../../middleware/logger';
 import { orderBy } from 'lodash';
 import * as xssFilters from 'xss-filters';
 

@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as colors from 'colors';
 import CONFIG from './config';
-import logger from '../middleware/logger'
+import { logger } from '../middleware/logger'
 
 mongoose.set('useCreateIndex', true);
 

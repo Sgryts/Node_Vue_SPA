@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import logger from '../../middleware/logger';
+import { logger } from '../../middleware/logger';
 import upload from '../../utils/photo.upload';
 import { MulterFile } from './imulter.file';
 
@@ -114,7 +114,6 @@ export default class PhotoController {
             })
           } else {
             const genres = JSON.parse(req.body.genres);
-
             Photo.create({
               name: req.body.name,
               file: req.files[0].filename,
@@ -122,7 +121,6 @@ export default class PhotoController {
               genres: genres
             })
               .then(photo => {
-                // console.log('SAVED PHOTO', photo)
                 res.status(201).send({
                   success: true,
                   message: 'Photo added',

@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
+import { expressWinstonErrorLogger, expressWinstonLogger } from './middleware/logger';
 import SessionManager from './middleware/session.manager';
 import api from './api/index';
 import * as errorHandler from './middleware/errorHandler';
@@ -21,7 +22,7 @@ class App {
   }
 
   private setMiddlewares(): void {
-    // TSL
+    // TLS
     // httpsConfig(this.express);
     // httpsRedirectConfig(this.express);
 
@@ -53,12 +54,15 @@ class App {
     }));
     this.express.set('trust proxy', 1); // heroku
     // this.express.use(csrf()); // heroku
+    // this.express.use(expressWinstonLogger);
+    this.express.use(expressWinstonErrorLogger);
+    this.express.use(express.static('images'));
+
     // this.express.use('/api/genres/:id/photos', (req, res, next) => {
     //   req.url = req.params.asset;
     //   express.static(__dirname + '/images')(req, res, next);
     // });
     // this.express.use(express.static('images'));
-    this.express.use(express.static('images'));
     // this.express.use('/genres/:id/images', express.static('images'));
     // this.express.use('/images', express.static('images'));
     // this.express.use('/', express.static('dist', { index: 'index.html' }));
