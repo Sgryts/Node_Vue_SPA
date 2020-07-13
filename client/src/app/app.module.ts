@@ -9,6 +9,7 @@ import { AdminModule } from './admin/admin.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ClientModule } from './client/client.module';
       logOnly: environment.production // Restrict extension to log-only mode
     }),
     ClientModule,
-    AdminModule
+    AdminModule,
+    BrowserAnimationsModule,
   ],
   declarations: [
     AppComponent,

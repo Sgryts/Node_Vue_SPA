@@ -8,7 +8,9 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Lightbox } from 'ngx-lightbox';
 import { IAlbum } from 'ngx-lightbox/lightbox-event.service';
 import IGenre from '../../../models/genre.model';
@@ -29,6 +31,10 @@ export class PhotosComponent implements OnInit, OnChanges {
   @Output() deletedPhoto = new EventEmitter<string>();
 
   public galleryForm: FormGroup;
+  public data = [];
+  public data2 = [];
+  page = 0;
+  size = 4;
 
   get getPhotosFormArray(): FormArray {
     return this.galleryForm.get('photosArray') as FormArray
@@ -44,6 +50,8 @@ export class PhotosComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.photos) {
+      this.data2 = this.photos;
+      this.getData({ pageIndex: this.page, pageSize: this.size });
       this.setForm();
     }
   }
@@ -52,6 +60,17 @@ export class PhotosComponent implements OnInit, OnChanges {
 
   }
 
+  public getData(obj: { pageIndex: any; pageSize: any; }): void {
+    let index = 0,
+      startingIndex = obj.pageIndex * obj.pageSize,
+      endingIndex = startingIndex + obj.pageSize;
+    this.data = this.data2.filter(() => {
+      index++;
+      return (index > startingIndex && index <= endingIndex);
+    });
+  }
+
+  //#region Form
   private setForm(): void {
     this.galleryForm = this.fb.group({
       photosArray: this.fb.array([])
@@ -69,16 +88,15 @@ export class PhotosComponent implements OnInit, OnChanges {
   private buildPhotosFormArray(photo: IAlbum & Partial<IPhoto>) {
     return this.fb.group({
       _id: [{ value: photo._id, disabled: true },
-        [Validators.required,
-          Validators.min(24),
-          Validators.max(24)]],
+      [Validators.required,
+      Validators.min(24),
+      Validators.max(24)]],
       name: [{ value: photo.name },
-        [Validators.required,
-          Validators.min(2),
-          Validators.max(50),
-          Validators.pattern(/^[A-Za-z]*$/)]],
+      [Validators.required,
+      Validators.min(2),
+      Validators.max(50),
+      Validators.pattern(/^[A-Za-z]*$/)]],
       genresArray: this.fb.array([]),
-      // genres: new FormArray([this.initGenresFormArray(photo.genres)]),
       caption: [{ value: photo.name, disabled: true }],
       src: [{ value: photo.src, disabled: true }],
       thumb: [{ value: photo.thumb, disabled: true }],
@@ -93,16 +111,18 @@ export class PhotosComponent implements OnInit, OnChanges {
   private buildGenresFormArray(genre: IGenre) {
     return this.fb.group({
       _id: [{ value: genre._id, disabled: true },
-        [Validators.required,
-          Validators.min(24),
-          Validators.max(24)]],
+      [Validators.required,
+      Validators.min(24),
+      Validators.max(24)]],
       name: [{ value: genre.name },
-        [Validators.required,
-          Validators.min(2),
-          Validators.max(50),
-          Validators.pattern(/^[A-Za-z]*$/)]]
+      [Validators.required,
+      Validators.min(2),
+      Validators.max(50),
+      Validators.pattern(/^[A-Za-z]*$/)]]
     })
   }
+
+  //#endregion FORM
 
   onGenreSelected(id: string) {
     this.selectedGenre.emit(id);

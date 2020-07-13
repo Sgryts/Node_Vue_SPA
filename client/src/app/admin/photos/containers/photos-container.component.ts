@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAlbum } from 'ngx-lightbox';
 import { combineLatest, Observable } from 'rxjs';
-import { map, takeWhile, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, takeWhile, tap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import IGenre from '../../../models/genre.model';
 import IPhoto from '../../../models/photo.model';
@@ -26,18 +26,19 @@ export class PhotosContainerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading$ = this.adminFacade.isLoaded$;
-    this.photos$ = this.adminFacade.getPhotos$;
     const genreId = this.activatedRoute.snapshot.queryParamMap.get('genre');
     this.adminFacade.loadGenres();
     this.genres$ = this.adminFacade.getGenres$;
     combineLatest([this.genres$])
       .pipe(takeWhile(_ => this.isActive),
-        tap(([genres]) => this.onGenreSelected(genreId)))
+        filter(genres => {console.log('F', ...genres); return genres[0]?.length > 0}),
+        tap((genres) => {console.log('G', genres); return this.onGenreSelected(genreId)}))
       .subscribe();
     this.getPhotos();
+    this.photos$ = this.adminFacade.getPhotos$;
   }
 
-  private getPhotos() {
+  private getPhotos(): void {
     this.adminFacade.getPhotos$.pipe(
       takeWhile(_ => this.isActive),
       map((p): IPhoto[] => p),
@@ -61,7 +62,7 @@ export class PhotosContainerComponent implements OnInit, OnDestroy {
     this.adminFacade.loadPhotosByGenre(id);
   }
 
-  public onPhotoUpdated(photo: IPhoto): void {
+  public onPhotoUpdated(photo: Partial<IPhoto>): void {
     this.adminFacade.updatePhoto$(photo);
   }
 

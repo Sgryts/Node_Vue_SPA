@@ -4,7 +4,6 @@
     <admin-sidenav></admin-sidenav>
   </nav>
   <div id="page-wrapper">
-    <div class="row"><h1 (click)="seeForm()">PHOTOS</h1></div>
     <br>
     <br>
     <br>
@@ -27,9 +26,24 @@
     <br>
     <br>
     <admin-photos-gallery
-      [photos]="photos"
+      [photos]="data"
       (selectedImageId)="openSelectedImage($event)"
     >
     </admin-photos-gallery>
+    <br>
+    <br>
+    <br>
+    <br>
+    <mat-paginator [length]="data2.length"
+                   [pageSize]="size"
+                   [pageIndex]="page"
+                   [pageSizeOptions]="[4, 8, 12]"
+                   (page)="getData($event)">
+    </mat-paginator>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button (click)="seeForm()">FORM</button>
   </div>
 </div>

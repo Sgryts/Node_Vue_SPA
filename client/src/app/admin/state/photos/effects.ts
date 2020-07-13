@@ -1,43 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, map, mergeMap, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { selectGenres } from '../../../client/state';
+import {
+  catchError,
+  map,
+  mergeMap,
+  switchMap,
+  takeUntil,
+  withLatestFrom
+} from 'rxjs/operators';
 import IPhoto from '../../../models/photo.model';
 import { PhotoService } from '../../services/photo.service';
-import { State } from '../index';
+import { State, selectGenres } from '../index';
 import * as PhotoActions from './actions';
 import find from 'lodash/find';
+import IGenre from 'src/app/models/genre.model';
 
 @Injectable()
 export class PhotosEffects {
   constructor(private action$: Actions, private store$: Store<State>,
-              private photoService: PhotoService) {
+    private photoService: PhotoService) {
   }
-
-  // loadPhotos$: Observable<Action> = createEffect(() =>
-  //   this.action$.pipe(
-  //     ofType(PhotoActions.loadPhotosByGenre),
-  //     withLatestFrom(this.store$.select(selectGenres)),
-  //     switchMap(([{ id }, genres]) => {
-  //       if (id === '') {
-  //         id = (find(genres, g => g.name === 'All'))._id;
-  //       }
-  //       return this.photoService.getPhotosByGenre(id).pipe(
-  //         map((payload) => PhotoActions.loadPhotosByGenreSuccess({ payload })),
-  //         catchError((error) => of(PhotoActions.loadPhotosByGenreFail({ error }))));
-  //     })
-  //   ));
 
   loadPhotosByGenre$: Observable<Action> = createEffect(() => {
     return this.action$.pipe(
-      debounceTime(500),
       ofType(PhotoActions.loadPhotosByGenre),
       withLatestFrom(this.store$.select(selectGenres)),
-      switchMap(([{ id }, genres]) => {
+      switchMap(([{ id }, genres]: [{ id: string }, Array<IGenre>]) => {
         if (id === '') {
-          id = (find(genres, g => g.name === 'All'))?._id;
+          id = (find(genres, (g: IGenre): boolean => g.name === 'All'))?._id;
         }
         return this.photoService.getPhotosByGenre(id).pipe(
           map((payload) => PhotoActions.loadPhotosByGenreSuccess({ payload })),

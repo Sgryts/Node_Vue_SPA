@@ -2,7 +2,14 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
@@ -49,23 +56,29 @@ const COMPONENTS =
     AdminRoutingModule,
     CommonModule,
     FormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatIconModule,
+    FlexLayoutModule,
     ReactiveFormsModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    MatPaginatorModule
   ],
   declarations: COMPONENTS,
   providers: [
     AuthService,
-    // AuthGuard,
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: TokenInterceptor,
-    //   multi: true
-    // },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: ErrorInterceptor,
-    //   multi: true
-    // },
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    },
     GenreService,
     PhotoService,
     AdminStateFacade
