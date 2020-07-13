@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     logOut(): void {
-        this.removeToken()
+        this.removeToken();
     }
 
     // TODO: not used as of right now

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { invoke } from 'lodash'
+import { invoke } from 'lodash';
 
 @Component({
   selector: 'client-navigation',

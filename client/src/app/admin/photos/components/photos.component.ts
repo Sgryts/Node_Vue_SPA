@@ -37,12 +37,12 @@ export class PhotosComponent implements OnInit, OnChanges {
   size = 4;
 
   get getPhotosFormArray(): FormArray {
-    return this.galleryForm.get('photosArray') as FormArray
+    return this.galleryForm.get('photosArray') as FormArray;
   }
 
   public getGenresFormArray(i: number): FormArray {
     return (<FormGroup>((<FormArray>this.galleryForm.get('photosArray')).controls[i]))
-      .get('genresArray') as FormArray
+      .get('genresArray') as FormArray;
   }
 
   constructor(private lightbox: Lightbox, private fb: FormBuilder) {
@@ -119,7 +119,7 @@ export class PhotosComponent implements OnInit, OnChanges {
       Validators.min(2),
       Validators.max(50),
       Validators.pattern(/^[A-Za-z]*$/)]]
-    })
+    });
   }
 
   //#endregion FORM

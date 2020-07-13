@@ -5,7 +5,7 @@ import IPhoto from '../../../models/photo.model';
 
 export interface State {
   photos: IPhoto[];
-  isLoaded: boolean,
+  isLoaded: boolean;
   error: string;
 }
 

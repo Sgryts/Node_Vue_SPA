@@ -20,8 +20,8 @@ export class PhotosContainerComponent implements OnInit, OnDestroy {
   public isActive = true;
 
   constructor(private adminFacade: AdminStateFacade,
-              private router: Router,
-              private activatedRoute: ActivatedRoute) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -31,8 +31,8 @@ export class PhotosContainerComponent implements OnInit, OnDestroy {
     this.genres$ = this.adminFacade.getGenres$;
     combineLatest([this.genres$])
       .pipe(takeWhile(_ => this.isActive),
-        filter(genres => {console.log('F', ...genres); return genres[0]?.length > 0}),
-        tap((genres) => {console.log('G', genres); return this.onGenreSelected(genreId)}))
+        filter(genres => return genres[0]?.length > 0; }),
+        tap((genres) => return this.onGenreSelected(genreId); }))
       .subscribe();
     this.getPhotos();
     this.photos$ = this.adminFacade.getPhotos$;
@@ -74,9 +74,9 @@ export class PhotosContainerComponent implements OnInit, OnDestroy {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams:
-        {
-          genre: id
-        },
+      {
+        genre: id
+      },
       replaceUrl: true,
     });
   }

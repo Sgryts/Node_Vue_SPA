@@ -152,11 +152,11 @@ export class PhotosUploadComponent implements OnInit {
         if (c.value.some((v) => v?._id.length !== 24)) {
           return {
             genresInvalid: true
-          }
+          };
         }
       }
       return null;
-    }
+    };
   }
 
   private fileTypeValidator(types: string[]) {
@@ -167,11 +167,11 @@ export class PhotosUploadComponent implements OnInit {
         if (!types.includes(extension)) {
           return {
             fileTypeInvalid: true
-          }
+          };
         }
         return null;
       }
       return null;
-    }
+    };
   }
 }

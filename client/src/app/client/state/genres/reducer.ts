@@ -4,8 +4,8 @@ import IGenre from '../../../models/genre.model';
 
 export interface State {
   genres: IGenre[];
-  isLoaded: boolean,
-  error: string
+  isLoaded: boolean;
+  error: string;
 }
 
 const initialState: State = {
