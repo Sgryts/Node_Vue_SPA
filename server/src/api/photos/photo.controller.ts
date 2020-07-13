@@ -16,13 +16,16 @@ export default class PhotoController {
 
   public findAll = async (req: Request, res: Response): Promise<any> => {
     try {
-      const photos = await Photo.find().populate({ path: 'genres' });
+      const photos = await Photo.find()
+        .sort({ created_at: 'descending' })
+        .populate({ path: 'genres' });
 
       res.status(200).send({
         success: true,
         message: '',
         data: photos
       });
+
     } catch (err) {
       logger.error(err.message, err);
       res.status(500).send({
@@ -32,7 +35,7 @@ export default class PhotoController {
       });
     }
   };
-  // validate body/params/query/headers
+
   public findPhotosByGenre = async (req: Request, res: Response): Promise<any> => {
     try {
       if (req.headers.accept !== 'application/vnd.photosforgenre+json') {
@@ -50,12 +53,59 @@ export default class PhotoController {
         });
       }
       const photos = await Photo.find({ 'genres': { '$in': [req.query.genre] } })
+        .sort({ created_at: 'descending' })
         .populate({ path: 'genres' });
 
       res.status(200).send({
         success: true,
         message: '',
         data: photos
+      });
+
+    } catch (err) {
+      logger.error(err.message, err);
+      res.status(500).send({
+        success: false,
+        message: 'Something went wrong, please try again.' + err.toString(),
+        data: null
+      });
+    }
+  };
+
+  public findPhotosByGenrePaginate = async (req: Request, res: Response): Promise<any> => {
+    try {
+      if (req.headers.accept !== 'application/vnd.photosforgenrepaginate+json') {
+        res.status(415).send({
+          success: false,
+          message: 'Unsupported Media Type.',
+          data: null
+        });
+      }
+      if (!req.query.genre || req.query.genre.length !== 24) {
+        res.status(400).send({
+          success: false,
+          message: 'Invalid genre, please try again.',
+          data: null
+        });
+      }
+      const perPage = 10;
+      // const page = +req.params.page >= 1 ? +req.params.page : 1;
+      const page = +req.query.page >= 1 ? +req.query.page : 1;
+      const photos = await Photo.find()
+        .sort({ created_at: 'descending' })
+        .limit(perPage)
+        .skip(perPage * page)
+        .populate({ path: 'genres' });
+      const count = await Photo.find().count();
+      const totalPages = ~~(count / perPage) + (Number.isInteger(count / perPage) ? 0 : 1);
+      res.status(200).send({
+        success: true,
+        message: '',
+        data: {
+          photos,
+          page,
+          totalPages
+        }
       });
 
     } catch (err) {
@@ -157,10 +207,10 @@ export default class PhotoController {
         switch (error.details[0].context.key) {
           case 'name':
             this.errorMessage = 'Invalid name';
-            break
+            break;
           case 'genres':
             this.errorMessage = 'Invalid genre(s)';
-            break
+            break;
           default:
             this.errorMessage = 'Invalid input';
           // error.details[0].message
