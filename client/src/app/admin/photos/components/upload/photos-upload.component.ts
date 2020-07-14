@@ -7,10 +7,10 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
-import IGenre from '../../../models/genre.model';
-import { IPhotoUpload } from '../photo-upload.model';
+import IGenre from '../../../../models/genre.model';
+import { IPhotoUpload } from '../../photo-upload.model';
 
 @Component({
   selector: 'admin-photos-upload',
@@ -31,16 +31,16 @@ export class PhotosUploadComponent implements OnInit {
   @Output() photoUploadedReset: EventEmitter<void> = new EventEmitter<void>();
   @Output() photoUploadedCanceled: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild('multiSelect') multiSelect;
-
   public form: FormGroup;
-  public loadContent: boolean = false;
-  public name = 'Genres Select Dropdown';
-  public placeholder = 'Select Genre(s)';
-  public data = [];
-  public settings: IDropdownSettings = {};
-  public selectedItems = [];
   private file: File | null;
+
+  @ViewChild('multiSelect') multiSelect;
+  public loadContent: boolean = false;
+  public name: string = 'Genres Select Dropdown';
+  public placeholder: string = 'Select Genre(s)';
+  public data: IGenre[] = [];
+  public settings: IDropdownSettings = {};
+  // public selectedItems = [];
 
   constructor(private fb: FormBuilder) {
   }
@@ -71,7 +71,7 @@ export class PhotosUploadComponent implements OnInit {
     this.form = this.fb.group({
       name: [null,
         [Validators.required, Validators.minLength(1),
-          Validators.maxLength(255)]],
+        Validators.maxLength(255)]],
       genres: [null,
         [Validators.required, this.genresValidator()]],
       image: [null,
@@ -80,16 +80,16 @@ export class PhotosUploadComponent implements OnInit {
     this.loadContent = true;
   }
 
-  get f() {
+  get f(): { [key: string]: AbstractControl; } {
     return this.form.controls;
   }
 
-  public save() {
-    console.log('fff', {
-      name: this.form.get('name').value,
-      image: this.file,
-      genres: this.form.get('genres').value.map((v) => v._id)
-    });
+  public save(): void {
+    // console.log('fff', {
+    //   name: this.form.get('name').value,
+    //   image: this.file,
+    //   genres: this.form.get('genres').value.map((v) => v._id)
+    // });
 
     this.photoUploaded.emit({
       name: this.form.get('name').value,
@@ -149,7 +149,8 @@ export class PhotosUploadComponent implements OnInit {
   private genresValidator() {
     return (c: FormControl) => {
       if (c?.value) {
-        if (c.value.some((v) => v?._id.length !== 24)) {
+        if (c.value.some((v: IGenre): boolean =>
+          v?._id.length !== 24)) {
           return {
             genresInvalid: true
           };

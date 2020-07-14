@@ -4,46 +4,52 @@
     <admin-sidenav></admin-sidenav>
   </nav>
   <div id="page-wrapper">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <div *ngIf="genres">
-      <ul style="float:left;display:inline-block;height:50px;"
-          class="list-inline text-center"
-          *ngFor="let genre of genres">
+      <ul
+        style="float: left; display: inline-block; height: 50px;"
+        class="list-inline text-center .genres-navigation"
+        *ngFor="let genre of genres"
+      >
         <li>
-          <span (click)="onGenreSelected(genre._id);" class="active">
-            {{genre.name}}
+          <span (click)="onGenreSelected(genre._id)" class="active">
+            {{ genre.name }}
           </span>
         </li>
       </ul>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
+    <br />
     <admin-photos-gallery
       [photos]="data"
+      [genres]="genres"
+      [galleryForm]="galleryForm"
       (selectedImageId)="openSelectedImage($event)"
     >
     </admin-photos-gallery>
-    <br>
-    <br>
-    <br>
-    <br>
-    <mat-paginator [length]="data2.length"
-                   [pageSize]="size"
-                   [pageIndex]="page"
-                   [pageSizeOptions]="[4, 8, 12]"
-                   (page)="getData($event)">
+    <br />
+    <br />
+    <br />
+    <br />
+    <mat-paginator
+      [length]="data2.length"
+      [pageSize]="size"
+      [pageIndex]="page"
+      [pageSizeOptions]="[4, 8, 12]"
+      (page)="setPaging($event)"
+    >
     </mat-paginator>
-    <br>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
+    <br />
     <button (click)="seeForm()">FORM</button>
   </div>
 </div>

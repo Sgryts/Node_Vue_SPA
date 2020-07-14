@@ -16,8 +16,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AdminRoutingModule } from './admin-routing.module';
 import { GenresContainerComponent } from './genres/containers/genres-container.component';
 import { AuthGuard } from './guards/auth.guard';
-import { PhotosGalleryComponent } from './photos/components/photos-gallery.component';
-import { PhotosUploadComponent } from './photos/components/photos-upload.component';
+import { PhotosGalleryComponent } from './photos/components/gallery/photos-gallery.component';
+import { PhotosUploadComponent } from './photos/components/upload/photos-upload.component';
 import { PhotosUploadContainerComponent } from './photos/containers/photos-upload-container.component';
 import { PhotosContainerComponent } from './photos/containers/photos-container.component';
 import { AuthService } from './services/auth.service';
@@ -34,6 +34,9 @@ import { PhotosComponent } from './photos/components/photos.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { HeaderComponent } from './header/header.component';
 import { AdminStateFacade } from './state/state.facade';
+import { PhotosDeleteDialogComponent } from './photos/components/gallery/dialogs/photos-delete-dialog.component';
+import { PhotosEditDialogComponent } from './photos/components/gallery/dialogs/photos-edit-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const COMPONENTS =
   [
@@ -46,7 +49,15 @@ const COMPONENTS =
     SidenavComponent,
     HeaderComponent,
     PhotosUploadContainerComponent,
-    PhotosGalleryComponent
+    PhotosGalleryComponent,
+    PhotosDeleteDialogComponent,
+    PhotosEditDialogComponent
+  ];
+
+const ENTRY_COMPONENTS =
+  [
+    PhotosDeleteDialogComponent,
+    PhotosEditDialogComponent
   ];
 
 @NgModule({
@@ -58,6 +69,7 @@ const COMPONENTS =
     FormsModule,
     MatInputModule,
     MatButtonModule,
+    MatDialogModule,
     MatSelectModule,
     MatIconModule,
     FlexLayoutModule,
@@ -66,6 +78,7 @@ const COMPONENTS =
     MatPaginatorModule
   ],
   declarations: COMPONENTS,
+  entryComponents: ENTRY_COMPONENTS,
   providers: [
     AuthService,
     AuthGuard,

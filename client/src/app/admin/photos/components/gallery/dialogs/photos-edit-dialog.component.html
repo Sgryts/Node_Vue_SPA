@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Update Photo</h2>
+<mat-dialog-content style="height:800px">
+  <form [formGroup]="form" (ngSubmit)="onConfirm()" (reset)="resetForm()">
+    <div class="form-group">
+      <label for="genres">Genres:</label>
+      <ng-multiselect-dropdown
+        class=""
+        id="genres"
+        #multiSelect
+        [placeholder]="placeholder"
+        [settings]="settings"
+        [data]="genres"
+        [formControl]="f.genres"
+        [attr.disabled]="false"
+      >
+      </ng-multiselect-dropdown>
+      <span *ngIf="f?.genres.touched && f?.genres.invalid">
+        <span *ngIf="f?.genres?.errors?.required" style="color: red;">
+          Genre is required
+        </span>
+      </span>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" (click)="onDismiss()">Cancel</button>
+  <button mat-button color="warn" (click)="onConfirm()" cdkFocusInitial>
+    Yes
+  </button>
+</mat-dialog-actions>

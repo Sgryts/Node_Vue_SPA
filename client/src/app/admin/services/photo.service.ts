@@ -104,7 +104,7 @@ export class PhotoService {
   }
 
   deletePhoto(id: string): Observable<Partial<IPhoto>> {
-    const url = `${this.baseUrl}/photos/${id}`;
+    const url = `${this.baseUrl}/${id}`;
     return this.httpClient.delete<Partial<IPhoto>>(url).pipe(
       catchError(this.handleError)
     );

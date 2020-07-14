@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAlbum } from 'ngx-lightbox';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, takeWhile, tap, switchMap } from 'rxjs/operators';
+import { filter, map, takeWhile, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import IGenre from '../../../models/genre.model';
 import IPhoto from '../../../models/photo.model';
@@ -31,8 +31,8 @@ export class PhotosContainerComponent implements OnInit, OnDestroy {
     this.genres$ = this.adminFacade.getGenres$;
     combineLatest([this.genres$])
       .pipe(takeWhile(_ => this.isActive),
-        filter(genres => return genres[0]?.length > 0; }),
-        tap((genres) => return this.onGenreSelected(genreId); }))
+        filter(genres => genres[0]?.length > 0),
+        tap(_=> this.onGenreSelected(genreId)))
       .subscribe();
     this.getPhotos();
     this.photos$ = this.adminFacade.getPhotos$;

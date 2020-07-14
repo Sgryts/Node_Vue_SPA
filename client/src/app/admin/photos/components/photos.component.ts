@@ -19,7 +19,7 @@ import IPhoto from '../../../models/photo.model';
 @Component({
   selector: 'admin-photos',
   templateUrl: './photos.component.html',
-  styleUrls: ['./photos-upload.component.css'],
+  styleUrls: ['./photos.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotosComponent implements OnInit, OnChanges {
@@ -51,7 +51,7 @@ export class PhotosComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.photos) {
       this.data2 = this.photos;
-      this.getData({ pageIndex: this.page, pageSize: this.size });
+      this.setPaging({ pageIndex: this.page, pageSize: this.size });
       this.setForm();
     }
   }
@@ -60,11 +60,11 @@ export class PhotosComponent implements OnInit, OnChanges {
 
   }
 
-  public getData(obj: { pageIndex: any; pageSize: any; }): void {
+  public setPaging(data: { pageIndex: number; pageSize: number; }): void {
     let index = 0,
-      startingIndex = obj.pageIndex * obj.pageSize,
-      endingIndex = startingIndex + obj.pageSize;
-    this.data = this.data2.filter(() => {
+      startingIndex = data.pageIndex * data.pageSize,
+      endingIndex = startingIndex + data.pageSize;
+    this.data = this.data2.filter((): boolean => {
       index++;
       return (index > startingIndex && index <= endingIndex);
     });
