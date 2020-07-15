@@ -68,8 +68,8 @@ export class PhotoService {
   }
 
   updatePhoto(photo: Partial<IPhoto>): Observable<IPhoto> {
-    const url = `${this.baseUrl}/photos/${photo._id}`;
-    return this.httpClient.put<IPhoto>(url, photo).pipe(
+    const url = `${this.baseUrl}/${photo._id}`;
+    return this.httpClient.put<IPhoto>(url, { name: photo.name, genres: photo.genres }).pipe(
       catchError(this.handleError)
     );
   }

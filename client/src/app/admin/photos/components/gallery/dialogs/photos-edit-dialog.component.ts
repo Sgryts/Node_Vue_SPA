@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import IPhoto from '../../../../../models/photo.model';
 import IGenre from '../../../../../models/genre.model';
@@ -11,27 +11,25 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
   templateUrl: './photos-edit-dialog.component.html',
   styleUrls: ['./photos-edit-dialog.component.css']
 })
-export class PhotosEditDialogComponent implements OnInit, OnDestroy {
+export class PhotosEditDialogComponent implements OnInit {
 
-  private isActive: boolean = true;
   public form: FormGroup;
   public genres: Array<IGenre> = [];
 
   constructor(public dialogRef: MatDialogRef<PhotosEditDialogComponent>,
     private adminFacade: AdminStateFacade,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { genres: Array<IGenre>; photo: IPhoto }) { }
+    @Inject(MAT_DIALOG_DATA) public dialogData: { genres: Array<IGenre>; photo: IPhoto }) { }
 
 
   @ViewChild('multiSelect') multiSelect;
   public loadContent: boolean = false;
   public name: string = 'Genres Select Dropdown';
   public placeholder: string = 'Select Genre(s)';
-  // public multiselectData: IGenre[] = [];
   public settings: IDropdownSettings = {};
 
   ngOnInit(): void {
-    this.genres = this.data.genres;
+    this.genres = this.dialogData.genres;
     this.settings = {
       singleSelection: false,
       idField: '_id',
@@ -53,23 +51,17 @@ export class PhotosEditDialogComponent implements OnInit, OnDestroy {
     this.setForm();
   }
 
-  ngOnDestroy(): void {
-    this.isActive = false;
-  }
-
   get f(): { [key: string]: AbstractControl; } {
     return this.form.controls;
   }
 
   public setForm(): void {
     this.form = this.fb.group({
-      name: [null,
-        [Validators.required, Validators.minLength(1),
-        Validators.maxLength(255)]],
-      genres: [null,
-        [Validators.required, this.genresValidator()]],
-      image: [null,
-        [Validators.required]]
+      name: [this.dialogData.photo.name,
+      [Validators.required, Validators.minLength(1),
+      Validators.maxLength(255)]],
+      genres: [this.dialogData.photo.genres,
+      [Validators.required, this.genresValidator()]]
     });
     this.loadContent = true;
   }
@@ -98,7 +90,11 @@ export class PhotosEditDialogComponent implements OnInit, OnDestroy {
   }
 
   public onConfirm(): void {
-    console.log("d", this.data);
-    this.dialogRef.close(this.data);
+    this.adminFacade.updatePhoto$({
+      _id: this.dialogData.photo._id,
+      name: this.f.name.value,
+      genres: this.f.genres.value.map((g: IGenre): string => g._id)
+    });
+    this.dialogRef.close(this.dialogData);
   }
 }
