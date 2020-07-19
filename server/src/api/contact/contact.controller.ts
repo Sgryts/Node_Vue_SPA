@@ -1,52 +1,29 @@
 import { Request, Response } from 'express';
-import * as reCAPTCHA from 'recaptcha2';
+const axios = require('axios');
 import * as nodemailer from 'nodemailer';
 import { logger } from '../../middleware/logger';
-
+import CONFIG from '../../config/config';
 const { validate } = require('../contact/contact.model');
 
 
 export default class PhotoController {
   private errorMessage: string = '';
-  // what does captcha return?
-  // get forms values + recaptcha
-  // if form values OK
-  public reCaptcha = async (req: Request, res: Response) => {
-    const recaptcha = new reCAPTCHA({
-      siteKey: process.env.SITE_KEY,
-      secretKey: process.env.SECURITY_ERR,
-      ssl: false
-    });
 
-    recaptcha.validateRequest(req)
-      .then(function () {
-        // display send btn if success
-        // Generating the reCAPTCHA widget
-        // recaptcha.formElement() returns standard form element for
-        // reCAPTCHA which you should include at the end of  your html form element.
-        //  You can also set CSS classes like this: recaptcha.formElement('custom-class-for-recaptcha').
-        //  The default class is g-recaptcha.
-        // <div class="custom-class-for-recaptcha" data-sitekey="your-site-key"></div> front end
-        res.status(201).send({
-          success: true,
-          message: 'Checked',
-          data: null
-        });
-      })
-      .catch(function (err) {
-        logger.error(err.message, err);
-        res.status(400).send({
-          success: false,
-          message: 'Please check reCAPTCHA form',
-          data: recaptcha.translateErrors(err)
-        });
-      });
+  private isReCaptchaValid = async (token: string, secretKey: string): Promise<boolean> => {
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
+    const response = await axios.get(url);
+    return response.data.success;
   }
 
-
   public sendEmail = async (req: Request, res: Response) => {
-    //recaptcha
     try {
+      if (!await this.isReCaptchaValid(req.body['g-recaptcha-response'], CONFIG.DEV_SECRET_KEY)) {
+        return res.status(400).send({
+          success: false,
+          message: 'Please check reCAPTCHA form',
+          data: null
+        });
+      }
       const { error } = validate(req.body);
       if (error) {
         switch (error.details[0].context.key) {
@@ -75,40 +52,37 @@ export default class PhotoController {
 
       const { name, email, subject, body } = req.body;
 
-      const testAccount = await nodemailer.createTestAccount();
-
       const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: CONFIG.DEV_SMTP_HOST,
+        port: +CONFIG.DEV_SMTP_PORT,
         auth: {
-          user: testAccount.user, // generated ethereal user
-          pass: testAccount.pass // generated ethereal password
+          user: CONFIG.DEV_SMTP_USERNAME,
+          pass: CONFIG.DEV_SMTP_PASSWORD
         }
       });
 
-      // send mail with defined transport object
       const info = await transporter.sendMail({
-        from: `"SGpixels - ${name} " ${email}`, // sender address
-        to: process.env.ADMIN_EMAIL, //"bar@example.com, baz@example.com", // list of receivers
-        subject: subject, // Subject line
-        text: body, // plain text body
+        from: `"SGpixels - ${name} " ${email}`,
+        to: CONFIG.ADMIN_SMTP_EMAIL,
+        subject: subject,
+        text: body,
       });
 
       console.log('Message sent: %s', info.messageId);
-      // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-      // Preview only available when sending through an Ethereal account
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-      // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+      res.status(201).send({
+        success: true,
+        message: 'Email sent succesfully',
+        data: null
+      });
     } catch (err) {
       logger.error(err.message, err);
-      res.status(400).send({
+      res.status(500).send({
         success: false,
-        message: 'Please check reCAPTCHA form',
+        message: 'Please try again',
         data: null
       });
     }
   }
-
 }

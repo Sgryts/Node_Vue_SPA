@@ -5,7 +5,8 @@ const validateEmail = (data) => {
         name: Joi.string().min(1).max(255).required(),
         subject: Joi.string().min(2).max(255).required(),
         email: Joi.string().min(5).max(255).required().email(),
-        body: Joi.array().items(Joi.string().min(5).max(500))
+        body: Joi.string().min(5).max(500).required(),
+        'g-recaptcha-response': Joi.string(),
     };
     return Joi.validate(data, schema);
 };
