@@ -37,6 +37,11 @@
                   >
                     {{ validationErrors.get("email").type }}
                   </ng-container>
+                  <ng-container
+                    *ngIf="contactForm.get('email').hasError('maxlength')"
+                  >
+                    {{ validationErrors.get("email").maxLength }}
+                  </ng-container>
                 </mat-error>
               </mat-form-field>
 
@@ -51,13 +56,17 @@
                   <ng-container
                     *ngIf="contactForm.get('name').hasError('required')"
                   >
-                    {{ validationErrors.get('name').required }}
+                    {{ validationErrors.get("name").required }}
                   </ng-container>
-                  <ng-container *ngIf="contactForm.get('name').hasError('min')">
-                    {{ validationErrors.get('name').min }}
+                  <ng-container
+                    *ngIf="contactForm.get('name').hasError('minlength')"
+                  >
+                    {{ validationErrors.get("name").minLength }}
                   </ng-container>
-                  <ng-container *ngIf="contactForm.get('name').hasError('max')">
-                    {{ validationErrors.get('name').max }}
+                  <ng-container
+                    *ngIf="contactForm.get('name').hasError('maxlength')"
+                  >
+                    {{ validationErrors.get("name").maxLength }}
                   </ng-container>
                 </mat-error>
               </mat-form-field>
@@ -68,16 +77,27 @@
                   placeholder="Subject"
                   formControlName="subject"
                 />
-                <mat-hint
-                  >Choose a password of at least eight characters, one uppercase
-                  letter and one number</mat-hint
-                >
                 <mat-error
                   *ngIf="
                     !contactForm.controls['subject'].valid &&
                     contactForm.controls['subject'].touched
                   "
                 >
+                  <ng-container
+                    *ngIf="contactForm.get('name').hasError('required')"
+                  >
+                    {{ validationErrors.get("subject").required }}
+                  </ng-container>
+                  <ng-container
+                    *ngIf="contactForm.get('name').hasError('minlength')"
+                  >
+                    {{ validationErrors.get("subject").minLength }}
+                  </ng-container>
+                  <ng-container
+                    *ngIf="contactForm.get('name').hasError('maxlength')"
+                  >
+                    {{ validationErrors.get("subject").maxLength }}
+                  </ng-container>
                 </mat-error>
               </mat-form-field>
 
@@ -101,11 +121,7 @@
               </mat-form-field>
 
               <div>
-                <re-captcha
-                  (resolved)="resolved($event)"
-                  formControlName="captcha"
-                  [siteKey]="SITE_KEY"
-                >
+                <re-captcha formControlName="captcha" [siteKey]="SITE_KEY">
                 </re-captcha>
               </div>
               <div class="form-element">
@@ -114,9 +130,9 @@
                   color="primary"
                   type="submit"
                   class="button"
-                  [disabled]=""
+                  [disabled]="!contactForm.valid"
                 >
-                  Send Email !contactForm.valid
+                  Send Email
                 </button>
               </div>
             </form>

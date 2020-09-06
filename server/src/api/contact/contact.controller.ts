@@ -17,7 +17,7 @@ export default class PhotoController {
 
   public sendEmail = async (req: Request, res: Response) => {
     try {
-      if (!await this.isReCaptchaValid(req.body['g-recaptcha-response'], CONFIG.DEV_SECRET_KEY)) {
+      if (!await this.isReCaptchaValid(req.body['captcha'], CONFIG.DEV_SECRET_KEY)) {
         return res.status(400).send({
           success: false,
           message: 'Please check reCAPTCHA form',

@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import trimmer from "../../middleware/whiteSpaceTrimmer";
+import trimmer from '../../middleware/whiteSpaceTrimmer';
 import Controller from './contact.controller';
 
 const contact: Router = Router();

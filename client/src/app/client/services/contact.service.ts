@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { IPayload } from 'src/app/models/payload.model';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 
 @Injectable()
 export class ContactService {
@@ -14,9 +14,9 @@ export class ContactService {
     constructor(private httpClient: HttpClient) {
     }
 
-    public sendEmail(form: IEmailForm): Observable<any> {
-        return this.httpClient.post<IPayload<{}>>(`${this.baseUrl}/contact`, { headers: this.headers })
-            .pipe(map((data) => data), catchError(this.handleError))
+    public sendEmail(email: IEmailForm): Observable<any> {
+        return this.httpClient.post<IPayload<{}>>(`${this.baseUrl}/contact`, email, { headers: this.headers })
+            .pipe(map((data) => data), catchError(this.handleError), take(1))
     }
 
 
@@ -30,5 +30,4 @@ export class ContactService {
         console.error(errorMessage);
         return throwError(errorMessage);
     }
-
 }
