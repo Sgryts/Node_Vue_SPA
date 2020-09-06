@@ -7,6 +7,8 @@ import * as colors from 'colors';
 import * as open from 'open';
 import * as https from 'https';
 import * as fs from 'fs';
+import * as cluster from 'cluster';
+import * as os from 'os';
 
 const logger: Logger = require('./middleware/logger');
 
@@ -19,15 +21,26 @@ const options: { [key: string]: Buffer } = {
   cert: fs.readFileSync('src/cert/server.crt')
 };
 
-app.listen(PORT, (err: any) => {
-  if (err) {
-    logger.error(err.message, err);
-    return console.log(colors.red(err));
-  } else {
-    console.log(colors.yellow.bold.bgCyan.underline(`Server is listening on ${PORT}`));
+if (cluster.isMaster) {
+  for (let i = 0; i < os.cpus().length; i++) {
+    cluster.fork();
+
+    cluster.on('online', worker => console.log(colors.rainbow('Worker ' + worker.process.pid + 'is online')));
+    cluster.on('exit', (worker, code, signal) => console.log(colors.rainbow('Worker ' + worker.process.pid + 'exited')));
   }
-  // https.createServer(options, app).listen(SECURE_PORT);
-});
+} else {
+  app.listen(PORT, (err: any) => {
+    if (err) {
+      logger.error(err.message, err);
+      return console.log(colors.red(err));
+    } else {
+      console.log(colors.yellow.bold.bgCyan.underline(`Server is listening on ${PORT}`));
+    }
+    // https.createServer(options, app).listen(SECURE_PORT);
+  });
+}
+
+
 
 
 
