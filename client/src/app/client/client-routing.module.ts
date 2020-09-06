@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './about/components/about.component';
-import { ContactComponent } from './contact/components/contact.component';
+import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/components/home.component';
 import { PortfolioContainerComponent } from './portfolio/containers/portfolio-container.component';
 import { PageNotFoundComponent } from './shared/PageNotFound.component';

@@ -12,7 +12,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LightboxModule } from 'ngx-lightbox';
 import { ClientRoutingModule } from './client-routing.module';
 import { AboutComponent } from './about/components/about.component';
-import { ContactComponent } from './contact/components/contact.component';
+import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/components/home.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { GalleryComponent } from './portfolio/components/gallery.component';
@@ -20,11 +20,16 @@ import { PortfolioComponent } from './portfolio/components/portfolio.component';
 import { PortfolioContainerComponent } from './portfolio/containers/portfolio-container.component';
 import { GenreService } from './services/genre.service';
 import { PhotoService } from './services/photo.service';
+import { ContactService } from './services/contact.service';
 import { PageNotFoundComponent } from './shared/PageNotFound.component';
 import { FEATURE_NAME, reducers } from './state';
 import { GenresEffects } from './state/genres/effects';
 import { PhotosEffects } from './state/photos/effects';
 import { ClientStateFacade } from './state/state.facade';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 @NgModule({
   imports: [
@@ -36,8 +41,14 @@ import { ClientStateFacade } from './state/state.facade';
     MatButtonModule,
     MatSelectModule,
     MatIconModule,
+    MatToolbarModule,
     LightboxModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
   declarations: [
     NavigationComponent,
@@ -52,6 +63,7 @@ import { ClientStateFacade } from './state/state.facade';
   providers: [
     GenreService,
     PhotoService,
+    ContactService,
     ClientStateFacade
   ]
 })
