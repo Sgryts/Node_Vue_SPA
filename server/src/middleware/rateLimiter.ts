@@ -1,19 +1,16 @@
 import * as rateLimit from 'express-rate-limit';
 
-export const apiLimiter15_900 = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
-  max: 900, // 900req per 15 min = 1req per s for 15 min.
-  message: 'Too many accounts created from this IP, please try again after 15 min'
-});
+const limitReachedMessage = (windowMs: number) => `Too many request created from this IP, please try again after ${windowMs} min`;
 
-export const apiLimiter1_10 = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 min
-  max: 10,
-  message: 'Too many accounts created from this IP, please try again after 15 min'
+/**
+ * API Bandwith
+ * @param windowMs in minutes (example windowMs 1 is (1 * 60 * 1000) - 1 minute)
+ * @param max - max tries
+ * @param message
+ * @returns if rate limit is reached - returns HTTP Code 429 and custom message 
+ */
+export const apiRateLimiter = (windowMs: number, max: number) => rateLimit({
+  windowMs: windowMs * 60 * 1000,
+  max,
+  message: limitReachedMessage(windowMs)
 });
-
-// export const apiLimiter1_3 = rateLimit({
-//   windowMs: 1 * 60 * 1000, // 1 min
-//   max: 3,
-//   message: 'Too many emails set from this IP, please try again after 15 min'
-// });
