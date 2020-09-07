@@ -1,31 +1,26 @@
 <div>
   <client-navigation></client-navigation>
-  <span class="fa fa-spinner spinner" *ngIf="!isLoading"></span>
-  <div class="container">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div>{{isLoading}}</div>
-    <div *ngIf="genres">
-      <ul style="float:left;display:inline-block;height:50px;"
-          class="list-inline text-center"
-          *ngFor="let genre of genres">
-        <li>
-          <span (click)="onGenreSelected(genre._id);" class="active">
-            {{genre.name}}
-          </span>
-        </li>
-      </ul>
+  <section id="portfolio">
+    <span class="fa fa-spinner spinner" *ngIf="!isLoading"></span>
+    <div class="container">
+      <ng-container *ngIf="genres">
+        <ul class="portfolio-sorting list-inline text-center">
+          <li *ngFor="let genre of genres">
+            <span (click)="onGenreSelected(genre._id)" class="active">
+              {{ genre.name }}
+            </span>
+          </li>
+        </ul>
+      </ng-container>
+      <div class="col-sm-12">
+        <div class="lightbox-grid square-thumbs" data-gallery-title="Gallery">
+          <client-gallery
+            [photos]="photos"
+            (selectedImageId)="openSelectedImage($event)"
+          >
+          </client-gallery>
+        </div>
+      </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <client-gallery
-      [photos]="photos"
-      (selectedImageId)="openSelectedImage($event)"
-    >
-    </client-gallery>
-  </div>
+  </section>
 </div>
