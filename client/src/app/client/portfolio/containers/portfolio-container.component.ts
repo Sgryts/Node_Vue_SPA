@@ -1,12 +1,13 @@
-import { Component, NgZone, OnDestroy, OnInit, SecurityContext } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IAlbum } from 'ngx-lightbox';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, take, takeWhile, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, takeWhile, tap, filter } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import IGenre from '../../../models/genre.model';
 import IPhoto from '../../../models/photo.model';
 import { ClientStateFacade } from '../../state/state.facade';
+import { SharedStylingService } from '../../shared/shared.service';
 
 @Component({
   selector: 'client-portfolio-container',
@@ -19,28 +20,39 @@ export class PortfolioContainerComponent implements OnInit, OnDestroy {
   public isActive = true;
 
   constructor(private clientFacade: ClientStateFacade,
-              private router: Router,
-              private activatedRoute: ActivatedRoute) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private sharedService: SharedStylingService) {
   }
 
-// TODO separate actions to load photos init & load by selection
-  ngOnInit() {
+  ngOnInit(): void {
+    this.sharedService.isDarkColorSubject.next(true);
     this.isLoading$ = this.clientFacade.isSpinnerActive$;
-    const genreId = this.activatedRoute.snapshot.queryParamMap.get('genre');
+
+    this.initializeGallery();
+  }
+
+  private initializeGallery(): void {
     this.clientFacade.loadGenres();
     this.genres$ = this.clientFacade.getGenres$;
-    combineLatest([this.genres$])
-      .pipe(takeWhile(_ => this.isActive),
-        tap(([genres]) => this.onGenreSelected(genreId)))
-      .subscribe();
-    this.getPhotos();
+
+    this.genres$.pipe(
+      filter((genres: IGenre[]): boolean => !!genres.length),
+      map((genres: IGenre[]): string =>
+        genres?.find((g: IGenre): boolean =>
+          g.name === 'All')?._id ?? ''),
+      tap((genreId: string): void => {
+        this.onGenreSelected(genreId);
+        this.getPhotos();
+      }),
+      takeWhile(_ => this.isActive)
+    ).subscribe();
   }
 
   private getPhotos(): void {
     this.clientFacade.getPhotos$.pipe(
-      takeWhile(_ => this.isActive),
       map((p): IPhoto[] => p),
-      tap(res => console.log('PHOTOS', res)),
+      takeWhile(_ => this.isActive),
     ).subscribe((photos: IPhoto[]) => {
       this.albums = [];
       photos.map((p: IPhoto): void => {
@@ -62,9 +74,9 @@ export class PortfolioContainerComponent implements OnInit, OnDestroy {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams:
-        {
-          genre: id
-        },
+      {
+        genre: id
+      },
       replaceUrl: true,
     });
   }

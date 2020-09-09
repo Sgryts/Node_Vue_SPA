@@ -1,6 +1,17 @@
-<div *ngFor="let image of photos; let i=index">
-  <img [src]="image.src" class="img-thumbnail img-responsive"
-       (click)="openSelectedImage(i)" [alt]="image.caption"
-       style="float:left;display:inline-block;"
-       width="100px"/>
+<div class="lightbox-grid square-thumbs" data-gallery-title="Gallery">
+  <ul class="portfolio-items list-unstyled" id="grid">
+    <li
+      *ngFor="let image of photos; let i = index"
+      class="col-md-4 col-sm-12 col-xs-12 no-gutter"
+    >
+      <div class="background-image-holder">
+        <img
+          [src]="image.src"
+          class="background-image"
+          (click)="openSelectedImage(i)"
+          [alt]="image.caption"
+        />
+      </div>
+    </li>
+  </ul>
 </div>

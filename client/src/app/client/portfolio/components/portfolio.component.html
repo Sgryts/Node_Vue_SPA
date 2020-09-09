@@ -1,26 +1,28 @@
-<div>
+<ng-container>
   <client-navigation></client-navigation>
   <section id="portfolio">
     <span class="fa fa-spinner spinner" *ngIf="!isLoading"></span>
     <div class="container">
       <ng-container *ngIf="genres">
         <ul class="portfolio-sorting list-inline text-center">
-          <li *ngFor="let genre of genres">
+          <li *ngFor="let genre of genres" style="cursor: pointer">
             <span (click)="onGenreSelected(genre._id)" class="active">
               {{ genre.name }}
             </span>
           </li>
         </ul>
       </ng-container>
-      <div class="col-sm-12">
-        <div class="lightbox-grid square-thumbs" data-gallery-title="Gallery">
-          <client-gallery
-            [photos]="photos"
-            (selectedImageId)="openSelectedImage($event)"
-          >
-          </client-gallery>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="lightbox-grid square-thumbs" data-gallery-title="Gallery">
+            <client-gallery
+              [photos]="photos"
+              (selectedImageId)="openSelectedImage($event)"
+            >
+            </client-gallery>
+          </div>
         </div>
       </div>
     </div>
   </section>
-</div>
+</ng-container>
