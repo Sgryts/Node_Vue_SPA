@@ -104,7 +104,8 @@ a:visited {
     padding-top: 10px;
 }
 .navbar-brand {
-    padding-top: 25px;
+    /* Temporary off */
+    /* padding-top: 25px; */
 }
 .navbar-brand > img {
     max-width: 127px;
@@ -484,6 +485,7 @@ a:visited {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    cursor: pointer;
 }
 .square-thumbs li {
     height: 285px;
