@@ -20,6 +20,7 @@ import { PortfolioComponent } from './portfolio/components/portfolio.component';
 import { PortfolioContainerComponent } from './portfolio/containers/portfolio-container.component';
 import { GenreService } from './services/genre.service';
 import { PhotoService } from './services/photo.service';
+import { SharedStylingService } from './shared/shared.service';
 import { ContactService } from './services/contact.service';
 import { PageNotFoundComponent } from './shared/PageNotFound.component';
 import { FEATURE_NAME, reducers } from './state';
@@ -61,6 +62,7 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     PageNotFoundComponent
   ],
   providers: [
+    SharedStylingService,
     GenreService,
     PhotoService,
     ContactService,

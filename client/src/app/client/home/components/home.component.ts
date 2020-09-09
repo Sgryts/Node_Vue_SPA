@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedStylingService } from '../../shared/shared.service';
 
 @Component({
   selector: 'client-home',
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
+  constructor(private sharedService: SharedStylingService) {
+
   }
 
   ngOnInit() {
+    this.sharedService.isDarkColorSubject.next(false);
   }
 
 }

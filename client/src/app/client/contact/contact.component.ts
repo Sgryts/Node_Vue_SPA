@@ -4,6 +4,7 @@ import { ContactService } from '../services/contact.service';
 import { Validators, FormGroup, FormBuilder, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { IEmailForm } from 'src/app/models/email.model';
 import { take } from 'rxjs/operators';
+import { SharedStylingService } from '../shared/shared.service';
 
 @Component({
   selector: 'client-contact',
@@ -38,12 +39,18 @@ export class ContactComponent implements OnInit {
       required: 'This field is required',
       minLength: 'Min length 5 characters',
       maxLength: 'Max length 200 characters',
+    }],
+    ['captcha', {
+      required: 'Please check reCAPTCHA'
     }]
   ]);
 
-  constructor(private fb: FormBuilder, private contactService: ContactService) { }
+  constructor(private fb: FormBuilder,
+    private contactService: ContactService,
+    private sharedService: SharedStylingService) { }
 
   ngOnInit() {
+    this.sharedService.isDarkColorSubject.next(true);
     this.setForm();
   }
 
