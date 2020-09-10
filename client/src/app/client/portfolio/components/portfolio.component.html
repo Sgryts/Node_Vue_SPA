@@ -16,13 +16,21 @@
         <div class="col-sm-12">
           <div class="lightbox-grid square-thumbs" data-gallery-title="Gallery">
             <client-gallery
-              [photos]="photos"
+              [photos]="data"
               (selectedImageId)="openSelectedImage($event)"
             >
             </client-gallery>
           </div>
         </div>
       </div>
+      <mat-paginator
+      [length]="data2.length"
+      [pageSize]="size"
+      [pageIndex]="page"
+      [pageSizeOptions]="[4, 8, 12]"
+      (page)="setPaging($event)"
+    >
+    </mat-paginator>
     </div>
   </section>
 </ng-container>
