@@ -1,27 +1,34 @@
-<div *ngFor="let image of photos; let i = index">
-  <div style="float: left; display: inline-block;">
-    <img
-      [src]="image.src"
-      class="img-thumbnail img-responsive"
-      (click)="openSelectedImage(i)"
-      [alt]="image.caption"
-      width="100px"
-    />
-    <div style="clear: both;">
-      <button type="button" class="btn btn-info btn-sm" (click)="onEdit(image)">
-        Edit
-      </button>
-      <button type="button" class="btn btn-danger btn-sm" (click)="onDelete(image._id)">
-        Delete
-      </button>
-    </div>
-  </div>
+<div class="lightbox-grid square-thumbs">
+  <ul class="portfolio-items list-unstyled" id="grid">
+    <li
+      *ngFor="let image of photos; let i = index"
+      class="col-md-4 col-sm-12 col-xs-12 no-gutter"
+      style="padding-bottom: 35px"
+    >
+      <div class="background-image-holder">
+        <img
+          [src]="image.src"
+          class="background-image"
+          (click)="openSelectedImage(i)"
+          [alt]="image.caption"
+        />
+      </div>
+      <ng-container>
+        <button
+          type="button"
+          class="btn btn-info btn-sm"
+          (click)="onEdit(image)"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="onDelete(image._id)"
+        >
+          Delete
+        </button>
+      </ng-container>
+    </li>
+  </ul>
 </div>
-<!--<div fxFill fxLayout="column" fxLayoutAlign="space-between">-->
-<!--  <ng-container fxLayout="row wrap" *ngFor="let image of photos; let i=index">-->
-<!--    <img [src]="image.src" class="img-thumbnail img-responsive"-->
-<!--         (click)="openSelectedImage(i)" [alt]="image.caption"-->
-<!--         style="float:left;display:inline-block;"-->
-<!--         width="100px"/>-->
-<!--  </ng-container>-->
-<!--</div>-->

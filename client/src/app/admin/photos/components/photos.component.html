@@ -3,30 +3,18 @@
     <admin-header></admin-header>
     <admin-sidenav></admin-sidenav>
   </nav>
-  <div id="page-wrapper">
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <div *ngIf="genres">
-      <ul
-        style="float: left; display: inline-block; height: 50px;"
-        class="list-inline text-center .genres-navigation"
-        *ngFor="let genre of genres"
-      >
-        <li>
-          <span (click)="onGenreSelected(genre._id)" class="active">
-            {{ genre.name }}
-          </span>
-        </li>
-      </ul>
+  <div id="page-wrapper" class="container">
+    <div class="container">
+      <ng-container *ngIf="genres">
+        <ul class="portfolio-sorting list-inline text-center">
+          <li *ngFor="let genre of genres" style="cursor: pointer">
+            <span (click)="onGenreSelected(genre._id)" class="active">
+              {{ genre.name }}
+            </span>
+          </li>
+        </ul>
+      </ng-container>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
     <admin-photos-gallery
       [photos]="data"
       [genres]="genres"
@@ -34,10 +22,6 @@
       (selectedImageId)="openSelectedImage($event)"
     >
     </admin-photos-gallery>
-    <br />
-    <br />
-    <br />
-    <br />
     <mat-paginator
       [length]="data2.length"
       [pageSize]="size"
@@ -46,10 +30,5 @@
       (page)="setPaging($event)"
     >
     </mat-paginator>
-    <br />
-    <br />
-    <br />
-    <br />
-    <button (click)="seeForm()">FORM</button>
   </div>
 </div>
