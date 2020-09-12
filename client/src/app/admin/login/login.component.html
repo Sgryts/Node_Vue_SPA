@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <mat-toolbar color="primary">
+        <span class="fill-remaining-space">Login</span>
+      </mat-toolbar>
+
+      <ng-container class="container">
+        <form
+          onsubmit="event.preventDefault();"
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit(loginForm.value)"
+          class="form"
+        >
+          <mat-form-field class="form-element">
+            <input
+              matInput
+              placeholder="Email Address"
+              formControlName="email"
+            />
+            <mat-error
+              *ngIf="
+                !loginForm.get('email').valid && loginForm.get('email').touched
+              "
+            >
+              <ng-container *ngIf="loginForm.get('email').hasError('required')">
+                {{ validationErrors.get("email").required }}
+              </ng-container>
+              <ng-container *ngIf="loginForm.get('email').hasError('type')">
+                {{ validationErrors.get("email").type }}
+              </ng-container>
+              <ng-container *ngIf="loginForm.get('email').hasError('invalid')">
+                {{ validationErrors.get("email").invalid }}
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="form-element">
+            <input matInput placeholder="Password" formControlName="password" />
+            <mat-error
+              *ngIf="
+                !loginForm.get('email').valid && loginForm.get('email').touched
+              "
+            >
+              <ng-container
+                *ngIf="loginForm.get('password').hasError('required')"
+              >
+                {{ validationErrors.get("email").required }}
+              </ng-container>
+              <ng-container
+                *ngIf="loginForm.get('password').hasError('invalid')"
+              >
+                {{ validationErrors.get("email").invalid }}
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+
+          <div class="form-element">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="button"
+              [disabled]="!loginForm.valid"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+  </div>
+</div>

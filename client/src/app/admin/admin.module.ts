@@ -37,6 +37,9 @@ import { AdminStateFacade } from './state/state.facade';
 import { PhotosDeleteDialogComponent } from './photos/components/gallery/dialogs/photos-delete-dialog.component';
 import { PhotosEditDialogComponent } from './photos/components/gallery/dialogs/photos-edit-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { LightboxModule } from 'ngx-lightbox';
+import { LoginComponent } from './login/login.component';
 
 const COMPONENTS =
   [
@@ -51,7 +54,8 @@ const COMPONENTS =
     PhotosUploadContainerComponent,
     PhotosGalleryComponent,
     PhotosDeleteDialogComponent,
-    PhotosEditDialogComponent
+    PhotosEditDialogComponent,
+    LoginComponent
   ];
 
 const ENTRY_COMPONENTS =
@@ -72,6 +76,8 @@ const ENTRY_COMPONENTS =
     MatDialogModule,
     MatSelectModule,
     MatIconModule,
+    LightboxModule,
+    MatToolbarModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule,

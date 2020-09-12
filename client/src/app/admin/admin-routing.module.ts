@@ -4,7 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GenresContainerComponent } from './genres/containers/genres-container.component';
 import { PhotosUploadContainerComponent } from './photos/containers/photos-upload-container.component';
 import { PhotosContainerComponent } from './photos/containers/photos-container.component';
-
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -24,6 +24,9 @@ const routes: Routes = [
   },
   {
     path: 'upload', component: PhotosUploadContainerComponent
+  },
+  {
+    path: 'login', component: LoginComponent
   },
 ];
 
