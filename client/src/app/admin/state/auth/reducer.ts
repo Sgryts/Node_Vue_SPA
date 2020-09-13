@@ -1,6 +1,6 @@
-import {Action, createReducer, on} from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import * as AuthActions from './actions';
-import IUser from '../../../models/user.model';
+import { IUser } from '../../../models/user.model';
 
 export interface State {
     user: IUser;
@@ -13,13 +13,13 @@ const initialState: State = {
 };
 
 const adminReducer = createReducer(initialState,
-    on(AuthActions.loginSuccess, (state, {payload}) => ({
+    on(AuthActions.loginSuccess, (state, { payload }) => ({
         ...state,
         user: payload,
         error: null
     })),
 
-    on(AuthActions.loginFail, (state, {error}) => ({
+    on(AuthActions.loginFail, (state, { error }) => ({
         ...state,
         user: null,
         error: error

@@ -1,5 +1,5 @@
 export interface IPayload<T> {
   data: T;
-  isLoaded: boolean;
-  error: any;
+  message: string;
+  success: boolean;
 }

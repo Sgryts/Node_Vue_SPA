@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
-import { ILogin } from 'src/app/models/user.model';
-import { takeUntil, takeWhile, tap } from 'rxjs/operators';
+import { ILogin, IUser } from 'src/app/models/user.model';
+import { takeWhile, tap, filter } from 'rxjs/operators';
+import { AdminStateFacade } from '../state/state.facade';
+import { combineLatest } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,9 @@ import { takeUntil, takeWhile, tap } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private fb: FormBuilder,
+    private adminFacade: AdminStateFacade,
+    private router: Router) { }
 
   public loginForm: FormGroup;
   private isComponentActive: boolean = true;
@@ -49,11 +53,23 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(form: ILogin): void {
-    this.authService.logIn(form.email, form.password)
-      .pipe(
-        tap((data) => { }),
-        takeWhile(() => this.isComponentActive)
-      )
-      .subscribe();
+    this.loginForm.get('email').setErrors(null);
+    this.loginForm.get('password').setErrors(null);
+    this.adminFacade.login$(form.email, form.password);
+
+    combineLatest([
+      this.adminFacade.getUser$,
+      this.adminFacade.getAuthError$
+    ]).pipe(
+      tap(([user, error]: [IUser, string]) => {
+        if (user?.isAuthenticated) {
+          return this.router.navigateByUrl('/admin');
+        } else {
+          this.loginForm.get('email').setErrors({ invalid: true })
+          this.loginForm.get('password').setErrors({ invalid: true })
+        }
+      }),
+      takeWhile(() => this.isComponentActive)
+    ).subscribe();
   }
 }

@@ -20,9 +20,11 @@ import {
   selectPhotoUploadReady,
   selectPhotoUploadRequested,
   selectPhotoUploadStarted,
-  State
+  State,
+  selectUser
 } from './index';
 import * as photosActions from './photos/actions';
+import { IUser } from 'src/app/models/user.model';
 
 @Injectable()
 export class AdminStateFacade {
@@ -33,6 +35,7 @@ export class AdminStateFacade {
 
   // GENRE
   getGenres$: Observable<IGenre[]> = this.store$.select(selectGenres);
+  getGenresError$ = this.store$.select(selectGenresError);
 
   loadGenres(): void {
     this.store$.dispatch(genresActions.loadAllGenres());
@@ -50,8 +53,6 @@ export class AdminStateFacade {
     return this.store$.dispatch(genresActions.deleteGenre({ id }));
   }
 
-  getGenresError$ = this.store$.select(selectGenresError);
-
   // PHOTO
   getPhotos$: Observable<IPhoto[]> = this.store$.select(selectPhotos);
   getPhotosError$ = this.store$.select(selectPhotosError);
@@ -68,8 +69,8 @@ export class AdminStateFacade {
     this.store$.dispatch(photosActions.loadPhotosByGenre({ id: id }));
   }
 
-  uploadPhoto$(params: IPhotoUpload) {
-    return this.store$.dispatch(photosActions.uploadRequest({ params }));
+  uploadPhoto$(params: IPhotoUpload): void {
+    this.store$.dispatch(photosActions.uploadRequest({ params }));
   }
 
   resetPhotoUpload(): void {
@@ -80,23 +81,23 @@ export class AdminStateFacade {
     this.store$.dispatch(photosActions.uploadCancel());
   }
 
-  updatePhoto$(params: Partial<IPhoto>) {
-    return this.store$.dispatch(photosActions.updatePhoto({ params }))
+  updatePhoto$(params: Partial<IPhoto>): void {
+    this.store$.dispatch(photosActions.updatePhoto({ params }))
   }
 
-  deletePhoto$(id: string) {
-    return this.store$.dispatch(photosActions.deletePhoto({ id }));
+  deletePhoto$(id: string): void {
+    this.store$.dispatch(photosActions.deletePhoto({ id }));
   }
 
   // AUTH
-  login$(email: string, password: string) {
-    return this.store$.dispatch(authActions.login({ email, password }));
+  getUser$: Observable<IUser> = this.store$.select(selectUser);
+  getAuthError$: Observable<string> = this.store$.select(selectAuthError);
+
+  login$(email: string, password: string): void {
+    this.store$.dispatch(authActions.login({ email, password }));
   }
 
-  logout$() {
-    return this.store$.dispatch(authActions.logout())
+  logout$(): void {
+    this.store$.dispatch(authActions.logout())
   }
-
-  getAuthError$ = this.store$.select(selectAuthError);
-
 }

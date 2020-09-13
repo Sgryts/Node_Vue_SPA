@@ -17,6 +17,10 @@ export class AuthService {
         return localStorage.getItem('token');
     }
 
+    public setToken(token: string): void {
+        localStorage.setItem('token', token);
+    }
+
 
     public removeToken(): void {
         localStorage.removeItem('token');
@@ -25,7 +29,7 @@ export class AuthService {
     public logIn(email: string, password: string): Observable<any> {
         const url = `${this.baseUrl}/login`;
         return this.http.post<IPayload<IUser>>(url, { email, password })
-            .pipe(take(1), catchError(this.handleError));
+            .pipe(map((data: IPayload<IUser>): IUser => data.data), take(1), catchError(this.handleError));
     }
 
     public logOut(): void {

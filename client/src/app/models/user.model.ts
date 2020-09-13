@@ -1,5 +1,10 @@
-export default interface IUser {
+export interface IUser {
     email: string;
-    token?: string;
     isAuthenticated: boolean;
+    token: string;
+}
+
+export interface ILogin {
+    email: string;
+    password: string;
 }

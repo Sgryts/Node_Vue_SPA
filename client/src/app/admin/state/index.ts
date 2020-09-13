@@ -23,7 +23,6 @@ export const reducers: ActionReducerMap<FeatureState> = {
 };
 
 export const selectFeatureState = createFeatureSelector<FeatureState>(FEATURE_NAME);
-export const selectAuthError = createSelector(selectFeatureState, (state) => state.auth.error);
 
 export const isLoaded = createSelector(selectFeatureState, (state) => state.genres.isLoaded && state.photos.isLoaded);
 
@@ -48,3 +47,5 @@ export const selectPhotoUploadFail = createSelector(selectFeatureState, (state) 
 export const selectPhotoUploadCompleted = createSelector(selectFeatureState, (state) =>
     state.photos.status === UploadStatus.Completed);
 
+export const selectUser = createSelector(selectFeatureState, (state) => state.auth.user)
+export const selectAuthError = createSelector(selectFeatureState, (state) => state.auth.error);
