@@ -1,6 +1,5 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import * as jwt from 'jwt-then';
 import config from '../../config/config';
 import { logger } from '../../middleware/logger';
 // import User from './user.model';

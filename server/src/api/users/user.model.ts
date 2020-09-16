@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as  Joi from 'joi';
+const { RefreshToken } = require('./refreshToken.model');
 
 const Schema = mongoose.Schema;
 
@@ -36,6 +37,14 @@ const UserSchema = Schema(
     useNestedStrict: true
   }
 );
+
+
+UserSchema.pre('remove', next => {
+  const __this = this;
+  RefreshToken.remove({ _id: __this._id }).exec();
+  next();
+});
+
 
 const validateUser = (data) => {
   const schema = {

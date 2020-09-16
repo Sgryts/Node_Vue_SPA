@@ -7,10 +7,11 @@ const user: Router = Router();
 const controller = new Controller();
 
 /* ADMIN ONLY */
-// Sign In
 user.post('/login', apiRateLimiter(1, 20), trimmer, controller.authenticate);
 
 // Register New User
 user.post('/register', apiRateLimiter(1, 20), trimmer, controller.register);
+
+user.post('/refresh', apiRateLimiter(1, 20), trimmer, controller.refreshToken);
 
 export default user;

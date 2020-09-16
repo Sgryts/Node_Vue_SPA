@@ -66,7 +66,7 @@ class App {
     // this.express.use('/genres/:id/images', express.static('images'));
     // this.express.use('/images', express.static('images'));
     // this.express.use('/', express.static('dist', { index: 'index.html' }));
-    SessionManager(this.express);
+    // SessionManager(this.express);
   }
 
   private setRoutes(): void {

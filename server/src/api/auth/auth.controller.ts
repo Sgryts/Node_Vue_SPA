@@ -1,11 +1,13 @@
 import * as bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import * as jwt from 'jwt-then';
+import * as jwt from 'jsonwebtoken';
 import config from '../../config/config';
 import { logger } from '../../middleware/logger';
 import { get } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 const { User, LoginAttempts, validateUser, validateLogin } = require('../users/user.model');
+const { RefreshToken } = require('../users/refreshToken.model');
 
 export default class UserController {
 
@@ -67,78 +69,118 @@ export default class UserController {
       //   });
       // }
 
-      if (!await this.canAuthenticate(this.clientIp)) {
-        const response = res.status(429).send({
-          success: false,
-          message: 'Your are temporary locked',
-          data: {
-            email: null,
-            token: null,
-            isAuthenticated: false
-          }
-        });
-        return this.delayResponse(response)
-      }
+      // if (!await this.canAuthenticate(this.clientIp)) {
+      //   const response = res.status(429).send({
+      //     success: false,
+      //     message: 'Your are temporary locked',
+      //     data: {
+      //       email: null,
+      //       token: null,
+      //       isAuthenticated: false
+      //     }
+      //   });
+      //   return this.delayResponse(response)
+      // }
 
       const { error } = validateLogin(req.body);
       if (error) {
-        this.failedLoginAttempt(this.clientIp);
-        this.errorMessage = 'Invalid input';
+        // this.failedLoginAttempt(this.clientIp);
+        this.errorMessage = 'Invalid email or password';
         return res.status(422).send({
           success: false,
           message: this.errorMessage,
-          data: {
-            email: null,
-            token: null,
-            isAuthenticated: false
-          }
+          data: null
         });
       }
 
       const { email, password } = req.body;
       const user = await User.findOne({ email: email });
       if (!user) {
-        this.failedLoginAttempt(this.clientIp);
+        // this.failedLoginAttempt(this.clientIp);
         return res.status(422).send({
           success: false,
-          message: 'Invalid username or password',
-          data: {
-            email: null,
-            token: null,
-            isAuthenticated: false
-          }
+          message: 'Invalid email or password',
+          data: null
         });
       }
 
       const matchPasswords = await bcrypt.compare(password, user.password);
       if (!matchPasswords) {
-        this.failedLoginAttempt(this.clientIp);
+        // this.failedLoginAttempt(this.clientIp);
         return res.status(422).send({
           success: false,
-          message: 'Invalid username or password',
-          data: {
-            email: null,
-            token: null,
-            isAuthenticated: false
-          }
+          message: 'Invalid email or password',
+          data: null
         });
       }
 
       const token = await jwt.sign({ email }, config.JWT_ENCRYPTION, {
         expiresIn: config.JWT_EXPIRATION
       });
+      const refreshToken = await RefreshToken.findOne({ user_id: user._id })
+      console.log('TT', refreshToken);
+      if (!refreshToken?.token) {
+        console.log('HERE');
+        const newRefreshToken = uuidv4();
+        const refreshToken = new RefreshToken({
+          user_id: user._id,
+          token: newRefreshToken,
+          expiration: Math.floor(Date.now() + 1 * 24 * 3600 * 1000),
+        });
 
-      await this.successfulLoginAttempt(this.clientIp);
+        await refreshToken.save();
 
-      return res.status(200).send({
-        success: true,
-        message: 'Successfully logged in',
-        data: {
-          email,
-          token,
-          isAuthenticated: true
-        }
-      });
+        return res.status(200).send({
+          success: true,
+          message: 'Successfully logged in',
+          data: {
+            email,
+            token,
+            refreshToken: newRefreshToken,
+            isAuthenticated: true
+          }
+        });
+
+
+      } else if (!!refreshToken?.token && refreshToken?.expiration <= Date.now()) {
+        const newRefreshToken = uuidv4();
+        await refreshToken.update(
+          {
+            $set: {
+              token: newRefreshToken,
+              expiration: Math.floor(Date.now() + 1 * 24 * 3600 * 1000)
+            }
+          },
+          { new: true }
+        )
+
+        return res.status(200).send({
+          success: true,
+          message: 'Successfully logged in',
+          data: {
+            email,
+            token,
+            refreshToken: newRefreshToken,
+            isAuthenticated: true
+          }
+        });
+
+      } else if (!!refreshToken?.token && refreshToken?.expiration > Date.now()) {
+        return res.status(200).send({
+          success: true,
+          message: 'Successfully logged in',
+          data: {
+            email: user.email,
+            token: token,
+            refreshToken: refreshToken.token,
+            isAuthenticated: true
+          }
+        });
+      } else {
+        throw new Error('Something went wrong, please try again');
+      }
+
+      // await this.successfulLoginAttempt(this.clientIp);
 
     } catch (err) {
       logger.error(err.message, err);
@@ -146,11 +188,7 @@ export default class UserController {
       return res.status(500).send({
         success: false,
         message: 'Something went wrong, please try again',
-        data: {
-          email: null,
-          token: null,
-          isAuthenticated: false
-        }
+        data: null
       });
     }
   };
@@ -186,9 +224,9 @@ export default class UserController {
       // const {name, lastName, email, password} = req.body;
       const { email, password } = req.body;
 
-      const checkEmail = await User.findOne({ email: email });
+      const user = await User.findOne({ email: email });
 
-      if (checkEmail) {
+      if (user) {
         return res.status(422).send({
           success: false,
           message: 'Email is already taken',
@@ -196,21 +234,20 @@ export default class UserController {
         });
       }
 
-      const hash = await bcrypt.hash(password, config.SALT_ROUNDS);
+      const hash = bcrypt.hash(password, config.SALT_ROUNDS);
 
-      const user = new User({
+      const newUser = new User({
         // name,
         // lastName,
         email,
         password: hash
       });
 
-      const newUser = await user.save();
+      await newUser.save();
       return this.delayResponse(res.status(201).send({
         success: true,
         message: 'Successfully registered',
-        // data: null
-        data: newUser // TODO: null in prod
+        data: null
       }));
 
     } catch (err) {
@@ -223,4 +260,60 @@ export default class UserController {
       });
     }
   };
+
+  public refreshToken = async (req: Request, res: Response): Promise<any> => {
+    try {
+      const refreshToken = await RefreshToken.findOne({ token: req.body.refreshToken });
+
+      if (!refreshToken) {
+        return res.status(401).send({
+          success: false,
+          message: 'Access denied.',
+          data: null
+        });
+      }
+
+      const user = await User.findById(refreshToken?.user_id);
+
+      if (!user) {
+        return res.status(401).send({
+          success: false,
+          message: 'Access denied.',
+          data: null
+        });
+      }
+
+      const token = await jwt.sign({ email: user.email }, config.JWT_ENCRYPTION, {
+        expiresIn: config.JWT_EXPIRATION
+      });
+      const newRefreshToken = uuidv4();
+
+      await refreshToken.update(
+        {
+          $set: {
+            token: newRefreshToken,
+            expiration: Math.floor(Date.now() + 1 * 24 * 3600 * 1000)
+          }
+        },
+        { new: true }
+      )
+
+      return res.status(200).send({
+        success: true,
+        message: 'Token has been refreshed.',
+        data: {
+          email: req.body.email,
+          token,
+          refreshToken: newRefreshToken,
+          isAuthenticated: true
+        }
+      });
+    } catch (err) {
+      return res.status(401).send({
+        success: false,
+        message: 'Access denied.',
+        data: null
+      });
+    }
+  }
 }
