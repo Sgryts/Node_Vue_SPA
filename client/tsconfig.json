@@ -5,6 +5,13 @@
   To learn more about this file see: https://angular.io/config/solution-tsconfig.
 */
 {
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@environments/*": ["src/environments/*"],
+    }
+  },
   "files": [],
   "references": [
     {

@@ -92,10 +92,6 @@ export class ContactComponent implements OnInit {
   }
 
   public onSubmit(form: IEmailForm) {
-    console.log(form);
-    console.log(this.contactForm);
-    console.log(this.validationErrors.get('email'));
-    // cosnt {email, name, subject, body, captcha} = form;
-    this.contactService.sendEmail(form).pipe(take(1)).subscribe(d => console.log('d', d));
+    this.contactService.sendEmail(form).pipe(take(1)).subscribe();
   }
 }

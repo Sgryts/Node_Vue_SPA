@@ -267,12 +267,13 @@ export default class PhotoController {
         if (!err) {
           fs.unlink(photo.path, err => {
             if (!err) {
-              photo.remove();
-              res.status(204).send({
-                success: true,
-                message: 'Photo deleted',
-                data: null
-              });
+              photo.remove().then(() => {
+                res.status(204).send({
+                  success: true,
+                  message: 'Photo deleted',
+                  data: null
+                });
+              })
             } else {
               logger.error(err.message, err);
               res.status(500).send({
