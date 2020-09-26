@@ -1,19 +1,19 @@
 import { Router } from 'express';
 import objectIdValidator from '../../middleware/objectId.validator';
-import { apiLimiter15_900 } from '../../middleware/rateLimiter';
 import trimmer from '../../middleware/whiteSpaceTrimmer';
 import verifyToken from '../../middleware/verifyToken';
 import Controller from './genre.controller';
+import { apiRateLimiter } from '../../middleware/rateLimiter';
 
 const genre: Router = Router();
 const genreAdmin: Router = Router();
 const controller = new Controller();
 
 // Retrieve all Genres
-genre.get('/', apiLimiter15_900, controller.findAll);
+genre.get('/', apiRateLimiter(15, 900), controller.findAll);
 
 // Retrieve a Specific Genre
-genre.get('/:id', apiLimiter15_900, objectIdValidator, controller.findOne);
+genre.get('/:id', apiRateLimiter(15, 900), objectIdValidator, controller.findOne);
 
 /* ADMIN */
 

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import objectIdValidator from '../../middleware/objectId.validator';
+import { apiRateLimiter } from '../../middleware/rateLimiter';
 import verifyToken from '../../middleware/verifyToken';
 import trimmer from '../../middleware/whiteSpaceTrimmer';
 import Controller from './photo.controller';
@@ -10,10 +11,10 @@ const photoAdmin: Router = Router();
 const controller = new Controller();
 
 // Retrieve all Photos
-photo.get('/', controller.findMany);
+photo.get('/', apiRateLimiter(15, 900), controller.findMany);
 
 // Retrieve a Specific Photo
-photo.get('/:id', objectIdValidator, controller.findOne);
+photo.get('/:id', apiRateLimiter(15, 900), objectIdValidator, controller.findOne);
 
 /* ADMIN */
 
