@@ -1,2 +1,9 @@
+.vscode
+package-lock.json
+*/package-lock.json
+**/package-lock.json
 node_modules
+/node_modules
+*/node_modules
+**/node_modules
 npm_debug.log
