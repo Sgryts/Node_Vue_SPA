@@ -12,7 +12,7 @@ const paths = {
   server_src: "./dist/**/*",
   server_dist: "../prod-build",
   angular_src: "../client/dist/**/*",
-  angular_dist: "../prod-build/client",
+  angular_dist: "../prod-build/",
   zipped_file_name: "angular-nodejs.zip",
 };
 
@@ -87,7 +87,7 @@ exports.default = series(
   preClean,
   createProdBuildFolder,
   parallel(buildNodeJSCodeTask, buildAngularCodeTask),
-  parallel(copyNodeJSCodeTask, copyAngularCodeTask, copyNodeModulesTask),
+  parallel(copyNodeJSCodeTask, copyAngularCodeTask),
   // zippingTask,
   postClean
 );

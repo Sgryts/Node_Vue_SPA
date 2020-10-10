@@ -1,4 +1,3 @@
-import { inspect } from 'util';
 import { Logger } from 'winston';
 import app from './App';
 import CONFIG from './config/config';
@@ -48,13 +47,8 @@ if (cluster.isMaster) {
   });
 
 } else {
-  app.listen(PORT, (err: any) => {
-    if (err) {
-      logger.error(err.message, err);
-      return console.log(colors.red(err));
-    } else {
-      console.log(colors.yellow.bold.bgCyan.underline(`Server is listening on ${PORT}`));
-    }
+  app.listen(PORT, () => {
+    console.log(colors.yellow.bold.bgCyan.underline(`Server is listening on ${PORT}`));
     // https.createServer(options, app).listen(SECURE_PORT);
   });
 }

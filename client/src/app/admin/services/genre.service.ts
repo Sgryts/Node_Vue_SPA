@@ -2,7 +2,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { genre } from '../../../../../server/src/api/genres/genre.route';
 import { environment } from '../../../environments/environment';
 import IGenre from '../../models/genre.model';
 import { IPayload } from '../../models/payload.model';
