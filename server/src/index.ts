@@ -11,16 +11,16 @@ import * as os from 'os';
 
 const logger: Logger = require('./middleware/logger');
 
-const PORT: string = CONFIG.PORT;
+const PORT = CONFIG.PORT;
 const INSECURE_PORT = CONFIG.INSECURE_PORT;
 const SECURE_PORT = CONFIG.SECURE_PORT;
-const HOST: string = CONFIG.HOST;
+const HOST = CONFIG.HOST;
 // const options: { [key: string]: Buffer } = {
 //   key: fs.readFileSync('src/cert/server.key'),
 //   cert: fs.readFileSync('src/cert/server.crt')
 // };
 
-if (cluster.isMaster) {
+if (cluster.isMaster && CONFIG.NODE_ENV !== 'development') {
   for (let i = 0; i < os.cpus().length; i++) {
     cluster.fork();
   }
@@ -34,7 +34,7 @@ if (cluster.isMaster) {
   });
   process.on('SIGUSR2', () => {
     const workers = Object.values(cluster.workers);
-    const restartWorker = (workerIndex) => {
+    const restartWorker = (workerIndex: number) => {
       const worker = workers[workerIndex];
       if (!worker) return;
       worker.on('exit', () => {

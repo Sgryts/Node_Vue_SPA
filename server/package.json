@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc && copyfiles -f ./package.json ./dist && copyfiles -f ./src/robots.txt ./dist",
     "start": "node index.js",
-    "dev": "nodemon --inspect --exec ts-node -- ./src/index.ts",
+    "dev": "nodemon --exec ts-node -- ./src/index.ts",
     "prod": "npm run build && npm run start",
     "clean": "rm -rf node_modules coverage dist .nyc_output",
     "lint": "tslint -t stylish --project \"tsconfig.json\""
