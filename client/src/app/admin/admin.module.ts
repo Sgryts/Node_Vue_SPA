@@ -40,6 +40,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LightboxModule } from 'ngx-lightbox';
 import { LoginComponent } from './login/login.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const COMPONENTS =
   [
@@ -88,6 +89,7 @@ const ENTRY_COMPONENTS =
   providers: [
     AuthService,
     AuthGuard,
+    AdminGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

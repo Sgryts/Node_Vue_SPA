@@ -5,7 +5,7 @@ import { PageNotFoundComponent } from './client/shared/PageNotFound.component';
 
 const routes = [
   {
-    path: 'client',
+    path: '',
     loadChildren: () =>
       import('./client/client.module').then(m => m.ClientModule)
   },
@@ -14,10 +14,10 @@ const routes = [
     loadChildren: () =>
       import('./admin/admin.module').then(m => m.AdminModule)
   },
-  // { path: '', redirectTo: 'client', pathMatch: 'full' },
-  // {
-  //   path: '**', component: PageNotFoundComponent
-  // },
+  // { path: '', redirectTo: '/photos', pathMatch: 'full' },
+  {
+    path: '**', component: PageNotFoundComponent
+  },
   // { preloadingStrategy: PreloadAllModules }
 ];
 
