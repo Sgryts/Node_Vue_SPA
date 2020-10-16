@@ -19,7 +19,7 @@ const verifyToken = async (req, res, next): Promise<any> => {
         if (JSON.stringify(err).toLowerCase().includes('expired')) {
             res.status(403).send({ success: false, message: 'Access denied.' });
         } else {
-            res.status(500).send({ success: false, message: 'Something went wrong, please try again.' });
+            res.status(401).send({ success: false, message: 'Access denied.-2' });
         }
     }
 };

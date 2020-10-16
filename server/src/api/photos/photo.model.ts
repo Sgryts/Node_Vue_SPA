@@ -6,26 +6,26 @@ const Schema = mongoose.Schema;
 const PhotoSchema = Schema(
     {
         name:
-            {
-                type: String,
-                required: true,
-                trim: true,
-                protect: true
-            },
+        {
+            type: String,
+            required: true,
+            trim: true,
+            protect: true
+        },
         file:
-            {
-                type: String,
-                required: true,
-                trim: true,
-                protect: true
-            },
+        {
+            type: String,
+            required: true,
+            trim: true,
+            protect: true
+        },
         path:
-            {
-                type: String,
-                required: true,
-                trim: true,
-                protect: true
-            },
+        {
+            type: String,
+            required: true,
+            trim: true,
+            protect: true
+        },
         genres: [
             {
                 type: Schema.Types.ObjectId,
@@ -36,22 +36,20 @@ const PhotoSchema = Schema(
         ]
     },
     {
-        timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'},
+        timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
         // timestamps: true,
         useNestedStrict: true
     }
 );
 
 const validatePhoto = (data) => {
-    const schema = {
+    return Joi.object({
         name: Joi.string().min(1).max(255).required(),
         // file: Joi.string().min(5).max(255).required(),
         // path: Joi.string().min(5).max(255).required().email(),
         genres: Joi.array().items(Joi.string().max(24).min(24))
         // genres: Joi.array().items(Joi.string().regex(new RegExp('/^(?=[a-f\\d]{24}$)(\\d+[a-f]|[a-f]+\\d)/i')))
-    };
-
-    return Joi.validate(data, schema);
+    }).validate(data)
 };
 
 exports.photoSchema = PhotoSchema;

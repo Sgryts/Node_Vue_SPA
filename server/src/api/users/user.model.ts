@@ -40,33 +40,29 @@ const UserSchema = Schema(
 
 
 UserSchema.pre('remove', next => {
-  const __this = this;
+  const __this: any = this;
   RefreshToken.remove({ _id: __this._id }).exec();
   next();
 });
 
 
 const validateUser = (data) => {
-  const schema = {
+  return Joi.object({
     // name: Joi.string().min(5).max(50).required(),
     // lastName: Joi.string().min(5).max(50).required(),
-    email: Joi.string().min(5).max(255).required().email({ minDomainAtoms: 2 }),
+    email: Joi.string().min(5).max(255).required().email({ minDomainSegments: 2 }),
     // .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
     //email: Joi.string().email({ tlds: { allow: false } });
     password: Joi.string().regex(new RegExp('^[a-zA-z0-9]{2,32}$')).required(), // change to 8-32
-  };
-
-  return Joi.validate(data, schema);
+  }).validate(data);
 };
 
 const validateLogin = (data) => {
-  const schema = {
-    email: Joi.string().min(5).max(255).required().email({ minDomainAtoms: 2 }),
+  return Joi.object({
+    email: Joi.string().min(5).max(255).required().email({ minDomainSegments: 2 }),
     // .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
     password: Joi.string().regex(new RegExp('^[a-zA-z0-9]{2,32}$')).required(), // change to 8-32
-  };
-
-  return Joi.validate(data, schema);
+  }).validate(data);
 };
 
 const LoginAttemptsSchema = Schema({

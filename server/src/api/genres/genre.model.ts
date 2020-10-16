@@ -20,15 +20,13 @@ const GenreSchema = Schema(
 );
 
 const validateGenre = (data) => {
-  const schema = {
-    name: Joi.string().min(1).max(255).required(),
-  };
-
-  return Joi.validate(data, schema);
+  return Joi.object({
+    name: Joi.string().min(1).max(255).required()
+  }).validate(data)
 };
 
 GenreSchema.pre('deleteMany', next => {
-  const genre = this;
+  const genre: any = this;
   genre.model('Photo').deleteOne({ person: genre._id }, next);
 });
 
