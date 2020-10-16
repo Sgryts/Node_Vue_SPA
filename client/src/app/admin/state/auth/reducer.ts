@@ -19,6 +19,12 @@ const adminReducer = createReducer(initialState,
         error: null
     })),
 
+    on(AuthActions.logout, (state) => ({
+        ...state,
+        user: null,
+        error: null
+    })),
+
     on(AuthActions.loginFail, (state, { error }) => ({
         ...state,
         user: null,

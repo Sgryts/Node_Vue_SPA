@@ -18,6 +18,7 @@ export class AuthEffects {
                 return this.authService.logIn(email, password).pipe(
                     map((payload) => {
                         this.authService.setToken(payload.token);
+                        this.authService.setRefreshToken(payload.refreshToken);
                         return AuthActions.loginSuccess({ payload })
                     }),
                     catchError(error => of(AuthActions.loginFail({ error }))));
