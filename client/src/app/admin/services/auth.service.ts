@@ -30,6 +30,7 @@ export class AuthService {
     }
 
     private getTokenExpiration(): number {
+        if (!this.getToken().length) { return 0 };
         return (JSON.parse(atob(this.getToken().split('.')[1])))?.exp;
     }
 
