@@ -11,8 +11,8 @@ export class AuthGuard implements CanActivate {
     ) {
     }
 
-    canActivate(): boolean {
-        if (!!this.auth.getToken().length) {
+    public canActivate(): boolean {
+        if (!this.auth.isTokenExpired()) {
             this.router.navigate(['/admin']);
             return false;
         }

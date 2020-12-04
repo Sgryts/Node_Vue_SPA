@@ -12,12 +12,12 @@ export class AdminGuard implements CanActivate, CanLoad {
     ) {
     }
 
-    canLoad(): boolean {
+    public canLoad(): boolean {
         return this.canActivate();
     }
 
-    canActivate(): boolean {
-        if (!this.auth.getToken().length) {
+    public canActivate(): boolean {
+        if (this.auth.isTokenExpired()) {
             this.router.navigate(['/admin/login']);
             return false;
         }

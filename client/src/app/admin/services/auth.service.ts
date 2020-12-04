@@ -29,6 +29,16 @@ export class AuthService {
         localStorage.setItem('refreshToken', token);
     }
 
+    private getTokenExpiration(): number {
+        return (JSON.parse(atob(this.getToken().split('.')[1])))?.exp;
+    }
+
+    public isTokenExpired(): boolean {
+        const exp = this.getTokenExpiration();
+        if (!exp) { return true; }
+        return new Date().getTime() >= new Date(this.getTokenExpiration() * 1000).getTime();
+    }
+
     public removeToken(): void {
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
