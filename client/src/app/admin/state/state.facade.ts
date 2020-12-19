@@ -97,6 +97,10 @@ export class AdminStateFacade {
     this.store$.dispatch(authActions.login({ email, password }));
   }
 
+  refreshToken(): void {
+    this.store$.dispatch(authActions.refreshToken());
+  }
+
   logout$(): void {
     this.store$.dispatch(authActions.logout())
   }

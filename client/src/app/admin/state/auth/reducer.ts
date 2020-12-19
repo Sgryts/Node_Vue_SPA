@@ -19,6 +19,12 @@ const adminReducer = createReducer(initialState,
         error: null
     })),
 
+    on(AuthActions.refreshTokenSuccess, (state, { token, refreshToken, }) => ({
+        ...state,
+        user: { ...state.user, token, refreshToken },
+        error: null
+    })),
+
     on(AuthActions.logout, (state) => ({
         ...state,
         user: null,

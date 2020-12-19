@@ -23,7 +23,7 @@ import { PhotosContainerComponent } from './photos/containers/photos-container.c
 import { AuthService } from './services/auth.service';
 import { GenreService } from './services/genre.service';
 import { PhotoService } from './services/photo.service';
-import { ErrorInterceptor, TokenInterceptor } from './services/token.interceptor.service';
+import { TokenInterceptor } from './services/token.interceptor.service';
 import { FEATURE_NAME, reducers } from './state';
 import { AuthEffects } from './state/auth/effects';
 import { PhotosEffects } from './state/photos/effects';
@@ -93,11 +93,6 @@ const ENTRY_COMPONENTS =
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
       multi: true
     },
     GenreService,

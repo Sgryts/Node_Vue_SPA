@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ILogin, IUser } from 'src/app/models/user.model';
-import { takeWhile, tap, filter } from 'rxjs/operators';
+import { ILogin } from 'src/app/models/user.model';
+import { takeWhile, tap, catchError } from 'rxjs/operators';
 import { AdminStateFacade } from '../state/state.facade';
-import { combineLatest } from 'rxjs';
+import { combineLatest, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -53,21 +53,17 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(form: ILogin): void {
-    this.loginForm.get('email').setErrors(null);
-    this.loginForm.get('password').setErrors(null);
     this.adminFacade.login$(form.email, form.password);
 
     combineLatest([
       this.adminFacade.getUser$,
       this.adminFacade.getAuthError$
     ]).pipe(
-      tap(([user, error]: [IUser, string]) => {
-        if (user?.isAuthenticated) {
-          return this.router.navigateByUrl('/admin');
-        } else {
-          this.loginForm.get('email').setErrors({ invalid: true })
-          this.loginForm.get('password').setErrors({ invalid: true })
-        }
+      tap(_ => this.router.navigateByUrl('/admin')),
+      catchError((error) => {
+        this.loginForm.get('email').setErrors({ invalid: true })
+        this.loginForm.get('password').setErrors({ invalid: true })
+        return throwError(`Login failed ${error.message}`)
       }),
       takeWhile(() => this.isComponentActive)
     ).subscribe();

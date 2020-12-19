@@ -1,16 +1,18 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { IUser } from '../../models/user.model';
 import { take, map, catchError, tap } from 'rxjs/operators';
 import { IPayload } from 'src/app/models/payload.model';
+import { AdminStateFacade } from '../state/state.facade';
 
 @Injectable()
 export class AuthService {
     private readonly baseUrl = `${environment.baseUrl}/api`;
+    private refreshTokenTimeout: ReturnType<typeof setInterval>;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private adminFacade: AdminStateFacade) {
     }
 
     public getToken(): string {
@@ -51,6 +53,25 @@ export class AuthService {
             .pipe(map((data: IPayload<IUser>): IUser => data.data), take(1), catchError(this.handleError));
     }
 
+    public isTokenExpiringSoon(): boolean {
+        return 2 >= Math.floor(Math.abs(new Date().getTime() - (60 * 1000) - new Date(this.getTokenExpiration() * 1000).getTime())) / 1000 / 60;
+    }
+
+    public startRefreshTokenTimer(): void {
+        this.refreshTokenTimeout = setInterval((): void => {
+            this.refreshToken().pipe(
+                tap(({ token, refreshToken }) => {
+                    this.setToken(token);
+                    this.setRefreshToken(refreshToken);
+                }),
+                take(1)).subscribe()
+        }, Math.abs(new Date().getTime() - (60 * 1000) - new Date(this.getTokenExpiration() * 1000).getTime()));
+    }
+
+    private stopRefreshTokenTimer(): void {
+        clearInterval(this.refreshTokenTimeout);
+    }
+
     public refreshToken(): Observable<{ token: string, refreshToken: string }> {
         return this.http.post<IPayload<IUser>>(`${this.baseUrl}/refresh`, { 'refreshToken': this.getRefreshToken() })
             .pipe(map((data: IPayload<IUser>): { token: string, refreshToken: string } => {
@@ -63,6 +84,7 @@ export class AuthService {
 
     public logOut(): void {
         this.removeToken();
+        this.stopRefreshTokenTimer();
     }
 
     private handleError(err: HttpErrorResponse): Observable<never> {
