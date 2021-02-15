@@ -9,6 +9,7 @@ import api from './api/index';
 import * as errorHandler from './middleware/errorHandler';
 import * as expressip from 'express-ip';
 import * as csrf from 'csurf';
+import * as history from 'connect-history-api-fallback';
 import { httpsConfig, httpsRedirectConfig } from './middleware/https.config';
 
 class App {
@@ -56,16 +57,9 @@ class App {
     // this.express.use(csrf()); // heroku
     // this.express.use(expressWinstonLogger);
     this.express.use(expressWinstonErrorLogger);
+    this.express.use(history({ index: 'index.html' }));
     this.express.use(express.static('images'));
-
-    // this.express.use('/api/genres/:id/photos', (req, res, next) => {
-    //   req.url = req.params.asset;
-    //   express.static(__dirname + '/images')(req, res, next);
-    // });
-    // this.express.use(express.static('images'));
-    // this.express.use('/genres/:id/images', express.static('images'));
-    // this.express.use('/images', express.static('images'));
-    // this.express.use('/', express.static('dist', { index: 'index.html' }));
+    this.express.use('/', express.static('dist', { index: 'index.html' }));
     // SessionManager(this.express);
   }
 
