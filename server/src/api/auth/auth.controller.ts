@@ -118,9 +118,7 @@ export default class UserController {
         expiresIn: config.JWT_EXPIRATION
       });
       const refreshToken = await RefreshToken.findOne({ user_id: user._id })
-      console.log('TT', refreshToken);
       if (!refreshToken?.token) {
-        console.log('HERE');
         const newRefreshToken = uuidv4();
         const refreshToken = new RefreshToken({
           user_id: user._id,
@@ -234,8 +232,7 @@ export default class UserController {
         });
       }
 
-      const hash = bcrypt.hash(password, config.SALT_ROUNDS);
-
+      const hash = bcrypt.hashSync(password, config.SALT_ROUNDS);
       const newUser = new User({
         // name,
         // lastName,
@@ -255,7 +252,7 @@ export default class UserController {
 
       return res.status(500).send({
         success: false,
-        message: 'Something went wrong, please try again',
+        message: JSON.stringify(err),// 'Something went wrong, please try again',
         data: null
       });
     }
