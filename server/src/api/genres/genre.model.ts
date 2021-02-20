@@ -3,7 +3,7 @@ import * as  Joi from 'joi';
 
 const Schema = mongoose.Schema;
 
-const GenreSchema = Schema(
+const GenreSchema = new Schema(
   {
     name: {
       type: String,

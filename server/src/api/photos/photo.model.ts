@@ -3,7 +3,7 @@ import * as  Joi from 'joi';
 
 const Schema = mongoose.Schema;
 
-const PhotoSchema = Schema(
+const PhotoSchema = new Schema(
     {
         name:
         {

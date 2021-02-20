@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const RefreshTokenSchema = Schema(
+const RefreshTokenSchema = new Schema(
     {
         token: {
             type: String,

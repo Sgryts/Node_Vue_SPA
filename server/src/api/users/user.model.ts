@@ -4,7 +4,7 @@ const { RefreshToken } = require('./refreshToken.model');
 
 const Schema = mongoose.Schema;
 
-const UserSchema = Schema(
+const UserSchema = new Schema(
   {
     // TODO : keep it for the rest
     // name: {
@@ -65,7 +65,7 @@ const validateLogin = (data) => {
   }).validate(data);
 };
 
-const LoginAttemptsSchema = Schema({
+const LoginAttemptsSchema = new Schema({
   identityKey: {
     type: String,
     required: true,
