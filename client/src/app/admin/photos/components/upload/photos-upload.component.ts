@@ -15,7 +15,7 @@ import { IPhotoUpload } from '../../photo-upload.model';
 @Component({
   selector: 'admin-photos-upload',
   templateUrl: './photos-upload.component.html',
-  styleUrls: ['./photos-upload.component.css'],
+  styleUrls: ['./photos-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotosUploadComponent implements OnInit {

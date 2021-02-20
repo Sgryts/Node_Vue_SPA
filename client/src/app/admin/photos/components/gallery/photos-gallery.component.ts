@@ -9,7 +9,7 @@ import { PhotosDeleteDialogComponent } from './dialogs/photos-delete-dialog.comp
 @Component({
   selector: 'admin-photos-gallery',
   templateUrl: './photos-gallery.component.html',
-  styleUrls: ['./photos-gallery.component.css'],
+  styleUrls: ['./photos-gallery.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotosGalleryComponent {

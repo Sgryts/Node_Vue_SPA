@@ -9,7 +9,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 @Component({
   selector: 'app-photos-edit-dialog',
   templateUrl: './photos-edit-dialog.component.html',
-  styleUrls: ['./photos-edit-dialog.component.css']
+  styleUrls: ['./photos-edit-dialog.component.scss']
 })
 export class PhotosEditDialogComponent implements OnInit {
 

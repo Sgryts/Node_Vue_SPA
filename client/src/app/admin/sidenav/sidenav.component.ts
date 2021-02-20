@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'admin-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.css']
+  styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
 

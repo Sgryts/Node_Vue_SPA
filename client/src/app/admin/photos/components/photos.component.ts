@@ -19,7 +19,7 @@ import IPhoto from '../../../models/photo.model';
 @Component({
   selector: 'admin-photos',
   templateUrl: './photos.component.html',
-  styleUrls: ['./photos.component.css'],
+  styleUrls: ['./photos.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotosComponent implements OnInit, OnChanges {

@@ -7,7 +7,7 @@ import { AdminStateFacade } from 'src/app/admin/state/state.facade';
 @Component({
   selector: 'app-photos-delete-dialog',
   templateUrl: './photos-delete-dialog.component.html',
-  styleUrls: ['./photos-delete-dialog.component.css']
+  styleUrls: ['./photos-delete-dialog.component.scss']
 })
 export class PhotosDeleteDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<PhotosDeleteDialogComponent>,

@@ -9,7 +9,7 @@ import { SharedStylingService } from '../shared/shared.service';
 @Component({
   selector: 'client-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css'],
+  styleUrls: ['./contact.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactComponent implements OnInit {

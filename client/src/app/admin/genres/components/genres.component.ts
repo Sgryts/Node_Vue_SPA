@@ -13,7 +13,7 @@ import IGenre from '../../../models/genre.model';
 @Component({
   selector: 'admin-genres',
   templateUrl: './genres.component.html',
-  styleUrls: ['./genres.component.css'],
+  styleUrls: ['./genres.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenresComponent implements OnInit, OnChanges {
