@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ContactService } from '../services/contact.service';
-import { Validators, FormGroup, FormBuilder, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { IEmailForm } from 'src/app/models/email.model';
 import { take } from 'rxjs/operators';
 import { SharedStylingService } from '../shared/shared.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'client-contact',
@@ -13,7 +13,7 @@ import { SharedStylingService } from '../shared/shared.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactComponent implements OnInit {
-  public SITE_KEY: string = "";
+  public readonly SITE_KEY: string = environment.site_key;
   public contactForm: FormGroup;
 
   get name() {
@@ -91,7 +91,17 @@ export class ContactComponent implements OnInit {
     console.log($event);
   }
 
+  private resetForm(): void {
+    this.contactForm.reset();
+    this.contactForm.get('body').setErrors(undefined);
+    this.contactForm.get('captcha').setErrors(undefined);
+    this.contactForm.get('email').setErrors(undefined);
+    this.contactForm.get('name').setErrors(undefined);
+    this.contactForm.get('subject').setErrors(undefined);
+  }
+
   public onSubmit(form: IEmailForm) {
     this.contactService.sendEmail(form).pipe(take(1)).subscribe();
+    this.resetForm();
   }
 }

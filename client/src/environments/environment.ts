@@ -4,6 +4,7 @@
 
 export const environment = {
     production: false,
+    site_key: '6LfgnowUAAAAAHx_TS6GERmPSngQmU5u3fx1Hgzq',
     baseUrl: 'http://localhost:3000'
 };
 
