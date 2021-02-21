@@ -4,12 +4,14 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "index",
+      "name": "Node Debug",
       "args": ["src/index.ts"],
       "runtimeArgs": ["-r", "ts-node/register"],
       "cwd": "${workspaceFolder}/server",
       "protocol": "inspector",
-      "internalConsoleOptions": "openOnSessionStart"
+      "internalConsoleOptions": "openOnSessionStart",
+      "env": { "NODE_ENV": "development" },
+      "restart": true
     }
   ],
   "compounds": []

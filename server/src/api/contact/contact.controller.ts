@@ -17,7 +17,7 @@ export default class PhotoController {
 
   public sendEmail = async (req: Request, res: Response) => {
     try {
-      if (!await this.isReCaptchaValid(req.body['captcha'], CONFIG.DEV_SECRET_KEY)) {
+      if (!await this.isReCaptchaValid(req.body['captcha'], CONFIG.SECRET_KEY)) {
         return res.status(400).send({
           success: false,
           message: 'Please check reCAPTCHA form',
@@ -53,11 +53,11 @@ export default class PhotoController {
       const { name, email, subject, body } = req.body;
 
       const transporter = nodemailer.createTransport({
-        host: CONFIG.DEV_SMTP_HOST,
-        port: +CONFIG.DEV_SMTP_PORT,
+        host: CONFIG.SMTP_HOST,
+        port: +CONFIG.SMTP_PORT,
         auth: {
-          user: CONFIG.DEV_SMTP_USERNAME,
-          pass: CONFIG.DEV_SMTP_PASSWORD
+          user: CONFIG.SMTP_USERNAME,
+          pass: CONFIG.SMTP_PASSWORD
         }
       });
 
