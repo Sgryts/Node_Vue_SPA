@@ -7,10 +7,10 @@ import { AdminStateFacade } from '../../state/state.facade';
 @Component({
   selector: 'admin-genres-container',
   templateUrl: './genres-container.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenresContainerComponent implements OnInit, OnDestroy, OnChanges {
-  genres$: Observable<IGenre[]>;
+  public genres$: Observable<IGenre[]>;
   public isComponentActive: boolean = true;
 
   constructor(private adminFacade: AdminStateFacade) {
@@ -19,8 +19,7 @@ export class GenresContainerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.adminFacade.loadGenres();
     this.genres$ = this.adminFacade.getGenres$.pipe(
-      takeWhile((): boolean => this.isComponentActive),
-      tap(g => console.log('GGG', g))
+      takeWhile((): boolean => this.isComponentActive)
     );
   }
 
@@ -43,11 +42,4 @@ export class GenresContainerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy(): void {
     this.isComponentActive = false;
   }
-
-// TODO:
-// 1. If form clean -> Add genre call
-// 2. Check on type if already exists
-// 3. validation + errors
-// 4.pagination
-
 }

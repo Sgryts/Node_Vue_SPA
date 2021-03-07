@@ -38,6 +38,7 @@
     "ng-recaptcha": "^7.0.1",
     "ngx-bootstrap": "^6.2.0",
     "ngx-lightbox": "^2.2.2",
+    "ngx-toastr": "^13.2.0",
     "rxjs": "~6.6.3",
     "serialize-error": "^8.0.1",
     "tslib": "^2.1.0",

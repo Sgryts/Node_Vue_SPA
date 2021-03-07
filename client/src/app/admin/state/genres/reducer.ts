@@ -51,7 +51,6 @@ const genresReducer = createReducer(initialState,
   on(GenreActions.deleteGenreSuccess, (state, { id }) => ({
     ...state,
     genres: state.genres.filter((genre: IGenre): boolean => genre._id !== id),
-    some: getG(state.genres, id),
     error: null
   })),
 
@@ -60,11 +59,6 @@ const genresReducer = createReducer(initialState,
     error: error
   })),
 );
-
-function getG(genres, id) {
-  let z = genres.filter((genre: IGenre): boolean => genre._id !== id);
-  console.log('r-g', z);
-}
 
 export function reducer(state: State | undefined, action: Action) {
   return genresReducer(state, action);

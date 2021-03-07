@@ -85,17 +85,12 @@ export class PhotosUploadComponent implements OnInit {
   }
 
   public save(): void {
-    // console.log('fff', {
-    //   name: this.form.get('name').value,
-    //   image: this.file,
-    //   genres: this.form.get('genres').value.map((v) => v._id)
-    // });
-
     this.photoUploaded.emit({
       name: this.form.get('name').value,
       file: this.file,
       genres: this.form.get('genres').value.map((v) => v._id)
     });
+    this.resetForm();
   }
 
   public resetForm() {

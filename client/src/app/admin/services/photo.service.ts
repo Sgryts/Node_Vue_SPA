@@ -10,8 +10,7 @@ import IPhoto from '../../models/photo.model';
 import { IPhotoUpload } from '../photos/photo-upload.model';
 import * as fromPhotoActions from '../state/photos/actions';
 import flatten from 'lodash/flatten';
-import each from 'lodash/each';
-import { AdminStateFacade } from '../state/state.facade';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Injectable()
 export class PhotoService {
@@ -22,7 +21,7 @@ export class PhotoService {
     'Accept': 'application/vnd.photosforgenre+json'
   });
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private notificationService: NotificationService) {
   }
 
   getPhotosByGenre(id: string): Observable<IPhoto[]> {
@@ -81,6 +80,7 @@ export class PhotoService {
       }
       case HttpEventType.DownloadProgress:
       case HttpEventType.UploadProgress: {
+        this.notificationService.showInfo('Image upload started', 'Info');
         return fromPhotoActions.uploadProgress({
           progress: Math.round((100 * event.loaded) / event.total)
         });
@@ -88,14 +88,17 @@ export class PhotoService {
       case HttpEventType.ResponseHeader:
       case HttpEventType.Response: {
         if (event.status === 201 || event.status === 200) {
+          this.notificationService.showSuccess('Image upload completed', 'Success');
           return fromPhotoActions.uploadCompleted();
         } else {
+          this.notificationService.showWarning('Image wasn\'t uploaded', 'Error');
           return fromPhotoActions.uploadFail({
             error: event.statusText
           });
         }
       }
       default: {
+        this.notificationService.showWarning('Image upload failed', 'Error');
         return fromPhotoActions.uploadFail({
           error: `Unknown Event: ${JSON.stringify(event)}`
         });
@@ -118,6 +121,7 @@ export class PhotoService {
       errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
     }
     console.error('err', serializeError(errorMessage));
+    this.notificationService.showWarning('Image upload failed', 'Error');
     return throwError(errorMessage);
   }
 }
