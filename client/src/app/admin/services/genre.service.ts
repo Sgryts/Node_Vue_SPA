@@ -31,10 +31,10 @@ export class GenreService {
     //     );
     // }
 
-    createGenre(name: string): Observable<IGenre> {
+    createGenre(genreName: string): Observable<IGenre> {
         const url = this.baseUrl;
-        const genre = { name: name };
-        return this.httpClient.post<IPayload<IGenre>>(url, genre, { headers: this.headers }).pipe(
+        const name = { name: genreName };
+        return this.httpClient.post<IPayload<IGenre>>(url, name, { headers: this.headers }).pipe(
             map(payload => {
                 this.notificationService.showSuccess(payload.message, 'Success');
                 return payload.data;
@@ -45,7 +45,8 @@ export class GenreService {
 
     updateGenre(genre: IGenre): Observable<IGenre> {
         const url = `${this.baseUrl}/${genre._id}`;
-        return this.httpClient.put<IPayload<IGenre>>(url, genre, { headers: this.headers }).pipe(
+        const name = { name: genre.name }
+        return this.httpClient.put<IPayload<IGenre>>(url, name, { headers: this.headers }).pipe(
             map(payload => {
                 this.notificationService.showSuccess(payload.message, 'Success')
                 return payload.data;
