@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/client",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -91,18 +91,10 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "./node_modules/ngx-toastr/toastr.css",
-              "src/styles.css",
-              "src/client/shared/css/styles.css",
-              "src/client/assets/css/styles.css",
-              "src/client/assets/css/bootstrap.min.css",
-              "src/client/assets/font-awesome/css/font-awesome.min.css",
-              "./node_modules/ngx-lightbox/lightbox.css"
+
             ],
             "scripts": [
-              "src/client/assets/js/bootstrap.min.js",
-              "src/client/assets/js/jquery.js"
+
             ]
           }
         },

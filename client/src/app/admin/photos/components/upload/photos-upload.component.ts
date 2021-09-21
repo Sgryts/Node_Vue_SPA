@@ -70,7 +70,7 @@ export class PhotosUploadComponent implements OnInit {
     public setForm() {
         this.form = this.fb.group({
             name: [null,
-                [Validators.required, Validators.minLength(1),
+                [Validators.required, Validators.minLength(3),
                 Validators.maxLength(255)]],
             genres: [null,
                 [Validators.required, this.genresValidator()]],

@@ -1,15 +1,21 @@
-version: '3'
+version: "3.7"
+
 services:
-  app:
-    container_name: sgpixels
-    restart: always
-    build: .
-    ports:
-    - '80:3000'
-    links:
-    - mongo
-  mongo:
-    container_name: mongo
+  mongodb:
     image: mongo
-    ports:
-    - '27017:27017'
+
+  redisdb:
+    image: redis:alpine
+
+  portainer:
+    image: portainer/portainer-ce
+
+  sgpixels:
+    image: ${DOCKER_REGISTRY-}sgpixels
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+
+volumes:
+  mongo_data:
+  portainer_data:

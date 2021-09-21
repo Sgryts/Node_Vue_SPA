@@ -245,3 +245,5 @@ server/src/config/config.ts
 server/src/config/db.ts
 server/src/cert
 .env
+.env.development
+.env.production

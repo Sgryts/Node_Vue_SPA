@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { ClientModule } from './client/client.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NotificationService } from './shared/notification.service';
 
 @NgModule({
   imports: [
@@ -31,7 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
   declarations: [
     AppComponent,
   ],
-  providers: [],
+  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
